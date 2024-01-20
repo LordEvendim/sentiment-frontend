@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Box, Button, Heading, HStack } from "@chakra-ui/react";
 
 import { Facebook } from "#components/Facebook";
 import { useFacebook } from "#stores/useFacebook";
@@ -28,16 +28,39 @@ export const component = function Integrations() {
             console.log("User cancelled login or did not fully authorize.");
           }
         }
+      },
+      {
+        scope: "email,public_profile,read_insights",
       }
     );
   };
 
+  const handleFacebookLogout = () => {
+    window.FB.logout((response: unknown) => {
+      console.log(response);
+    });
+  };
+
   return (
-    <div className="p-2">
-      <Facebook />
-      <h3>Welcome to integrations!</h3>
-      <h3>Welcome: {userInfo?.fullName ?? ""}</h3>
-      <Button onClick={() => handleFacebookLogin()}>Login</Button>
-    </div>
+    <Box w={"full"} h={"full"} p={"20px"}>
+      <Box
+        p={"20px"}
+        background={"white"}
+        borderRadius={"10px"}
+        boxShadow={"md"}
+      >
+        <Facebook />
+        <Heading color={"gray.700"} mb={"50px"}>
+          Integrations
+        </Heading>
+        <Heading fontSize={"2xl"} color={"gray.700"} mb={"20px"}>
+          Facebook {userInfo && "(connected)"}
+        </Heading>
+        <HStack spacing={"10px"}>
+          <Button onClick={() => handleFacebookLogin()}>Login</Button>
+          <Button onClick={() => handleFacebookLogout()}>Logout</Button>
+        </HStack>
+      </Box>
+    </Box>
   );
 };
