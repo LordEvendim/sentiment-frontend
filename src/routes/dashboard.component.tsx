@@ -1,5 +1,6 @@
 import {
   Box,
+  GridItem,
   Heading,
   SimpleGrid,
   Stat,
@@ -78,18 +79,33 @@ export const component = function Dashboard() {
           nulla nihil id dolore perspiciatis beatae. Corrupti totam itaque alias
           autem.
         </Box>
-        <Box
-          p={"30px"}
-          background={"white"}
-          borderRadius={"20px"}
-          borderColor={"gray.200"}
-          borderWidth={"1px"}
-          boxShadow={"md"}
-        >
-          <Heading fontSize={"2xl"} mb={"15px"}>
-            Selected metrics
-          </Heading>
-        </Box>
+        <SimpleGrid columns={2} spacing={"20px"}>
+          <Box
+            p={"30px"}
+            background={"white"}
+            borderRadius={"20px"}
+            borderColor={"gray.200"}
+            borderWidth={"1px"}
+            boxShadow={"md"}
+          ></Box>
+          <Box
+            p={"30px"}
+            background={"white"}
+            borderRadius={"20px"}
+            borderColor={"gray.200"}
+            borderWidth={"1px"}
+            boxShadow={"md"}
+          ></Box>
+          <GridItem
+            p={"30px"}
+            background={"white"}
+            borderRadius={"20px"}
+            borderColor={"gray.200"}
+            borderWidth={"1px"}
+            boxShadow={"md"}
+            colSpan={2}
+          ></GridItem>
+        </SimpleGrid>
       </SimpleGrid>
     </Box>
   );

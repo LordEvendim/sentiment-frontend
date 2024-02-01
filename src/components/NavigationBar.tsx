@@ -1,5 +1,19 @@
-import { Box, Button, Flex, HStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  HStack,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  VStack,
+} from "@chakra-ui/react";
 import { Link } from "@tanstack/react-router";
+import { CiSettings } from "react-icons/ci";
+import { LuUser } from "react-icons/lu";
+import { MdOutlineSupportAgent } from "react-icons/md";
 
 import { useFacebook } from "#stores/useFacebook";
 
@@ -24,35 +38,73 @@ export const NavigationBar = () => {
         h={"full"}
       >
         <Box fontWeight={"extrabold"} color={"gray.700"} fontSize={"large"}>
-          Fusion Media
+          <Link to="/">Fusion Media</Link>
         </Box>
         <HStack spacing={"25px"}>
-          <Button variant={"ghost"} fontSize={"14px"} fontWeight={"normal"}>
-            <Link to="/" className="[&.active]:font-bold">
-              Home
-            </Link>
-          </Button>
-          <Button variant={"ghost"} fontSize={"14px"} fontWeight={"normal"}>
-            <Link to="/about" className="[&.active]:font-bold">
-              About
-            </Link>
-          </Button>
           <Button variant={"ghost"} fontSize={"14px"} fontWeight={"normal"}>
             <Link to="/integrations" className="[&.active]:font-bold">
               Integrations
             </Link>
           </Button>
-          <Button variant={"outline"} alignItems={"center"} minWidth={"10px"}>
-            <HStack spacing={"20px"}>
-              {userInfo?.fullName && <Box>{userInfo?.fullName}</Box>}
-              <Box
-                w={"25px"}
-                h={"25px"}
-                borderRadius={"full"}
-                background={"gray.100"}
-              ></Box>
-            </HStack>
-          </Button>
+          <Popover isLazy>
+            <PopoverTrigger>
+              <Button
+                variant={"outline"}
+                alignItems={"center"}
+                minWidth={"10px"}
+              >
+                <HStack spacing={"20px"}>
+                  {userInfo?.fullName && <Box>{userInfo?.fullName}</Box>}
+                  <Box
+                    w={"25px"}
+                    h={"25px"}
+                    borderRadius={"full"}
+                    background={"gray.100"}
+                  ></Box>
+                </HStack>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent mr={"10px"} boxShadow={"lg"} w={"250px"}>
+              <PopoverArrow />
+              <PopoverBody>
+                <VStack alignItems={"start"}>
+                  <Button
+                    variant={"ghost"}
+                    w={"full"}
+                    justifyContent={"start"}
+                    fontWeight={"normal"}
+                  >
+                    <LuUser size={"20px"} />
+                    <Box ml={"20px"} marginBottom={"2px"}>
+                      <Link to="/profile">Profile</Link>
+                    </Box>
+                  </Button>
+                  <Button
+                    variant={"ghost"}
+                    w={"full"}
+                    justifyContent={"start"}
+                    fontWeight={"normal"}
+                  >
+                    <CiSettings size={"20px"} />
+                    <Box ml={"20px"} marginBottom={"2px"}>
+                      Settings
+                    </Box>
+                  </Button>
+                  <Button
+                    variant={"ghost"}
+                    w={"full"}
+                    justifyContent={"start"}
+                    fontWeight={"normal"}
+                  >
+                    <MdOutlineSupportAgent size={"20px"} />
+                    <Box ml={"20px"} marginBottom={"2px"}>
+                      Support
+                    </Box>
+                  </Button>
+                </VStack>
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
         </HStack>
       </Flex>
     </Box>

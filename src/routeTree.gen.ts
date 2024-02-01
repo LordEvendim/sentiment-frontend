@@ -8,12 +8,23 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
+const ProfileComponentImport = new FileRoute('/profile').createRoute()
 const IntegrationsComponentImport = new FileRoute('/integrations').createRoute()
 const DashboardComponentImport = new FileRoute('/dashboard').createRoute()
 const AboutComponentImport = new FileRoute('/about').createRoute()
 const IndexComponentImport = new FileRoute('/').createRoute()
 
 // Create/Update Routes
+
+const ProfileComponentRoute = ProfileComponentImport.update({
+  path: '/profile',
+  getParentRoute: () => rootRoute,
+} as any).update({
+  component: lazyRouteComponent(
+    () => import('./routes/profile.component'),
+    'component',
+  ),
+})
 
 const IntegrationsComponentRoute = IntegrationsComponentImport.update({
   path: '/integrations',
@@ -75,6 +86,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IntegrationsComponentImport
       parentRoute: typeof rootRoute
     }
+    '/profile': {
+      preLoaderRoute: typeof ProfileComponentImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -85,4 +100,5 @@ export const routeTree = rootRoute.addChildren([
   AboutComponentRoute,
   DashboardComponentRoute,
   IntegrationsComponentRoute,
+  ProfileComponentRoute,
 ])

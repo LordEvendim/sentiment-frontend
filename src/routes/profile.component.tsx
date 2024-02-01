@@ -1,6 +1,6 @@
 import { Box, Heading } from "@chakra-ui/react";
 
-export const component = function Index() {
+export const component = function Profile() {
   return (
     <Box w={"full"} h={"full"} p={"20px"}>
       <Box
@@ -10,7 +10,7 @@ export const component = function Index() {
         boxShadow={"md"}
       >
         <Heading color={"gray.700"} mb={"50px"}>
-          Home
+          Profile
         </Heading>
       </Box>
     </Box>
