@@ -1,23 +1,16 @@
 import {
   Box,
   Button,
-  Divider,
   Heading,
   HStack,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
   SimpleGrid,
   Spacer,
   useDisclosure,
-  VStack,
 } from "@chakra-ui/react";
 
 import { Facebook } from "#components/Facebook";
 import { FacebookIntegrationItem } from "#components/integrations/FacebookIntegrationItem";
+import { FacebookModal } from "#components/integrations/FacebookModal";
 import { useGetLongLivedToken } from "#hooks/api/useGetLongLivedToken";
 import { useFacebook } from "#stores/useFacebook";
 
@@ -50,9 +43,6 @@ export const component = function Integrations() {
                 response.authResponse.accessToken
               );
             });
-            window.FB.api("/me/accounts", {}, (response: unknown) => {
-              console.log(response);
-            });
           } else {
             console.log("User cancelled login or did not fully authorize.");
           }
@@ -60,7 +50,8 @@ export const component = function Integrations() {
       },
       {
         scope:
-          "email,public_profile,ads_management,business_management,ads_read,read_insights,instagram_basic,catalog_management,pages_manage_ads,pages_show_list",
+          "email,public_profile,ads_management,business_management,ads_read,read_insights,catalog_management,pages_manage_ads,pages_show_list",
+        // instagram_basic
       }
     );
   };
@@ -73,71 +64,10 @@ export const component = function Integrations() {
 
   return (
     <Box w={"full"} h={"full"} p={"20px"}>
-      <Modal
+      <FacebookModal
         isOpen={isFacebookModalOpen}
         onClose={onFacebookModalClose}
-        size={"4xl"}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <Box>Meta Intergations</Box>
-            <Box
-              w={"full"}
-              mx={"auto"}
-              borderTop={"1px"}
-              borderColor={"gray.200"}
-              mt={"20px"}
-            ></Box>
-          </ModalHeader>
-          <ModalCloseButton top={"20px"} right={"20px"} />
-          <ModalBody mb={"20px"}>
-            <SimpleGrid columns={2} spacing={10}>
-              <VStack spacing={"10px"} alignItems={"start"}>
-                <Heading mb={"20px"} fontSize={"2xl"} color={"gray.700"}>
-                  Pages
-                </Heading>
-                <FacebookIntegrationItem
-                  isSelected={true}
-                  name="Facebook page"
-                />
-                <Divider borderColor={"transparent"} />
-                <FacebookIntegrationItem
-                  isSelected={false}
-                  name="Facebook page 2"
-                />
-                <FacebookIntegrationItem
-                  isSelected={false}
-                  name="Facebook page 3"
-                />
-                <FacebookIntegrationItem
-                  isSelected={false}
-                  name="Facebook page 4"
-                />
-              </VStack>
-              <VStack spacing={"10px"} alignItems={"start"}>
-                <Heading mb={"20px"} fontSize={"2xl"} color={"gray.700"}>
-                  Ad Accounts
-                </Heading>
-                <FacebookIntegrationItem isSelected={true} name="Ad Account" />
-                <Divider borderColor={"transparent"} />
-                <FacebookIntegrationItem
-                  isSelected={false}
-                  name="Ad Account 2"
-                />
-                <FacebookIntegrationItem
-                  isSelected={false}
-                  name="Ad Account 3"
-                />
-                <FacebookIntegrationItem
-                  isSelected={false}
-                  name="Ad Account 4"
-                />
-              </VStack>
-            </SimpleGrid>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      />
       <Box
         p={"20px"}
         background={"white"}

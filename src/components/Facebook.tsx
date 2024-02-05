@@ -1,19 +1,40 @@
 import { useEffect } from "react";
 
+import { useFacebook } from "#stores/useFacebook";
+
 export const Facebook: React.FC<unknown> = () => {
+  const login = useFacebook((state) => state.login);
+
   useEffect(() => {
     window.fbAsyncInit = () => {
       window.FB.init({
-        appId: "1739289466553407",
+        appId: "1563147651120140",
         cookie: true,
         xfbml: true,
         version: "v18.0",
       });
 
-      window.FB.getLoginStatus((response: unknown) => {
-        console.log("getLoginStatus");
-        console.log(response);
-      });
+      window.FB.getLoginStatus(
+        (response: {
+          status: "connected" | "unknown";
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          authResponse: any;
+        }) => {
+          if (response.status === "connected") {
+            if (response.authResponse) {
+              window.FB.api("/me", {}, (meResponse: { name: string }) => {
+                login(
+                  meResponse.name,
+                  response.authResponse.userID,
+                  response.authResponse.accessToken
+                );
+              });
+            } else {
+              console.log("User cancelled login or did not fully authorize.");
+            }
+          }
+        }
+      );
     };
     (function (d, s, id) {
       const fjs = d.getElementsByTagName(s)[0];

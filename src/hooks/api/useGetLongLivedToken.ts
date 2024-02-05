@@ -5,6 +5,8 @@ import { QueryKey } from "#config/query";
 import { useFacebook } from "#stores/useFacebook";
 
 const fetchLlat = async (userId: string, accessToken: string) => {
+  console.log("getting long lived token");
+
   const result = await axiosMainServer.get<string>("/auth/meta/llat", {
     params: {
       userId,
@@ -22,7 +24,7 @@ export const useGetLongLivedToken = (
   const isLogged = useFacebook((state) => state.isLogged);
 
   const { data, isFetching } = useQuery({
-    staleTime: 1000 * 60,
+    staleTime: 0,
     enabled: isLogged && Boolean(userId) && Boolean(accessToken),
     queryKey: [QueryKey.Llat, userId],
     queryFn: () => fetchLlat(userId!, accessToken!),
