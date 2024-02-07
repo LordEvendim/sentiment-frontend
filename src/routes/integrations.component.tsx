@@ -1,22 +1,28 @@
 import {
   Box,
   Button,
+  Center,
   Heading,
   HStack,
   SimpleGrid,
   Spacer,
+  Spinner,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
+import { useMemo } from "react";
 
 import { Facebook } from "#components/Facebook";
 import { FacebookIntegrationItem } from "#components/integrations/FacebookIntegrationItem";
 import { FacebookModal } from "#components/integrations/FacebookModal";
 import { useGetLongLivedToken } from "#hooks/api/useGetLongLivedToken";
+import { useGetUserAccounts } from "#hooks/api/useGetUserAccounts";
 import { useFacebook } from "#stores/useFacebook";
 
 export const component = function Integrations() {
   const userInfo = useFacebook((state) => state.userInfo);
   const login = useFacebook((state) => state.login);
+  const logout = useFacebook((state) => state.logout);
   const { isFetching } = useGetLongLivedToken(
     userInfo?.id,
     userInfo?.slAccessToken
@@ -26,6 +32,17 @@ export const component = function Integrations() {
     onOpen: onFacebookModalOpen,
     onClose: onFacebookModalClose,
   } = useDisclosure();
+  const toast = useToast();
+  const userId = useFacebook((state) => state.userInfo?.id);
+  const { accounts, isFetching: isLoadingUserAccounts } = useGetUserAccounts(
+    userId,
+    true
+  );
+
+  const selectedPage = useMemo(
+    () => accounts?.pages.find((page) => page.id === accounts?.selectedPage),
+    [accounts]
+  );
 
   const handleFacebookLogin = () => {
     window.FB.login(
@@ -42,9 +59,18 @@ export const component = function Integrations() {
                 response.authResponse.userID,
                 response.authResponse.accessToken
               );
+              toast({
+                status: "success",
+                title: "Meta",
+                description: "You have been successfully logged in",
+              });
             });
           } else {
-            console.log("User cancelled login or did not fully authorize.");
+            toast({
+              status: "warning",
+              title: "Meta",
+              description: "Login has been cancelled or not fully authorized",
+            });
           }
         }
       },
@@ -57,8 +83,13 @@ export const component = function Integrations() {
   };
 
   const handleFacebookLogout = () => {
-    window.FB.logout((response: unknown) => {
-      console.log(response);
+    window.FB.logout(() => {
+      logout();
+      toast({
+        status: "info",
+        title: "Meta",
+        description: "You have been logged out",
+      });
     });
   };
 
@@ -107,9 +138,21 @@ export const component = function Integrations() {
               </Button>
             </HStack>
           </HStack>
-          <SimpleGrid columns={2} spacing={"10px"}>
-            <FacebookIntegrationItem name="Page 1" isSelected={true} />
-            <FacebookIntegrationItem name="Ad Account 1" isSelected={true} />
+          <SimpleGrid columns={2} spacing={"10px"} minHeight={"200px"}>
+            {isLoadingUserAccounts ? (
+              <Center>
+                <Spinner />
+              </Center>
+            ) : (
+              selectedPage && (
+                <FacebookIntegrationItem
+                  hideButton
+                  pageId={selectedPage.id}
+                  name={selectedPage.name}
+                  isSelected={true}
+                />
+              )
+            )}
           </SimpleGrid>
         </Box>
         <Box

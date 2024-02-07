@@ -12,6 +12,7 @@ import {
   Spinner,
   VStack,
 } from "@chakra-ui/react";
+import { useMemo } from "react";
 
 import { useGetUserAccounts } from "#hooks/api/useGetUserAccounts";
 import { useFacebook } from "#stores/useFacebook";
@@ -26,6 +27,11 @@ interface Props {
 export const FacebookModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const userId = useFacebook((state) => state.userInfo?.id);
   const { accounts, isFetching } = useGetUserAccounts(userId, isOpen);
+
+  const selectedPage = useMemo(
+    () => accounts?.pages.find((page) => page.id === accounts?.selectedPage),
+    [accounts]
+  );
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"4xl"}>
@@ -53,11 +59,12 @@ export const FacebookModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 <Heading mb={"20px"} fontSize={"2xl"} color={"gray.700"}>
                   Pages
                 </Heading>
-                {accounts?.map((page) => (
+                {accounts?.pages?.map((page) => (
                   <FacebookIntegrationItem
-                    isSelected={false}
                     key={page.id}
+                    isSelected={page.id === selectedPage?.id}
                     name={page.name}
+                    pageId={page.id}
                   />
                 ))}
               </VStack>

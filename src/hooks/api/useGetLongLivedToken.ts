@@ -5,8 +5,6 @@ import { QueryKey } from "#config/query";
 import { useFacebook } from "#stores/useFacebook";
 
 const fetchLlat = async (userId: string, accessToken: string) => {
-  console.log("getting long lived token");
-
   const result = await axiosMainServer.get<string>("/auth/meta/llat", {
     params: {
       userId,

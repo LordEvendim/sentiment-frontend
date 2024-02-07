@@ -4,33 +4,34 @@ import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 import { useFacebook } from "#stores/useFacebook";
 
-import { GetAccounts } from "./accounts";
-
-const fetchUserAccounts = async (userId: string) => {
-  const result = await axiosMainServer.get<GetAccounts>("/meta/accounts", {
-    params: {
-      userId,
-    },
-  });
+const fetchUserAdAccounts = async (userId: string) => {
+  const result = await axiosMainServer.get<{ name: string; id: string }[]>(
+    "/meta/ad-accounts",
+    {
+      params: {
+        userId,
+      },
+    }
+  );
 
   return result.data;
 };
 
-export const useGetUserAccounts = (
+export const useGetUserAdAccounts = (
   userId: string | undefined,
   isEnabled: boolean
 ) => {
   const isLogged = useFacebook((state) => state.isLogged);
 
   const { data, isFetching } = useQuery({
-    staleTime: 1000,
+    staleTime: 0,
     enabled: isLogged && isEnabled && Boolean(userId),
-    queryKey: [QueryKey.Accounts, userId],
-    queryFn: () => fetchUserAccounts(userId!),
+    queryKey: [QueryKey.AdAccounts, userId],
+    queryFn: () => fetchUserAdAccounts(userId!),
   });
 
   return {
-    accounts: data,
+    adAccounts: data,
     isFetching,
   };
 };
