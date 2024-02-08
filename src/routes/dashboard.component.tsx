@@ -1,27 +1,48 @@
 import {
   Box,
+  Grid,
   GridItem,
   Heading,
-  SimpleGrid,
+  HStack,
+  Spacer,
+  Spinner,
   Stat,
   StatArrow,
   StatGroup,
   StatHelpText,
   StatLabel,
   StatNumber,
+  Tooltip,
 } from "@chakra-ui/react";
+import { IoInformationCircleOutline } from "react-icons/io5";
+
+import { useGetPageInsights } from "#hooks/api/useGetPageInsights";
+import { useGetUserAccounts } from "#hooks/api/useGetUserAccounts";
+import { useFacebook } from "#stores/useFacebook";
+import { capitalizeFirstLetter } from "#utils/text";
 
 export const component = function Dashboard() {
+  const userInfo = useFacebook((state) => state.userInfo);
+  const isLogged = useFacebook((state) => state.isLogged);
+  const { accounts } = useGetUserAccounts(userInfo?.id, isLogged);
+
+  const { insights, isFetching } = useGetPageInsights(
+    userInfo?.id,
+    accounts?.selectedPage
+  );
+
   return (
     <Box w={"full"} h={"full"} p={"20px"}>
-      <SimpleGrid columns={2} spacing={"20px"}>
-        <Box
+      <Grid templateColumns="repeat(4, 1fr)" gap={"15px"}>
+        <GridItem
           p={"30px"}
           background={"white"}
           borderRadius={"20px"}
           borderColor={"gray.200"}
           borderWidth={"1px"}
           boxShadow={"md"}
+          colSpan={2}
+          rowSpan={3}
         >
           <Heading fontSize={"2xl"} mb={"20px"}>
             Weekly report
@@ -78,24 +99,8 @@ export const component = function Dashboard() {
           autem, consequuntur quibusdam nemo eum porro rem aut voluptates iure
           nulla nihil id dolore perspiciatis beatae. Corrupti totam itaque alias
           autem.
-        </Box>
-        <SimpleGrid columns={2} spacing={"20px"}>
-          <Box
-            p={"30px"}
-            background={"white"}
-            borderRadius={"20px"}
-            borderColor={"gray.200"}
-            borderWidth={"1px"}
-            boxShadow={"md"}
-          ></Box>
-          <Box
-            p={"30px"}
-            background={"white"}
-            borderRadius={"20px"}
-            borderColor={"gray.200"}
-            borderWidth={"1px"}
-            boxShadow={"md"}
-          ></Box>
+        </GridItem>
+        {isFetching && (
           <GridItem
             p={"30px"}
             background={"white"}
@@ -104,9 +109,65 @@ export const component = function Dashboard() {
             borderWidth={"1px"}
             boxShadow={"md"}
             colSpan={2}
-          ></GridItem>
-        </SimpleGrid>
-      </SimpleGrid>
+            height={"200px"}
+            display={"flex"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            transition={"0.5s"}
+          >
+            <Spinner size={"md"} />
+          </GridItem>
+        )}
+        {insights?.data?.map((metric) => (
+          <GridItem
+            p={"25px"}
+            pb={"10px"}
+            background={"white"}
+            borderRadius={"20px"}
+            borderColor={"gray.200"}
+            borderWidth={"1px"}
+            boxShadow={"md"}
+            key={metric.id}
+          >
+            <HStack justifyContent={"center"} mb={"20px"}>
+              <Heading fontSize={"xl"}>
+                {capitalizeFirstLetter(metric.name ?? "").replaceAll("_", " ")}
+                {metric.period && (
+                  <Box
+                    display={"inline-block"}
+                    fontSize={"xs"}
+                    fontWeight={"normal"}
+                    ml={"10px"}
+                  >
+                    {metric.period.replaceAll("_", " ")}
+                  </Box>
+                )}
+              </Heading>
+              <Spacer />
+              <Tooltip label={metric.description} p={"10px"}>
+                <span>
+                  <IoInformationCircleOutline size={"20px"} />
+                </span>
+              </Tooltip>
+            </HStack>
+            <Box fontSize={"lg"}></Box>
+            {metric.values.map((metricValue) => (
+              <HStack
+                key={metricValue.end_time}
+                fontSize={"lg"}
+                fontWeight={"extrabold"}
+                mb={"10px"}
+              >
+                <Box>{metricValue.value}</Box>
+                <Spacer />
+                <Box fontSize={"xs"} fontWeight={"normal"}>
+                  {new Date(metricValue.end_time).toLocaleDateString()}
+                </Box>
+              </HStack>
+            ))}
+          </GridItem>
+        ))}
+      </Grid>
     </Box>
   );
 };

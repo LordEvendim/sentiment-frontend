@@ -29,6 +29,7 @@ export const NavigationBar = () => {
       boxShadow={"md"}
       borderBottom={"2px"}
       borderColor={"gray.100"}
+      flexShrink={0}
     >
       <Flex
         w={"95%"}

@@ -4,7 +4,7 @@ import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 import { useFacebook } from "#stores/useFacebook";
 
-import { GetAccounts } from "./accounts";
+import { GetAccounts } from "./types/accounts";
 
 const fetchUserAccounts = async (userId: string) => {
   const result = await axiosMainServer.get<GetAccounts>("/meta/accounts", {

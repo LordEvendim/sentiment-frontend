@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 
-import { GetAccounts } from "./accounts";
+import { GetAccounts } from "./types/accounts";
 
 interface RequestData {
   userId: string;
