@@ -94,13 +94,13 @@ export const component = function Integrations() {
   };
 
   return (
-    <Box w={"full"} h={"full"} p={"20px"}>
+    <Box w={"full"} h={"full"} p={"15px"}>
       <FacebookModal
         isOpen={isFacebookModalOpen}
         onClose={onFacebookModalClose}
       />
       <Box
-        p={"20px"}
+        p={"15px"}
         background={"white"}
         borderRadius={"10px"}
         boxShadow={"md"}
@@ -115,7 +115,7 @@ export const component = function Integrations() {
         <Box
           justifyContent={"space-between"}
           alignItems={"center"}
-          p={"20px"}
+          p={"15px"}
           background={"white"}
           borderRadius={"10px"}
           boxShadow={"md"}
@@ -158,7 +158,7 @@ export const component = function Integrations() {
         <Box
           justifyContent={"space-between"}
           alignItems={"center"}
-          p={"20px"}
+          p={"15px"}
           background={"white"}
           borderRadius={"10px"}
           boxShadow={"md"}

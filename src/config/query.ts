@@ -1,4 +1,6 @@
 export enum QueryKey {
+  Session = "session",
+  User = "user",
   Llat = "llat",
   Accounts = "accounts",
   AdAccounts = "ad-accounts",

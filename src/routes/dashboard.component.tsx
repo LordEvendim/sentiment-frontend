@@ -32,12 +32,12 @@ export const component = function Dashboard() {
   );
 
   return (
-    <Box w={"full"} h={"full"} p={"20px"}>
+    <Box w={"full"} h={"full"} p={"15px"}>
       <Grid templateColumns="repeat(4, 1fr)" gap={"15px"}>
         <GridItem
           p={"30px"}
           background={"white"}
-          borderRadius={"20px"}
+          borderRadius={"15px"}
           borderColor={"gray.200"}
           borderWidth={"1px"}
           boxShadow={"md"}
@@ -104,7 +104,7 @@ export const component = function Dashboard() {
           <GridItem
             p={"30px"}
             background={"white"}
-            borderRadius={"20px"}
+            borderRadius={"15px"}
             borderColor={"gray.200"}
             borderWidth={"1px"}
             boxShadow={"md"}
@@ -123,7 +123,7 @@ export const component = function Dashboard() {
             p={"25px"}
             pb={"10px"}
             background={"white"}
-            borderRadius={"20px"}
+            borderRadius={"15px"}
             borderColor={"gray.200"}
             borderWidth={"1px"}
             boxShadow={"md"}

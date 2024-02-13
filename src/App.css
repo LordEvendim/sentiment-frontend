@@ -1,3 +1,10 @@
 #root {
   width: 100%;
 }
+
+.login_background {
+  background-color: #ffffff;
+  opacity: 0.1;
+  background-image: radial-gradient(#54b1c7 3px, #ffffff 3px);
+  background-size: 40px 40px;
+}

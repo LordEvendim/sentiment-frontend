@@ -1,42 +1,29 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Router, RouterProvider } from "@tanstack/react-router";
 import { render, RenderOptions } from "@testing-library/react";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
 
+import { routeTree } from "../routeTree.gen";
 import theme from "../theme";
 
-const customRender = (
-  ui: React.ReactElement,
-  {
-    router,
-    ...restOptions
-  }: RenderOptions & {
-    router?: ReturnType<typeof createMemoryRouter>;
-  } = {}
-) => {
+interface RouterOptions {
+  routerArg?: Router;
+  renderOptions?: RenderOptions;
+}
+
+const customRender = (options: RouterOptions, ui?: React.ReactElement) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
+        retry: 1,
       },
     },
   });
 
-  const appRouter =
-    router ??
-    createMemoryRouter(
-      [
-        {
-          path: "/",
-          element: ui,
-        },
-      ],
-      {
-        initialEntries: ["/"],
-      }
-    );
+  const appRouter = options.routerArg ?? new Router({ routeTree });
 
-  return render(<RouterProvider router={appRouter} />, {
+  return render(ui ?? <RouterProvider router={appRouter} />, {
     wrapper: ({ children }) => (
       <ChakraProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
@@ -44,7 +31,7 @@ const customRender = (
         </QueryClientProvider>
       </ChakraProvider>
     ),
-    ...restOptions,
+    ...options.renderOptions,
   });
 };
 
