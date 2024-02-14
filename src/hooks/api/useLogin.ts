@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
+import { handleAxiosError } from "#utils/error";
 
 import { UserData } from "./types/session";
 
@@ -11,12 +12,16 @@ interface FetchParams {
 }
 
 const login = async ({ username, password }: FetchParams) => {
-  const result = await axiosMainServer.post(`/auth/login`, {
-    username,
-    password,
-  });
+  try {
+    const result = await axiosMainServer.post(`/auth/login`, {
+      username,
+      password,
+    });
 
-  return result.data;
+    return result.data;
+  } catch (error) {
+    handleAxiosError(error);
+  }
 };
 
 export const useLogin = () => {

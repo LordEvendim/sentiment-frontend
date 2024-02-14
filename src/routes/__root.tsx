@@ -18,6 +18,8 @@ function RootComponent() {
   useEffect(() => {
     if (!userData) {
       navigate({ to: "/" });
+    } else {
+      navigate({ to: "/dashboard" });
     }
   }, [navigate, userData]);
 

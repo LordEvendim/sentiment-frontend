@@ -8,6 +8,7 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
 import { Link } from "@tanstack/react-router";
@@ -15,10 +16,13 @@ import { CiSettings } from "react-icons/ci";
 import { LuUser } from "react-icons/lu";
 import { MdOutlineLogout, MdOutlineSupportAgent } from "react-icons/md";
 
+import { useLogout } from "#hooks/api/useLogout";
 import { useSession } from "#hooks/api/useSession";
 
 export const NavigationBar = () => {
   const { userData } = useSession();
+  const { isPending, logout } = useLogout();
+  const toast = useToast({ position: "top-left" });
 
   return (
     <Box
@@ -109,6 +113,18 @@ export const NavigationBar = () => {
                       justifyContent={"start"}
                       fontWeight={"normal"}
                       color={"red.500"}
+                      onClick={() =>
+                        logout(undefined, {
+                          onSuccess: () => {
+                            toast({
+                              status: "success",
+                              title: "Logged out",
+                              description: "Successfully logged out",
+                            });
+                          },
+                        })
+                      }
+                      isLoading={isPending}
                     >
                       <MdOutlineLogout size={"20px"} />
                       <Box ml={"20px"} marginBottom={"2px"}>

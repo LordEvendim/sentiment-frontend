@@ -4,13 +4,12 @@ import {
   Center,
   Input,
   Link,
-  useDisclosure,
   useToast,
   VStack,
 } from "@chakra-ui/react";
+import { useNavigate } from "@tanstack/react-router";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 
-import { WaitlistModal } from "#components/WaitlistModal";
 import { useLogin } from "#hooks/api/useLogin";
 import { useSession } from "#hooks/api/useSession";
 
@@ -20,15 +19,11 @@ interface FormInput {
 }
 
 export const component = function Index() {
-  const {
-    isOpen: isWaitlistOpen,
-    onOpen: onWaitlistOpen,
-    onClose: onWaitlistClose,
-  } = useDisclosure();
   const { isPending, login } = useLogin();
   const { isFetching } = useSession();
-  const toast = useToast();
+  const toast = useToast({ position: "top-left" });
   const { formState } = useForm();
+  const navigate = useNavigate();
 
   const { register, handleSubmit } = useForm<FormInput>();
 
@@ -47,6 +42,14 @@ export const component = function Index() {
             title: "Failed to login",
             description: error.message,
           });
+        },
+        onSuccess: () => {
+          toast({
+            status: "success",
+            title: "Login",
+            description: "Successfully logged in",
+          });
+          navigate({ to: "/dashboard" });
         },
       }
     );
@@ -70,7 +73,6 @@ export const component = function Index() {
         h={"full"}
         position={"absolute"}
       />
-      <WaitlistModal isOpen={isWaitlistOpen} onClose={onWaitlistClose} />
       <Box
         w={"500px"}
         position={"absolute"}
@@ -125,7 +127,12 @@ export const component = function Index() {
         </form>
         <Box color={"gray.800"} fontSize={"sm"} mt={"10px"} ml={"5px"}>
           Don't have an account?{" "}
-          <Link color={"blue.300"} onClick={() => onWaitlistOpen()}>
+          <Link
+            color={"blue.300"}
+            href="https://google.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Sign up for a waitlist!
           </Link>
         </Box>

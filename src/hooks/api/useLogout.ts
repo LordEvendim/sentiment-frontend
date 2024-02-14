@@ -3,8 +3,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 
-const logout = async (userId: string) => {
-  const result = await axiosMainServer.delete(`/users/${userId}/session`);
+const logout = async () => {
+  const result = await axiosMainServer.delete(`/auth/logout`);
 
   return result.data;
 };
@@ -15,7 +15,7 @@ export const useLogout = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      queryClient.removeQueries({ queryKey: [QueryKey.Session] });
+      queryClient.resetQueries({ queryKey: [QueryKey.Session] });
     },
   });
 

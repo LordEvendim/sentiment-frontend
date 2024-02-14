@@ -1,5 +1,7 @@
 import {
+  Box,
   Button,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -26,12 +28,22 @@ export const WaitlistModal: React.FC<Props> = ({ isOpen, onClose }) => {
       <ModalContent>
         <ModalHeader>Waitlist</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>Join the waitlist!!!</ModalBody>
+        <ModalBody>
+          <Box ml={"5px"} mb={"5px"}>
+            Email
+          </Box>
+          <Input borderColor={"gray.300"} type="email" />
+        </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
-            Close
+          <Button
+            background={"blue.500"}
+            color={"white"}
+            fontWeight={"bold"}
+            onClick={onClose}
+            w={"120px"}
+          >
+            Join
           </Button>
-          <Button variant="ghost">Secondary Action</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
