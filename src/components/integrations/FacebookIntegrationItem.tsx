@@ -1,7 +1,7 @@
 import { Box, Button, HStack, Spacer, useToast } from "@chakra-ui/react";
 
 import { useSelectPage } from "#hooks/api/useSelectPage";
-import { useFacebook } from "#stores/useFacebook";
+import { useSession } from "#hooks/api/useSession";
 
 interface Props {
   pageId: string;
@@ -17,8 +17,8 @@ export const FacebookIntegrationItem: React.FC<Props> = ({
   name,
   hideButton,
 }) => {
-  const userId = useFacebook((state) => state.userInfo?.id);
-  const { selectPage } = useSelectPage(userId);
+  const { userData } = useSession();
+  const { selectPage } = useSelectPage(userData?.id);
   const toast = useToast({ position: "top" });
 
   return (
@@ -48,12 +48,12 @@ export const FacebookIntegrationItem: React.FC<Props> = ({
         ) : (
           <Button
             background={"blue.200"}
-            isDisabled={!userId}
+            isDisabled={!userData?.id}
             onClick={() =>
               selectPage(
                 {
                   pageId,
-                  userId: userId!,
+                  userId: userData!.id,
                 },
                 {
                   onSuccess: () => {

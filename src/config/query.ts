@@ -5,4 +5,5 @@ export enum QueryKey {
   Accounts = "accounts",
   AdAccounts = "ad-accounts",
   PageInsights = "page-insights",
+  Report = "report",
 }

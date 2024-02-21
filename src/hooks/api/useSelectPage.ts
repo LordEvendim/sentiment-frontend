@@ -6,20 +6,20 @@ import { QueryKey } from "#config/query";
 import { GetAccounts } from "./types/accounts";
 
 interface RequestData {
-  userId: string;
+  userId: number;
   pageId: string;
 }
 
 const selectPage = async ({ pageId, userId }: RequestData) => {
   const result = await axiosMainServer.post<number>("/meta/selected-page", {
-    userId: userId,
+    userId: userId.toString(),
     pageId: pageId,
   });
 
   return result.data;
 };
 
-export const useSelectPage = (userId: string | undefined) => {
+export const useSelectPage = (userId: number | undefined) => {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({

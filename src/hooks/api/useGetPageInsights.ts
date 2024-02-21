@@ -21,7 +21,7 @@ const fetchPageInsights = async (userId: string, pageId: string) => {
 };
 
 export const useGetPageInsights = (
-  userId: string | undefined,
+  userId: number | undefined,
   pageId: string | undefined
 ) => {
   const isLogged = useFacebook((state) => state.isLogged);
@@ -30,7 +30,7 @@ export const useGetPageInsights = (
     staleTime: 60 * 1000,
     enabled: isLogged && Boolean(pageId) && Boolean(userId),
     queryKey: [QueryKey.PageInsights, pageId],
-    queryFn: () => fetchPageInsights(userId!, pageId!),
+    queryFn: () => fetchPageInsights(userId!.toString(), pageId!),
   });
 
   return {

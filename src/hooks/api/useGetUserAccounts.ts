@@ -17,7 +17,7 @@ const fetchUserAccounts = async (userId: string) => {
 };
 
 export const useGetUserAccounts = (
-  userId: string | undefined,
+  userId: number | undefined,
   isEnabled: boolean
 ) => {
   const isLogged = useFacebook((state) => state.isLogged);
@@ -26,7 +26,7 @@ export const useGetUserAccounts = (
     staleTime: 1000,
     enabled: isLogged && isEnabled && Boolean(userId),
     queryKey: [QueryKey.Accounts, userId],
-    queryFn: () => fetchUserAccounts(userId!),
+    queryFn: () => fetchUserAccounts(userId!.toString()),
   });
 
   return {

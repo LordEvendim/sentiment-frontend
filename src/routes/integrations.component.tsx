@@ -17,25 +17,29 @@ import { FacebookIntegrationItem } from "#components/integrations/FacebookIntegr
 import { FacebookModal } from "#components/integrations/FacebookModal";
 import { useGetLongLivedToken } from "#hooks/api/useGetLongLivedToken";
 import { useGetUserAccounts } from "#hooks/api/useGetUserAccounts";
+import { useSession } from "#hooks/api/useSession";
 import { useFacebook } from "#stores/useFacebook";
 
 export const component = function Integrations() {
   const userInfo = useFacebook((state) => state.userInfo);
   const login = useFacebook((state) => state.login);
   const logout = useFacebook((state) => state.logout);
-  const { isFetching } = useGetLongLivedToken(
-    userInfo?.id,
-    userInfo?.slAccessToken
-  );
   const {
     isOpen: isFacebookModalOpen,
     onOpen: onFacebookModalOpen,
     onClose: onFacebookModalClose,
   } = useDisclosure();
   const toast = useToast();
-  const userId = useFacebook((state) => state.userInfo?.id);
+
+  const { userData } = useSession();
+  const { isFetching } = useGetLongLivedToken(
+    userData?.id,
+    userInfo?.id,
+    userInfo?.slAccessToken
+  );
+
   const { accounts, isFetching: isLoadingUserAccounts } = useGetUserAccounts(
-    userId,
+    userData?.id,
     true
   );
 

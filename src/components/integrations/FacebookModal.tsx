@@ -15,7 +15,7 @@ import {
 import { useMemo } from "react";
 
 import { useGetUserAccounts } from "#hooks/api/useGetUserAccounts";
-import { useFacebook } from "#stores/useFacebook";
+import { useSession } from "#hooks/api/useSession";
 
 import { FacebookIntegrationItem } from "./FacebookIntegrationItem";
 
@@ -25,8 +25,8 @@ interface Props {
 }
 
 export const FacebookModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const userId = useFacebook((state) => state.userInfo?.id);
-  const { accounts, isFetching } = useGetUserAccounts(userId, isOpen);
+  const { userData } = useSession();
+  const { accounts, isFetching } = useGetUserAccounts(userData?.id, isOpen);
 
   const selectedPage = useMemo(
     () => accounts?.pages.find((page) => page.id === accounts?.selectedPage),
