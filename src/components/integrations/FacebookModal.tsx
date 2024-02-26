@@ -29,7 +29,7 @@ export const FacebookModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { accounts, isFetching } = useGetUserAccounts(userData?.id, isOpen);
 
   const selectedPage = useMemo(
-    () => accounts?.pages.find((page) => page.id === accounts?.selectedPage),
+    () => accounts?.pages?.find((page) => page.id === accounts?.selectedPage),
     [accounts]
   );
 

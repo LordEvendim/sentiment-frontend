@@ -44,7 +44,7 @@ export const component = function Integrations() {
   );
 
   const selectedPage = useMemo(
-    () => accounts?.pages.find((page) => page.id === accounts?.selectedPage),
+    () => accounts?.pages?.find((page) => page.id === accounts?.selectedPage),
     [accounts]
   );
 

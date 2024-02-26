@@ -1,13 +1,9 @@
 export type PageInsights = {
-  data: {
-    name: "page_impressions";
-    period: "day" | "week" | "days_28";
-    values: {
-      value: number;
-      end_time: string;
-    }[];
-    title: string;
-    description: string;
-    id: string;
-  }[];
-};
+  metricId: string;
+  name: string;
+  period: "day" | "week" | "days_28";
+  value: number;
+  endTime: string;
+  title: string;
+  description: string;
+}[];

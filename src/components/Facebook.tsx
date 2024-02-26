@@ -48,6 +48,7 @@ export const Facebook: React.FC<unknown> = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (fjs as any).parentNode.insertBefore(js, fjs);
     })(document, "script", "facebook-jssdk");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;

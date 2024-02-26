@@ -91,7 +91,7 @@ export const component = function Dashboard() {
             <Spinner size={"md"} />
           </GridItem>
         )}
-        {insights?.data?.map((metric) => (
+        {insights?.map((metric) => (
           <GridItem
             p={"25px"}
             pb={"10px"}
@@ -100,10 +100,10 @@ export const component = function Dashboard() {
             borderColor={"gray.200"}
             borderWidth={"1px"}
             boxShadow={"md"}
-            key={metric.id}
+            key={metric.metricId}
           >
             <HStack justifyContent={"center"} mb={"20px"}>
-              <Heading fontSize={"xl"}>
+              <Heading fontSize={"lg"}>
                 {capitalizeFirstLetter(metric.name ?? "").replaceAll("_", " ")}
                 {metric.period && (
                   <Box
@@ -123,21 +123,13 @@ export const component = function Dashboard() {
                 </span>
               </Tooltip>
             </HStack>
-            <Box fontSize={"lg"}></Box>
-            {metric.values.map((metricValue) => (
-              <HStack
-                key={metricValue.end_time}
-                fontSize={"lg"}
-                fontWeight={"extrabold"}
-                mb={"10px"}
-              >
-                <Box>{metricValue.value}</Box>
-                <Spacer />
-                <Box fontSize={"xs"} fontWeight={"normal"}>
-                  {new Date(metricValue.end_time).toLocaleDateString()}
-                </Box>
-              </HStack>
-            ))}
+            <HStack fontSize={"lg"} fontWeight={"extrabold"} mb={"10px"}>
+              <Box>{metric.value}</Box>
+              <Spacer />
+              <Box fontSize={"xs"} fontWeight={"normal"}>
+                {new Date(metric.endTime).toLocaleDateString()}
+              </Box>
+            </HStack>
           </GridItem>
         ))}
       </Grid>
