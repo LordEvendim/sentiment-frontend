@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useMemo } from "react";
 
-import { useGetUserAccounts } from "#hooks/api/useGetUserAccounts";
+import { useGetUserMetaPages } from "#hooks/api/useGetUserAccounts";
 import { useSession } from "#hooks/api/useSession";
 
 import { FacebookIntegrationItem } from "./FacebookIntegrationItem";
@@ -26,7 +26,10 @@ interface Props {
 
 export const FacebookModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { userData } = useSession();
-  const { accounts, isFetching } = useGetUserAccounts(userData?.id, isOpen);
+  const { pages: accounts, isFetching } = useGetUserMetaPages(
+    userData?.id,
+    isOpen
+  );
 
   const selectedPage = useMemo(
     () => accounts?.pages?.find((page) => page.id === accounts?.selectedPage),

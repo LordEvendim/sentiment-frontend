@@ -2,13 +2,14 @@ import { Box, Center, Spinner, useToast } from "@chakra-ui/react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect } from "react";
 
-import { useSetGoogleAccessToken } from "#hooks/api/useSetGoogleAccessToken";
+import { useCreateGoogleAccessToken } from "#hooks/api/useCreateGoogleAccessToken";
 
 export const component = function GoogleOAuth() {
   const search = useSearch({
     from: "/google-oauth",
   });
-  const { setGoogleAccessToken } = useSetGoogleAccessToken();
+  const { createGoogleAccessToken: setGoogleAccessToken } =
+    useCreateGoogleAccessToken();
   const navigate = useNavigate();
   const toast = useToast();
 

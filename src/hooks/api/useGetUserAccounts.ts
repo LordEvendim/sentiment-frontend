@@ -2,11 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
-import { useFacebook } from "#stores/useFacebook";
 
 import { GetAccounts } from "./types/accounts";
 
-const fetchUserAccounts = async (userId: string) => {
+const fetchUserPages = async (userId: string) => {
   const result = await axiosMainServer.get<GetAccounts>("/meta/accounts", {
     params: {
       userId,
@@ -16,21 +15,19 @@ const fetchUserAccounts = async (userId: string) => {
   return result.data;
 };
 
-export const useGetUserAccounts = (
+export const useGetUserMetaPages = (
   userId: number | undefined,
   isEnabled: boolean
 ) => {
-  const isLogged = useFacebook((state) => state.isLogged);
-
   const { data, isFetching } = useQuery({
     staleTime: 1000,
-    enabled: isLogged && isEnabled && Boolean(userId),
+    enabled: isEnabled && Boolean(userId),
     queryKey: [QueryKey.Accounts, userId],
-    queryFn: () => fetchUserAccounts(userId!.toString()),
+    queryFn: () => fetchUserPages(userId!.toString()),
   });
 
   return {
-    accounts: data,
+    pages: data,
     isFetching,
   };
 };

@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
-import { useFacebook } from "#stores/useFacebook";
 
 const fetchLlat = async (
   userId: string,
@@ -25,12 +24,9 @@ export const useGetLongLivedToken = (
   metaId: string | undefined,
   accessToken: string | undefined
 ) => {
-  const isLogged = useFacebook((state) => state.isLogged);
-
   const { data, isFetching } = useQuery({
     staleTime: 0,
-    enabled:
-      isLogged && Boolean(userId) && Boolean(accessToken) && Boolean(metaId),
+    enabled: Boolean(userId) && Boolean(accessToken) && Boolean(metaId),
     queryKey: [QueryKey.Llat, userId],
     queryFn: () => fetchLlat(userId!.toString(), metaId!, accessToken!),
   });

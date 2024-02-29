@@ -7,33 +7,17 @@ import {
   HStack,
   Spacer,
   Spinner,
-  Tooltip,
 } from "@chakra-ui/react";
-import { IoInformationCircleOutline } from "react-icons/io5";
 
 import { useGenerateReport } from "#hooks/api/useGenerateReport";
-import { useGetPageInsights } from "#hooks/api/useGetPageInsights";
+import { useGetMetaIntegration } from "#hooks/api/useGetMetaIntegration";
 import { useGetReport } from "#hooks/api/useGetReport";
-import { useGetUserAccounts } from "#hooks/api/useGetUserAccounts";
-import { useSession } from "#hooks/api/useSession";
-import { useFacebook } from "#stores/useFacebook";
-import { capitalizeFirstLetter } from "#utils/text";
 
 export const component = function Dashboard() {
-  const isLogged = useFacebook((state) => state.isLogged);
-  const { userData } = useSession();
-
-  const { accounts } = useGetUserAccounts(userData?.id, isLogged);
-
-  const { insights, isFetching } = useGetPageInsights(
-    userData?.id,
-    accounts?.selectedPage
-  );
-  const { generateReport, isPending: isGeneratingReport } = useGenerateReport(
-    accounts?.selectedPage
-  );
-
-  const { report } = useGetReport(accounts?.selectedPage);
+  const { metaIntegration, isFetching: isFetchingMetaIntegration } =
+    useGetMetaIntegration();
+  const { generateReport, isPending: isGeneratingReport } = useGenerateReport();
+  const { report } = useGetReport();
 
   return (
     <Box w={"full"} h={"full"} p={"15px"}>
@@ -56,8 +40,8 @@ export const component = function Dashboard() {
               color={"white"}
               shadow={"md"}
               onClick={() => generateReport()}
-              isLoading={isGeneratingReport}
-              isDisabled={!accounts?.selectedPage}
+              isLoading={isGeneratingReport || isFetchingMetaIntegration}
+              isDisabled={!metaIntegration?.accessToken}
             >
               Generate
             </Button>
@@ -73,7 +57,7 @@ export const component = function Dashboard() {
             ))}
           </Box>
         </GridItem>
-        {isFetching && (
+        {isFetchingMetaIntegration && (
           <GridItem
             p={"30px"}
             background={"white"}
@@ -91,7 +75,7 @@ export const component = function Dashboard() {
             <Spinner size={"md"} />
           </GridItem>
         )}
-        {insights?.map((metric) => (
+        {/* {insights?.map((metric) => (
           <GridItem
             p={"25px"}
             pb={"10px"}
@@ -131,7 +115,7 @@ export const component = function Dashboard() {
               </Box>
             </HStack>
           </GridItem>
-        ))}
+        ))} */}
       </Grid>
     </Box>
   );

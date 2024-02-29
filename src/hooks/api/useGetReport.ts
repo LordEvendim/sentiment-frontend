@@ -2,9 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
-import { useFacebook } from "#stores/useFacebook";
 
 import { Report } from "./types/report";
+import { useGetMetaIntegration } from "./useGetMetaIntegration";
 
 const fetchReport = async () => {
   const result = await axiosMainServer.get<Report>("/reporter/page-weekly");
@@ -12,13 +12,13 @@ const fetchReport = async () => {
   return result.data;
 };
 
-export const useGetReport = (pageId: string | undefined) => {
-  const isLogged = useFacebook((state) => state.isLogged);
+export const useGetReport = () => {
+  const integration = useGetMetaIntegration();
 
   const { data, isFetching } = useQuery({
     staleTime: 60 * 1000,
-    enabled: isLogged && Boolean(pageId),
-    queryKey: [QueryKey.Report, pageId],
+    enabled: Boolean(integration.metaIntegration?.accessToken),
+    queryKey: [QueryKey.Report],
     queryFn: () => fetchReport(),
     retry: 0,
   });

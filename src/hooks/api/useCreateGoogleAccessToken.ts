@@ -6,7 +6,7 @@ interface RequestData {
   code: string;
 }
 
-const setGoogleAccessToken = async (data: RequestData) => {
+const createGoogleAccessToken = async (data: RequestData) => {
   const result = await axiosMainServer.post<Report>("/google/access-token", {
     code: data.code,
   });
@@ -14,14 +14,14 @@ const setGoogleAccessToken = async (data: RequestData) => {
   return result.data;
 };
 
-export const useSetGoogleAccessToken = () => {
+export const useCreateGoogleAccessToken = () => {
   const { mutate, isPending } = useMutation({
-    mutationFn: setGoogleAccessToken,
+    mutationFn: createGoogleAccessToken,
     onSuccess: () => {},
   });
 
   return {
-    setGoogleAccessToken: mutate,
+    createGoogleAccessToken: mutate,
     isPending,
   };
 };

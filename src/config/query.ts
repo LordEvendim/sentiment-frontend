@@ -8,4 +8,5 @@ export enum QueryKey {
   Report = "report",
   GoogleAuthUrl = "google-auth-url",
   GoogleIntegration = "google-integration",
+  MetaIntegration = "meta-integration",
 }
