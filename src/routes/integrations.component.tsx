@@ -15,6 +15,7 @@ import { useMemo } from "react";
 import { Facebook } from "#components/Facebook";
 import { FacebookIntegrationItem } from "#components/integrations/FacebookIntegrationItem";
 import { FacebookModal } from "#components/integrations/FacebookModal";
+import { useGetGoogleAuthUrl } from "#hooks/api/useGetGoogleAuthUrl";
 import { useGetLongLivedToken } from "#hooks/api/useGetLongLivedToken";
 import { useGetUserAccounts } from "#hooks/api/useGetUserAccounts";
 import { useSession } from "#hooks/api/useSession";
@@ -30,6 +31,7 @@ export const component = function Integrations() {
     onClose: onFacebookModalClose,
   } = useDisclosure();
   const toast = useToast();
+  const { url } = useGetGoogleAuthUrl();
 
   const { userData } = useSession();
   const { isFetching } = useGetLongLivedToken(
@@ -95,6 +97,12 @@ export const component = function Integrations() {
         description: "You have been logged out",
       });
     });
+  };
+
+  const handleGoogleLogin = () => {
+    if (!url) return;
+
+    window.location.replace(url);
   };
 
   return (
@@ -169,11 +177,11 @@ export const component = function Integrations() {
         >
           <HStack w={"full"} alignItems={"center"} mb={"30px"}>
             <Heading fontSize={"2xl"} color={"gray.700"}>
-              Google {userInfo && "(connected)"}
+              Google
             </Heading>
             <Spacer />
             <HStack spacing={"10px"}>
-              <Button isDisabled={true}>Login</Button>
+              <Button onClick={() => handleGoogleLogin()}>Login</Button>
               <Button onClick={() => {}} isDisabled={true}>
                 Logout
               </Button>

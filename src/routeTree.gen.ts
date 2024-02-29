@@ -10,6 +10,7 @@ import { Route as rootRoute } from './routes/__root'
 
 const ProfileComponentImport = new FileRoute('/profile').createRoute()
 const IntegrationsComponentImport = new FileRoute('/integrations').createRoute()
+const GoogleOauthComponentImport = new FileRoute('/google-oauth').createRoute()
 const DashboardComponentImport = new FileRoute('/dashboard').createRoute()
 const AboutComponentImport = new FileRoute('/about').createRoute()
 const IndexComponentImport = new FileRoute('/').createRoute()
@@ -32,6 +33,16 @@ const IntegrationsComponentRoute = IntegrationsComponentImport.update({
 } as any).update({
   component: lazyRouteComponent(
     () => import('./routes/integrations.component'),
+    'component',
+  ),
+})
+
+const GoogleOauthComponentRoute = GoogleOauthComponentImport.update({
+  path: '/google-oauth',
+  getParentRoute: () => rootRoute,
+} as any).update({
+  component: lazyRouteComponent(
+    () => import('./routes/google-oauth.component'),
     'component',
   ),
 })
@@ -82,6 +93,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardComponentImport
       parentRoute: typeof rootRoute
     }
+    '/google-oauth': {
+      preLoaderRoute: typeof GoogleOauthComponentImport
+      parentRoute: typeof rootRoute
+    }
     '/integrations': {
       preLoaderRoute: typeof IntegrationsComponentImport
       parentRoute: typeof rootRoute
@@ -99,6 +114,7 @@ export const routeTree = rootRoute.addChildren([
   IndexComponentRoute,
   AboutComponentRoute,
   DashboardComponentRoute,
+  GoogleOauthComponentRoute,
   IntegrationsComponentRoute,
   ProfileComponentRoute,
 ])

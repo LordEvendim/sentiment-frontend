@@ -1,5 +1,10 @@
 import { Flex } from "@chakra-ui/react";
-import { Outlet, RootRoute, useNavigate } from "@tanstack/react-router";
+import {
+  Outlet,
+  RootRoute,
+  useMatchRoute,
+  useNavigate,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { useEffect } from "react";
 
@@ -14,14 +19,17 @@ export const Route = new RootRoute({
 function RootComponent() {
   const { userData } = useSession();
   const navigate = useNavigate();
+  const matchRoute = useMatchRoute();
 
   useEffect(() => {
+    if (matchRoute({ to: "/google-oauth" })) return;
+
     if (!userData) {
       navigate({ to: "/" });
     } else {
       navigate({ to: "/dashboard" });
     }
-  }, [navigate, userData]);
+  }, [matchRoute, navigate, userData]);
 
   return (
     <Flex h={"100vh"} w={"full"} flexDir={"column"}>

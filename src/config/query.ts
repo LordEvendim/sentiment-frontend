@@ -6,4 +6,6 @@ export enum QueryKey {
   AdAccounts = "ad-accounts",
   PageInsights = "page-insights",
   Report = "report",
+  GoogleAuthUrl = "google-auth-url",
+  GoogleIntegration = "google-integration",
 }
