@@ -3,35 +3,36 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 
-import { GetAccounts } from "./types/accounts";
+import { GetGoogleAccounts } from "./types/accounts";
 
 interface RequestData {
-  userId: number;
-  pageId: string;
+  pageId: number;
 }
 
-const selectPage = async ({ pageId, userId }: RequestData) => {
-  const result = await axiosMainServer.post<number>("/meta/selected-page", {
-    userId: userId.toString(),
-    pageId: pageId,
-  });
+const selectPage = async ({ pageId }: RequestData) => {
+  const result = await axiosMainServer.post<{ selectedPage: number }>(
+    "/google/selected-page",
+    {
+      pageId: pageId,
+    }
+  );
 
-  return result.data;
+  return result.data.selectedPage;
 };
 
-export const useSelectPage = (userId: number | undefined) => {
+export const useSelectGoogleAccount = () => {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: selectPage,
     onSuccess: (selectedPageId) => {
-      queryClient.setQueryData<GetAccounts>(
-        [QueryKey.Accounts, userId],
+      queryClient.setQueryData<GetGoogleAccounts>(
+        [QueryKey.GoogleAccounts],
         (oldData) =>
           oldData
             ? {
                 ...oldData,
-                selectedPage: selectedPageId.toString(),
+                selectedAnalyticsAccount: selectedPageId,
               }
             : oldData
       );

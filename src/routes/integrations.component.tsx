@@ -10,10 +10,13 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
 
 import { Facebook } from "#components/Facebook";
 import { FacebookIntegrationItem } from "#components/integrations/FacebookIntegrationItem";
 import { FacebookModal } from "#components/integrations/FacebookModal";
+import { GoogleIntegrationItem } from "#components/integrations/GoogleIntegrationItem";
+import { GoogleModal } from "#components/integrations/GoogleModal";
 import { useCreateMetaAccessToken } from "#hooks/api/useCreateMetaAccessToken";
 import { useGetGoogleAuthUrl } from "#hooks/api/useGetGoogleAuthUrl";
 import { useGetGoogleIntegration } from "#hooks/api/useGetGoogleIntegration";
@@ -24,6 +27,11 @@ export const component = function Integrations() {
     isOpen: isFacebookModalOpen,
     onOpen: onFacebookModalOpen,
     onClose: onFacebookModalClose,
+  } = useDisclosure();
+  const {
+    isOpen: isGoogleModalOpen,
+    onOpen: onGoogleModalOpen,
+    onClose: onGoogleModalClose,
   } = useDisclosure();
   const toast = useToast();
   const { url } = useGetGoogleAuthUrl();
@@ -87,13 +95,18 @@ export const component = function Integrations() {
     window.location.replace(url);
   };
 
+  useEffect(() => {
+    console.log(googleIntegration);
+  }, [googleIntegration]);
+
   return (
     <Box w={"full"} h={"full"} p={"15px"}>
+      <Facebook />
       <FacebookModal
         isOpen={isFacebookModalOpen}
         onClose={onFacebookModalClose}
       />
-      <Facebook />
+      <GoogleModal isOpen={isGoogleModalOpen} onClose={onGoogleModalClose} />
       <Heading color={"gray.700"} mb={"20px"} ml={"20px"}>
         Integrations
       </Heading>
@@ -157,20 +170,28 @@ export const component = function Integrations() {
               {!googleIntegration?.accessToken && (
                 <Button onClick={() => handleGoogleLogin()}>Login</Button>
               )}
-              <Button
-                onClick={() => {}}
-                isDisabled={true}
-                background={"blue.200"}
-              >
+              <Button onClick={onGoogleModalOpen} background={"blue.200"}>
                 Configure
               </Button>
             </HStack>
           </HStack>
-          <SimpleGrid columns={2} spacing={"10px"}>
-            {isFetchingGoogleIntegration && (
+          <SimpleGrid columns={2} spacing={"10px"} minHeight={"200px"}>
+            {isFetchingGoogleIntegration ? (
               <Center>
                 <Spinner />
               </Center>
+            ) : (
+              googleIntegration?.selectedPage && (
+                <GoogleIntegrationItem
+                  pageId={googleIntegration.selectedPage?.id}
+                  name={googleIntegration.selectedPage.name}
+                  parentAccountName={
+                    googleIntegration.selectedPage.parentAccountName
+                  }
+                  isSelected={true}
+                  hideButton
+                />
+              )
             )}
           </SimpleGrid>
         </Box>

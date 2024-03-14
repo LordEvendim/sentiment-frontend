@@ -3,10 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 
-import { GetAccounts } from "./types/accounts";
+import { GetMetaAccounts } from "./types/accounts";
 
 const fetchUserPages = async (userId: string) => {
-  const result = await axiosMainServer.get<GetAccounts>("/meta/accounts", {
+  const result = await axiosMainServer.get<GetMetaAccounts>("/meta/accounts", {
     params: {
       userId,
     },

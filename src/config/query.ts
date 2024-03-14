@@ -9,4 +9,5 @@ export enum QueryKey {
   GoogleAuthUrl = "google-auth-url",
   GoogleIntegration = "google-integration",
   MetaIntegration = "meta-integration",
+  GoogleAccounts = "google-accounts",
 }

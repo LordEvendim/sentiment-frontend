@@ -1,24 +1,33 @@
-import { Box, Button, HStack, Spacer, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  HStack,
+  Spacer,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
 
-import { useSelectMetaPage } from "#hooks/api/useSelectMetaPage";
+import { useSelectGoogleAccount } from "#hooks/api/useSelectGoogleAccount";
 import { useSession } from "#hooks/api/useSession";
 
 interface Props {
-  pageId: string;
+  pageId: number;
   isSelected: boolean;
   name: string;
+  parentAccountName: string;
   picture?: string;
   hideButton?: boolean;
 }
 
-export const FacebookIntegrationItem: React.FC<Props> = ({
+export const GoogleIntegrationItem: React.FC<Props> = ({
   pageId,
   isSelected,
   name,
+  parentAccountName,
   hideButton,
 }) => {
   const { userData } = useSession();
-  const { selectPage } = useSelectMetaPage(userData?.id);
+  const { selectPage } = useSelectGoogleAccount();
   const toast = useToast({ position: "top" });
 
   return (
@@ -38,7 +47,12 @@ export const FacebookIntegrationItem: React.FC<Props> = ({
         background={"gray.200"}
         borderRadius={"5px"}
       ></Box>
-      <Box>{name}</Box>
+      <VStack spacing={"0px"} alignItems={"start"}>
+        <Box fontSize={"small"} color={"gray.500"}>
+          {parentAccountName}
+        </Box>
+        <Box>{name}</Box>
+      </VStack>
       <Spacer />
       {!hideButton &&
         (isSelected ? (
@@ -53,7 +67,6 @@ export const FacebookIntegrationItem: React.FC<Props> = ({
               selectPage(
                 {
                   pageId,
-                  userId: userData!.id,
                 },
                 {
                   onSuccess: () => {
