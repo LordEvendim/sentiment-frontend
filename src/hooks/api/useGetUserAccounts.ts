@@ -4,30 +4,26 @@ import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 
 import { GetMetaAccounts } from "./types/accounts";
+import { useSession } from "./useSession";
 
-const fetchUserPages = async (userId: string) => {
-  const result = await axiosMainServer.get<GetMetaAccounts>("/meta/accounts", {
-    params: {
-      userId,
-    },
-  });
+const fetchUserAccounts = async () => {
+  const result = await axiosMainServer.get<GetMetaAccounts>("/meta/accounts");
 
   return result.data;
 };
 
-export const useGetUserMetaPages = (
-  userId: number | undefined,
-  isEnabled: boolean
-) => {
+export const useGetUserMetaAccounts = (isEnabled: boolean) => {
+  const { userData } = useSession();
+
   const { data, isFetching } = useQuery({
     staleTime: 1000,
-    enabled: isEnabled && Boolean(userId),
-    queryKey: [QueryKey.Accounts, userId],
-    queryFn: () => fetchUserPages(userId!.toString()),
+    enabled: isEnabled && Boolean(userData?.id),
+    queryKey: [QueryKey.Accounts],
+    queryFn: () => fetchUserAccounts(),
   });
 
   return {
-    pages: data,
+    accounts: data,
     isFetching,
   };
 };

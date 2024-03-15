@@ -11,6 +11,11 @@ interface MetaPage {
   profilePictureURL: string | null;
 }
 
+interface MetaAdAccount {
+  id: number;
+  parentAccountName: string;
+}
+
 interface MetaIntegration {
   id: number;
   fullName: string | null;
@@ -20,6 +25,7 @@ interface MetaIntegration {
   tokenCreatedAt: string | null;
   metaId: string;
   selectedPage?: MetaPage;
+  selectedAdAccount?: MetaAdAccount;
 }
 
 const fetchMetaIntegration = async () => {

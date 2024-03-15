@@ -17,6 +17,7 @@ import { TbPlugConnectedX } from "react-icons/tb";
 import GoogleLogo from "#assets/integrations/google.png";
 import MetaLogo from "#assets/integrations/meta.png";
 import { Facebook } from "#components/Facebook";
+import { FacebookAdAccountItem } from "#components/integrations/FacebookAdAccountItem";
 import { FacebookIntegrationItem } from "#components/integrations/FacebookIntegrationItem";
 import { FacebookModal } from "#components/integrations/FacebookModal";
 import { GoogleIntegrationItem } from "#components/integrations/GoogleIntegrationItem";
@@ -173,7 +174,7 @@ export const component = function Integrations() {
               ) : (
                 metaIntegration?.selectedPage && (
                   <FacebookIntegrationItem
-                    pageId={metaIntegration.selectedPage.pageId.toString()}
+                    pageId={metaIntegration.selectedPage.pageId}
                     name={metaIntegration.selectedPage.name}
                     isSelected={true}
                     hideButton
@@ -191,6 +192,22 @@ export const component = function Integrations() {
               >
                 Meta Ads
               </Box>
+              {isFetchingMetaIntegration ? (
+                <Center>
+                  <Spinner />
+                </Center>
+              ) : (
+                metaIntegration?.selectedAdAccount && (
+                  <FacebookAdAccountItem
+                    adAccountId={metaIntegration.selectedAdAccount.id}
+                    parentAccountName={
+                      metaIntegration.selectedAdAccount.parentAccountName
+                    }
+                    isSelected={true}
+                    hideButton
+                  />
+                )
+              )}
             </Box>
           </SimpleGrid>
         </Box>

@@ -14,9 +14,9 @@ import {
 } from "@chakra-ui/react";
 import { useMemo } from "react";
 
-import { useGetUserMetaPages } from "#hooks/api/useGetUserAccounts";
-import { useSession } from "#hooks/api/useSession";
+import { useGetUserMetaAccounts } from "#hooks/api/useGetUserAccounts";
 
+import { FacebookAdAccountItem } from "./FacebookAdAccountItem";
 import { FacebookIntegrationItem } from "./FacebookIntegrationItem";
 
 interface Props {
@@ -25,14 +25,17 @@ interface Props {
 }
 
 export const FacebookModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { userData } = useSession();
-  const { pages: accounts, isFetching } = useGetUserMetaPages(
-    userData?.id,
-    isOpen
-  );
+  const { accounts, isFetching } = useGetUserMetaAccounts(isOpen);
 
   const selectedPage = useMemo(
     () => accounts?.pages?.find((page) => page.id === accounts?.selectedPage),
+    [accounts]
+  );
+  const selectedAdAccount = useMemo(
+    () =>
+      accounts?.adAccounts?.find(
+        (adAccount) => adAccount.id === accounts?.selectedAdAccount
+      ),
     [accounts]
   );
 
@@ -75,6 +78,14 @@ export const FacebookModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 <Heading mb={"20px"} fontSize={"2xl"} color={"gray.700"}>
                   Ad Accounts
                 </Heading>
+                {accounts?.adAccounts?.map((adAccount) => (
+                  <FacebookAdAccountItem
+                    key={adAccount.id}
+                    isSelected={adAccount.id === selectedAdAccount?.id}
+                    adAccountId={adAccount.id}
+                    parentAccountName={adAccount.parentAccountName}
+                  />
+                ))}
               </VStack>
             </SimpleGrid>
           )}

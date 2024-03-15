@@ -6,25 +6,25 @@ import { QueryKey } from "#config/query";
 import { GetMetaAccounts } from "./types/accounts";
 
 interface RequestData {
-  pageId: number;
+  adAccountId: number;
 }
 
-const selectPage = async ({ pageId }: RequestData) => {
-  const result = await axiosMainServer.post<{ selectedPage: number }>(
-    "/meta/selected-page",
+const selectAdAccount = async ({ adAccountId }: RequestData) => {
+  const result = await axiosMainServer.post<{ selectedAdAccount: number }>(
+    "/meta/selected-ad-account",
     {
-      pageId: pageId,
+      adAccountId: adAccountId,
     }
   );
 
   return result.data;
 };
 
-export const useSelectMetaPage = () => {
+export const useSelectMetaAdAccount = () => {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: selectPage,
+    mutationFn: selectAdAccount,
     onSuccess: (data) => {
       queryClient.setQueryData<GetMetaAccounts>(
         [QueryKey.Accounts],
@@ -32,7 +32,7 @@ export const useSelectMetaPage = () => {
           oldData
             ? {
                 ...oldData,
-                selectedPage: data.selectedPage,
+                selectedAdAccount: data.selectedAdAccount,
               }
             : oldData
       );
@@ -40,7 +40,7 @@ export const useSelectMetaPage = () => {
   });
 
   return {
-    selectPage: mutate,
+    selectAdAccount: mutate,
     isPending,
   };
 };
