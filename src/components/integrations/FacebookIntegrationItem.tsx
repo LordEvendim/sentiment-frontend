@@ -4,7 +4,7 @@ import { useSelectMetaPage } from "#hooks/api/useSelectMetaPage";
 import { useSession } from "#hooks/api/useSession";
 
 interface Props {
-  pageId: string;
+  pageId: number;
   isSelected: boolean;
   name: string;
   picture?: string;

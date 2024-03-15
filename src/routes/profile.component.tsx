@@ -2,7 +2,7 @@ import { Box, Heading } from "@chakra-ui/react";
 
 export const component = function Profile() {
   return (
-    <Box w={"full"} h={"full"} p={"20px"}>
+    <Box w={"full"} h={"full"} p={"20px"} className="polka_background">
       <Box
         p={"20px"}
         background={"white"}

@@ -2,16 +2,20 @@ import {
   Box,
   Button,
   Center,
-  Heading,
   HStack,
+  Image,
   SimpleGrid,
   Spacer,
   Spinner,
+  Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { PiPlugsConnectedBold } from "react-icons/pi";
+import { TbPlugConnectedX } from "react-icons/tb";
 
+import GoogleLogo from "#assets/integrations/google.png";
+import MetaLogo from "#assets/integrations/meta.png";
 import { Facebook } from "#components/Facebook";
 import { FacebookIntegrationItem } from "#components/integrations/FacebookIntegrationItem";
 import { FacebookModal } from "#components/integrations/FacebookModal";
@@ -48,7 +52,12 @@ export const component = function Integrations() {
       (response: {
         status: "connected" | "unknown";
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        authResponse: any;
+        authResponse: {
+          accessToken: string;
+          data_access_expiration_time: number;
+          expiresIn: number;
+          userID: string;
+        };
       }) => {
         if (response.status !== "connected" || !response.authResponse) {
           toast({
@@ -62,7 +71,7 @@ export const component = function Integrations() {
         createMetaAccessToken(
           {
             accessToken: response.authResponse.accessToken,
-            metaId: response.authResponse.userId,
+            metaId: response.authResponse.userID,
           },
           {
             onSuccess: () => {
@@ -95,21 +104,23 @@ export const component = function Integrations() {
     window.location.replace(url);
   };
 
-  useEffect(() => {
-    console.log(googleIntegration);
-  }, [googleIntegration]);
-
   return (
-    <Box w={"full"} h={"full"} p={"15px"}>
+    <Box w={"full"} h={"full"} p={"15px"} className="polka_background">
       <Facebook />
       <FacebookModal
         isOpen={isFacebookModalOpen}
         onClose={onFacebookModalClose}
       />
       <GoogleModal isOpen={isGoogleModalOpen} onClose={onGoogleModalClose} />
-      <Heading color={"gray.700"} mb={"20px"} ml={"20px"}>
+      <Text
+        color={"gray.700"}
+        mb={"20px"}
+        ml={"20px"}
+        fontWeight={800}
+        fontSize={"xx-large"}
+      >
         Integrations
-      </Heading>
+      </Text>
       <SimpleGrid columns={2} spacing={"10px"}>
         <Box
           justifyContent={"space-between"}
@@ -119,17 +130,25 @@ export const component = function Integrations() {
           borderRadius={"10px"}
           boxShadow={"md"}
         >
-          <HStack w={"full"} alignItems={"center"} mb={"30px"}>
-            <Heading fontSize={"2xl"} color={"gray.700"}>
-              Facebook {metaIntegration && "(connected)"}
-            </Heading>
+          <HStack w={"full"} alignItems={"center"} mb={"20px"}>
+            <HStack color={"gray.700"} spacing={"20px"}>
+              <Image src={MetaLogo} w={"40px"} h={"40px"} />
+              <Box fontSize={"2xl"} fontWeight={700}>
+                Facebook
+              </Box>
+              {metaIntegration ? (
+                <PiPlugsConnectedBold size={"20px"} />
+              ) : (
+                <TbPlugConnectedX size={"20px"} />
+              )}
+            </HStack>
             <Spacer />
             <HStack spacing={"10px"}>
               <Button
                 onClick={() => handleFacebookLogin()}
                 isLoading={isFetchingMetaIntegration}
               >
-                {metaIntegration ? "Edit permissions" : "Login"}
+                {metaIntegration ? "Reconnect" : "Login"}
               </Button>
               <Button onClick={onFacebookModalOpen} background={"blue.200"}>
                 Configure
@@ -137,20 +156,42 @@ export const component = function Integrations() {
             </HStack>
           </HStack>
           <SimpleGrid columns={2} spacing={"10px"} minHeight={"200px"}>
-            {isFetchingMetaIntegration ? (
-              <Center>
-                <Spinner />
-              </Center>
-            ) : (
-              metaIntegration?.selectedPage && (
-                <FacebookIntegrationItem
-                  pageId={metaIntegration.selectedPage.pageId.toString()}
-                  name={metaIntegration.selectedPage.name}
-                  isSelected={true}
-                  hideButton
-                />
-              )
-            )}
+            <Box>
+              <Box
+                mb={"10px"}
+                ml={"10px"}
+                fontWeight={500}
+                color={"gray.700"}
+                fontSize={"small"}
+              >
+                Facebook Pages
+              </Box>
+              {isFetchingMetaIntegration ? (
+                <Center>
+                  <Spinner />
+                </Center>
+              ) : (
+                metaIntegration?.selectedPage && (
+                  <FacebookIntegrationItem
+                    pageId={metaIntegration.selectedPage.pageId.toString()}
+                    name={metaIntegration.selectedPage.name}
+                    isSelected={true}
+                    hideButton
+                  />
+                )
+              )}
+            </Box>
+            <Box>
+              <Box
+                mb={"10px"}
+                ml={"10px"}
+                fontWeight={500}
+                color={"gray.700"}
+                fontSize={"small"}
+              >
+                Meta Ads
+              </Box>
+            </Box>
           </SimpleGrid>
         </Box>
         <Box
@@ -161,38 +202,71 @@ export const component = function Integrations() {
           borderRadius={"10px"}
           boxShadow={"md"}
         >
-          <HStack w={"full"} alignItems={"center"} mb={"30px"}>
-            <Heading fontSize={"2xl"} color={"gray.700"}>
-              Google {googleIntegration && "(connected)"}
-            </Heading>
+          <HStack w={"full"} alignItems={"center"} mb={"20px"}>
+            <HStack color={"gray.700"} spacing={"20px"}>
+              <Image src={GoogleLogo} w={"40px"} h={"40px"} />
+              <Box fontSize={"2xl"} fontWeight={700}>
+                Google
+              </Box>
+              {googleIntegration ? (
+                <PiPlugsConnectedBold size={"20px"} />
+              ) : (
+                <TbPlugConnectedX size={"20px"} />
+              )}
+            </HStack>
             <Spacer />
             <HStack spacing={"10px"}>
-              {!googleIntegration?.accessToken && (
-                <Button onClick={() => handleGoogleLogin()}>Login</Button>
-              )}
+              <Button
+                onClick={() => handleGoogleLogin()}
+                isLoading={isFetchingGoogleIntegration}
+              >
+                {googleIntegration ? "Reconnect" : "Login"}
+              </Button>
               <Button onClick={onGoogleModalOpen} background={"blue.200"}>
                 Configure
               </Button>
             </HStack>
           </HStack>
           <SimpleGrid columns={2} spacing={"10px"} minHeight={"200px"}>
-            {isFetchingGoogleIntegration ? (
-              <Center>
-                <Spinner />
-              </Center>
-            ) : (
-              googleIntegration?.selectedPage && (
-                <GoogleIntegrationItem
-                  pageId={googleIntegration.selectedPage?.id}
-                  name={googleIntegration.selectedPage.name}
-                  parentAccountName={
-                    googleIntegration.selectedPage.parentAccountName
-                  }
-                  isSelected={true}
-                  hideButton
-                />
-              )
-            )}
+            <Box>
+              <Box
+                mb={"10px"}
+                ml={"10px"}
+                fontWeight={500}
+                color={"gray.700"}
+                fontSize={"small"}
+              >
+                Google Analytics
+              </Box>
+              {isFetchingGoogleIntegration ? (
+                <Center>
+                  <Spinner />
+                </Center>
+              ) : (
+                googleIntegration?.selectedPage && (
+                  <GoogleIntegrationItem
+                    pageId={googleIntegration.selectedPage?.id}
+                    name={googleIntegration.selectedPage.name}
+                    parentAccountName={
+                      googleIntegration.selectedPage.parentAccountName
+                    }
+                    isSelected={true}
+                    hideButton
+                  />
+                )
+              )}
+            </Box>
+            <Box>
+              <Box
+                mb={"10px"}
+                ml={"10px"}
+                fontWeight={500}
+                color={"gray.700"}
+                fontSize={"small"}
+              >
+                Google Ads
+              </Box>
+            </Box>
           </SimpleGrid>
         </Box>
       </SimpleGrid>

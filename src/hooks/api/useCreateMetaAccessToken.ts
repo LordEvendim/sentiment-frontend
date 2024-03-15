@@ -9,10 +9,8 @@ interface RequestData {
 
 const createToken = async ({ metaId, accessToken }: RequestData) => {
   const result = await axiosMainServer.post<string>("/meta/access-token", {
-    params: {
-      metaId,
-      accessToken,
-    },
+    metaId,
+    accessToken,
   });
 
   return result.data;

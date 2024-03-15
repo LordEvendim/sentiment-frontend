@@ -1,9 +1,9 @@
 export interface GetMetaAccounts {
   pages: {
     name: string;
-    id: string;
+    id: number;
   }[];
-  selectedPage: string | undefined;
+  selectedPage: number | undefined;
 }
 
 export interface GetGoogleAccounts {

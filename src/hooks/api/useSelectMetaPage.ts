@@ -7,7 +7,7 @@ import { GetMetaAccounts } from "./types/accounts";
 
 interface RequestData {
   userId: number;
-  pageId: string;
+  pageId: number;
 }
 
 const selectPage = async ({ pageId, userId }: RequestData) => {
@@ -27,14 +27,14 @@ export const useSelectMetaPage = (userId: number | undefined) => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: selectPage,
-    onSuccess: (selectedPageId) => {
+    onSuccess: (data) => {
       queryClient.setQueryData<GetMetaAccounts>(
         [QueryKey.Accounts, userId],
         (oldData) =>
           oldData
             ? {
                 ...oldData,
-                selectedPage: selectedPageId.toString(),
+                selectedPage: data.selectedPage,
               }
             : oldData
       );

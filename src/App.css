@@ -8,3 +8,11 @@
   background-image: radial-gradient(#54b1c7 3px, #ffffff 3px);
   background-size: 40px 40px;
 }
+
+.polka_background {
+  background-image: radial-gradient(
+    rgba(0, 0, 0, 0.04) 3px,
+    rgb(230, 230, 230) 3px
+  );
+  background-size: 40px 40px;
+}

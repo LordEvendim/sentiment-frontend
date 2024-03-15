@@ -7,6 +7,7 @@ import {
   HStack,
   Spacer,
   Spinner,
+  Text,
 } from "@chakra-ui/react";
 
 import { useGenerateReport } from "#hooks/api/useGenerateReport";
@@ -20,7 +21,16 @@ export const component = function Dashboard() {
   const { report } = useGetReport();
 
   return (
-    <Box w={"full"} h={"full"} p={"15px"}>
+    <Box w={"full"} h={"full"} p={"15px"} className="polka_background">
+      <Text
+        color={"gray.700"}
+        mb={"20px"}
+        ml={"20px"}
+        fontWeight={800}
+        fontSize={"xx-large"}
+      >
+        Dashboard
+      </Text>
       <Grid templateColumns="repeat(4, 1fr)" gap={"15px"}>
         <GridItem
           p={"30px"}
