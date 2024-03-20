@@ -74,10 +74,11 @@ export const FacebookAdAccountItem: React.FC<Props> = ({
                     });
                   },
                   onError: (error) => {
+                    console.error(error);
                     toast({
                       status: "error",
                       title: "Page",
-                      description: error.message,
+                      description: "Failed to change Ad Account",
                     });
                   },
                 }

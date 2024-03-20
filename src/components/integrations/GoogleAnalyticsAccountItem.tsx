@@ -19,7 +19,7 @@ interface Props {
   hideButton?: boolean;
 }
 
-export const GoogleIntegrationItem: React.FC<Props> = ({
+export const GoogleAnalyticsAccountItem: React.FC<Props> = ({
   pageId,
   isSelected,
   name,
@@ -73,14 +73,15 @@ export const GoogleIntegrationItem: React.FC<Props> = ({
                     toast({
                       status: "success",
                       title: "Page",
-                      description: "Page has been changed",
+                      description: "Account has been changed",
                     });
                   },
                   onError: (error) => {
+                    console.error(error);
                     toast({
                       status: "error",
                       title: "Page",
-                      description: error.message,
+                      description: "Failed to change the account",
                     });
                   },
                 }

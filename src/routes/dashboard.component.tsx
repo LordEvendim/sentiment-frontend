@@ -8,7 +8,9 @@ import {
   Spacer,
   Spinner,
   Text,
+  Tooltip,
 } from "@chakra-ui/react";
+import { IoInformationCircleOutline } from "react-icons/io5";
 
 import { useGenerateReport } from "#hooks/api/useGenerateReport";
 import { useGetMetaIntegration } from "#hooks/api/useGetMetaIntegration";
@@ -85,47 +87,76 @@ export const component = function Dashboard() {
             <Spinner size={"md"} />
           </GridItem>
         )}
-        {/* {insights?.map((metric) => (
-          <GridItem
-            p={"25px"}
-            pb={"10px"}
-            background={"white"}
-            borderRadius={"15px"}
-            borderColor={"gray.200"}
-            borderWidth={"1px"}
-            boxShadow={"md"}
-            key={metric.metricId}
+        <GridItem
+          p={"25px"}
+          pb={"10px"}
+          background={"white"}
+          borderRadius={"15px"}
+          borderColor={"gray.200"}
+          borderWidth={"1px"}
+          boxShadow={"md"}
+        >
+          <HStack justifyContent={"center"} mb={"20px"}>
+            <Heading fontSize={"lg"} fontWeight={400}>
+              Ad spend
+            </Heading>
+            <Spacer />
+            <Tooltip
+              label={"Total amount of money spent on ads in the current week"}
+              p={"10px"}
+            >
+              <span>
+                <IoInformationCircleOutline size={"20px"} />
+              </span>
+            </Tooltip>
+          </HStack>
+          <HStack
+            fontSize={"2xl"}
+            fontWeight={"extrabold"}
+            mb={"10px"}
+            alignItems={"baseline"}
           >
-            <HStack justifyContent={"center"} mb={"20px"}>
-              <Heading fontSize={"lg"}>
-                {capitalizeFirstLetter(metric.name ?? "").replaceAll("_", " ")}
-                {metric.period && (
-                  <Box
-                    display={"inline-block"}
-                    fontSize={"xs"}
-                    fontWeight={"normal"}
-                    ml={"10px"}
-                  >
-                    {metric.period.replaceAll("_", " ")}
-                  </Box>
-                )}
-              </Heading>
-              <Spacer />
-              <Tooltip label={metric.description} p={"10px"}>
-                <span>
-                  <IoInformationCircleOutline size={"20px"} />
-                </span>
-              </Tooltip>
-            </HStack>
-            <HStack fontSize={"lg"} fontWeight={"extrabold"} mb={"10px"}>
-              <Box>{metric.value}</Box>
-              <Spacer />
-              <Box fontSize={"xs"} fontWeight={"normal"}>
-                {new Date(metric.endTime).toLocaleDateString()}
-              </Box>
-            </HStack>
-          </GridItem>
-        ))} */}
+            <Box>0.10</Box>
+            <Box fontSize={"small"} color={"gray.700"}>
+              USD
+            </Box>
+          </HStack>
+        </GridItem>
+        <GridItem
+          p={"25px"}
+          pb={"10px"}
+          background={"white"}
+          borderRadius={"15px"}
+          borderColor={"gray.200"}
+          borderWidth={"1px"}
+          boxShadow={"md"}
+        >
+          <HStack justifyContent={"center"} mb={"20px"}>
+            <Heading fontSize={"lg"} fontWeight={400}>
+              Visitors
+            </Heading>
+            <Spacer />
+            <Tooltip
+              label={"Total amount of money spent on ads in the current week"}
+              p={"10px"}
+            >
+              <span>
+                <IoInformationCircleOutline size={"20px"} />
+              </span>
+            </Tooltip>
+          </HStack>
+          <HStack
+            fontSize={"2xl"}
+            fontWeight={"extrabold"}
+            mb={"10px"}
+            alignItems={"baseline"}
+          >
+            <Box>201</Box>
+            <Box fontSize={"small"} color={"gray.700"}>
+              users
+            </Box>
+          </HStack>
+        </GridItem>
       </Grid>
     </Box>
   );

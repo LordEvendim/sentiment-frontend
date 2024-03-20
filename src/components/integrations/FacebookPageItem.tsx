@@ -11,14 +11,14 @@ interface Props {
   hideButton?: boolean;
 }
 
-export const FacebookIntegrationItem: React.FC<Props> = ({
+export const FacebookPageItem: React.FC<Props> = ({
   pageId,
   isSelected,
   name,
   hideButton,
 }) => {
   const { userData } = useSession();
-  const { selectPage } = useSelectMetaPage(userData?.id);
+  const { selectPage } = useSelectMetaPage();
   const toast = useToast({ position: "top" });
 
   return (
@@ -53,7 +53,6 @@ export const FacebookIntegrationItem: React.FC<Props> = ({
               selectPage(
                 {
                   pageId,
-                  userId: userData!.id,
                 },
                 {
                   onSuccess: () => {
@@ -64,10 +63,11 @@ export const FacebookIntegrationItem: React.FC<Props> = ({
                     });
                   },
                   onError: (error) => {
+                    console.error(error);
                     toast({
                       status: "error",
                       title: "Page",
-                      description: error.message,
+                      description: "Failed to change the page",
                     });
                   },
                 }

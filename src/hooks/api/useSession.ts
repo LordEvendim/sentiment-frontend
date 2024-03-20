@@ -13,7 +13,7 @@ const fetchSession = async () => {
 
 export const useSession = () => {
   const { data, isFetching } = useQuery({
-    staleTime: 0,
+    staleTime: 60 * 60 * 1000, // 1 hour
     queryKey: [QueryKey.Session],
     queryFn: () => fetchSession(),
     retry: 0,

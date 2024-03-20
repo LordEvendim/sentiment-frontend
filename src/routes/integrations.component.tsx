@@ -18,9 +18,9 @@ import GoogleLogo from "#assets/integrations/google.png";
 import MetaLogo from "#assets/integrations/meta.png";
 import { Facebook } from "#components/Facebook";
 import { FacebookAdAccountItem } from "#components/integrations/FacebookAdAccountItem";
-import { FacebookIntegrationItem } from "#components/integrations/FacebookIntegrationItem";
 import { FacebookModal } from "#components/integrations/FacebookModal";
-import { GoogleIntegrationItem } from "#components/integrations/GoogleIntegrationItem";
+import { FacebookPageItem } from "#components/integrations/FacebookPageItem";
+import { GoogleAnalyticsAccountItem } from "#components/integrations/GoogleAnalyticsAccountItem";
 import { GoogleModal } from "#components/integrations/GoogleModal";
 import { useCreateMetaAccessToken } from "#hooks/api/useCreateMetaAccessToken";
 import { useGetGoogleAuthUrl } from "#hooks/api/useGetGoogleAuthUrl";
@@ -52,7 +52,7 @@ export const component = function Integrations() {
     window.FB.login(
       (response: {
         status: "connected" | "unknown";
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // @typescript-eslint/no-explicit-any
         authResponse: {
           accessToken: string;
           data_access_expiration_time: number;
@@ -173,7 +173,7 @@ export const component = function Integrations() {
                 </Center>
               ) : (
                 metaIntegration?.selectedPage && (
-                  <FacebookIntegrationItem
+                  <FacebookPageItem
                     pageId={metaIntegration.selectedPage.pageId}
                     name={metaIntegration.selectedPage.name}
                     isSelected={true}
@@ -261,7 +261,7 @@ export const component = function Integrations() {
                 </Center>
               ) : (
                 googleIntegration?.selectedPage && (
-                  <GoogleIntegrationItem
+                  <GoogleAnalyticsAccountItem
                     pageId={googleIntegration.selectedPage?.id}
                     name={googleIntegration.selectedPage.name}
                     parentAccountName={

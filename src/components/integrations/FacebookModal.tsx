@@ -17,7 +17,7 @@ import { useMemo } from "react";
 import { useGetUserMetaAccounts } from "#hooks/api/useGetUserAccounts";
 
 import { FacebookAdAccountItem } from "./FacebookAdAccountItem";
-import { FacebookIntegrationItem } from "./FacebookIntegrationItem";
+import { FacebookPageItem } from "./FacebookPageItem";
 
 interface Props {
   isOpen: boolean;
@@ -66,7 +66,7 @@ export const FacebookModal: React.FC<Props> = ({ isOpen, onClose }) => {
                   Pages
                 </Heading>
                 {accounts?.pages?.map((page) => (
-                  <FacebookIntegrationItem
+                  <FacebookPageItem
                     key={page.id}
                     isSelected={page.id === selectedPage?.id}
                     name={page.name}

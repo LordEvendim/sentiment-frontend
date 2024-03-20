@@ -15,9 +15,8 @@ import {
 import { useMemo } from "react";
 
 import { useGetUserGoogleAccounts } from "#hooks/api/useGetUserGoogleAccounts";
-import { useSession } from "#hooks/api/useSession";
 
-import { GoogleIntegrationItem } from "./GoogleIntegrationItem";
+import { GoogleAnalyticsAccountItem } from "./GoogleAnalyticsAccountItem";
 
 interface Props {
   isOpen: boolean;
@@ -25,10 +24,7 @@ interface Props {
 }
 
 export const GoogleModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { userData } = useSession();
-  const { accounts, isFetching } = useGetUserGoogleAccounts(
-    Boolean(isOpen && userData?.username)
-  );
+  const { accounts, isFetching } = useGetUserGoogleAccounts(isOpen);
 
   const selectedPage = useMemo(
     () =>
@@ -65,7 +61,7 @@ export const GoogleModal: React.FC<Props> = ({ isOpen, onClose }) => {
                   Analytics accounts
                 </Heading>
                 {accounts?.analyticsAccounts?.map((page) => (
-                  <GoogleIntegrationItem
+                  <GoogleAnalyticsAccountItem
                     key={page.id}
                     isSelected={page.id === selectedPage?.id}
                     parentAccountName={page.parentAccountName}

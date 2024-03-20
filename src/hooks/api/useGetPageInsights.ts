@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
-import { useFacebook } from "#stores/useFacebook";
 
 import { PageInsights } from "./types/insights";
 
@@ -24,11 +23,9 @@ export const useGetPageInsights = (
   userId: number | undefined,
   pageId: string | undefined
 ) => {
-  const isLogged = useFacebook((state) => state.isLogged);
-
   const { data, isFetching } = useQuery({
     staleTime: 60 * 1000,
-    enabled: isLogged && Boolean(pageId) && Boolean(userId),
+    enabled: Boolean(pageId) && Boolean(userId) && false,
     queryKey: [QueryKey.PageInsights, pageId],
     queryFn: () => fetchPageInsights(userId!.toString(), pageId!),
   });

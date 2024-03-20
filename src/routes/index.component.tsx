@@ -57,7 +57,6 @@ export const component = function Index() {
 
   const onErrors: SubmitErrorHandler<FormInput> = (errors) => {
     console.log(errors);
-
     toast({
       status: "error",
       title: "Failed to login",
