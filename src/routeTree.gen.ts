@@ -9,6 +9,7 @@ import { Route as rootRoute } from './routes/__root'
 // Create Virtual Routes
 
 const ProfileComponentImport = new FileRoute('/profile').createRoute()
+const ProductComponentImport = new FileRoute('/product').createRoute()
 const IntegrationsComponentImport = new FileRoute('/integrations').createRoute()
 const GoogleOauthComponentImport = new FileRoute('/google-oauth').createRoute()
 const DashboardComponentImport = new FileRoute('/dashboard').createRoute()
@@ -23,6 +24,16 @@ const ProfileComponentRoute = ProfileComponentImport.update({
 } as any).update({
   component: lazyRouteComponent(
     () => import('./routes/profile.component'),
+    'component',
+  ),
+})
+
+const ProductComponentRoute = ProductComponentImport.update({
+  path: '/product',
+  getParentRoute: () => rootRoute,
+} as any).update({
+  component: lazyRouteComponent(
+    () => import('./routes/product.component'),
     'component',
   ),
 })
@@ -101,6 +112,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IntegrationsComponentImport
       parentRoute: typeof rootRoute
     }
+    '/product': {
+      preLoaderRoute: typeof ProductComponentImport
+      parentRoute: typeof rootRoute
+    }
     '/profile': {
       preLoaderRoute: typeof ProfileComponentImport
       parentRoute: typeof rootRoute
@@ -116,5 +131,6 @@ export const routeTree = rootRoute.addChildren([
   DashboardComponentRoute,
   GoogleOauthComponentRoute,
   IntegrationsComponentRoute,
+  ProductComponentRoute,
   ProfileComponentRoute,
 ])

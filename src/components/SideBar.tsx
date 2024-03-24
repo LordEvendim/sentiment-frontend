@@ -1,8 +1,12 @@
 import { Box, Button, VStack } from "@chakra-ui/react";
 import { useNavigate } from "@tanstack/react-router";
-import { FaRegSmile } from "react-icons/fa";
-import { HiOutlineDocumentReport } from "react-icons/hi";
-import { MdOutlineSpaceDashboard } from "react-icons/md";
+import { AiOutlineBarChart } from "react-icons/ai";
+import {
+  MdOutlinePersonSearch,
+  MdOutlineSpaceDashboard,
+  MdTrendingUp,
+} from "react-icons/md";
+import { RiHandCoinLine } from "react-icons/ri";
 
 export const SideBar = () => {
   const navigate = useNavigate();
@@ -50,9 +54,25 @@ export const SideBar = () => {
             })
           }
         >
-          <FaRegSmile size={"18px"} />
+          <AiOutlineBarChart size={"18px"} />
           <Box ml={"10px"} mb={"2px"} fontWeight={"normal"} fontSize={"16px"}>
-            Sentiment
+            Advertising Insights
+          </Box>
+        </Button>
+        <Button
+          variant={"ghost"}
+          alignItems={"center"}
+          justifyContent={"start"}
+          w={"full"}
+          onClick={() =>
+            navigate({
+              to: "/product",
+            })
+          }
+        >
+          <RiHandCoinLine size={"18px"} />
+          <Box ml={"10px"} mb={"2px"} fontWeight={"normal"} fontSize={"16px"}>
+            Product Analysis
           </Box>
         </Button>
         <Button
@@ -66,9 +86,25 @@ export const SideBar = () => {
             })
           }
         >
-          <HiOutlineDocumentReport size={"18px"} />
+          <MdOutlinePersonSearch size={"18px"} />
           <Box ml={"10px"} mb={"2px"} fontWeight={"normal"} fontSize={"16px"}>
-            Report
+            User Behavior
+          </Box>
+        </Button>
+        <Button
+          variant={"ghost"}
+          alignItems={"center"}
+          justifyContent={"start"}
+          w={"full"}
+          onClick={() =>
+            navigate({
+              to: "/dashboard",
+            })
+          }
+        >
+          <MdTrendingUp size={"18px"} />
+          <Box ml={"10px"} mb={"2px"} fontWeight={"normal"} fontSize={"16px"}>
+            Online Trends
           </Box>
         </Button>
       </VStack>

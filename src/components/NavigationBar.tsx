@@ -43,7 +43,7 @@ export const NavigationBar = () => {
         h={"full"}
       >
         <Box fontWeight={"extrabold"} color={"gray.700"} fontSize={"large"}>
-          <Link to="/">Click Clarity</Link>
+          <Link to="/dashboard">Click Clarity</Link>
         </Box>
         {userData ? (
           <HStack spacing={"25px"}>
