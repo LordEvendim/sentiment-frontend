@@ -11,6 +11,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
+import { useMemo } from "react";
 import { IoInformationCircleOutline } from "react-icons/io5";
 import {
   Area,
@@ -23,7 +24,7 @@ import {
 } from "recharts";
 
 import { useGenerateReport } from "#hooks/api/useGenerateReport";
-import { useGetMetaIntegration } from "#hooks/api/useGetMetaIntegration";
+import { useGetGeneralDashboardData } from "#hooks/api/useGetGeneralDashboardData";
 import { useGetReport } from "#hooks/api/useGetReport";
 
 const data = [
@@ -62,10 +63,15 @@ const data = [
 }));
 
 export const component = function Dashboard() {
-  const { metaIntegration, isFetching: isFetchingMetaIntegration } =
-    useGetMetaIntegration();
+  const { data: dashbaordData, isFetching } = useGetGeneralDashboardData();
   const { generateReport, isPending: isGeneratingReport } = useGenerateReport();
   const { report } = useGetReport();
+
+  const spend = useMemo(
+    () =>
+      dashbaordData?.find((value) => value.metricId === "spend")?.value ?? 0,
+    [dashbaordData]
+  );
 
   return (
     <Box w={"full"} h={"full"} p={"15px"} className="polka_background">
@@ -97,8 +103,7 @@ export const component = function Dashboard() {
               color={"white"}
               shadow={"md"}
               onClick={() => generateReport()}
-              isLoading={isGeneratingReport || isFetchingMetaIntegration}
-              isDisabled={!metaIntegration?.accessToken}
+              isLoading={isGeneratingReport}
             >
               Generate
             </Button>
@@ -114,24 +119,6 @@ export const component = function Dashboard() {
             ))}
           </Box>
         </GridItem>
-        {isFetchingMetaIntegration && (
-          <GridItem
-            p={"30px"}
-            background={"white"}
-            borderRadius={"15px"}
-            borderColor={"gray.200"}
-            borderWidth={"1px"}
-            boxShadow={"md"}
-            colSpan={2}
-            height={"200px"}
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            transition={"0.5s"}
-          >
-            <Spinner size={"md"} />
-          </GridItem>
-        )}
         <GridItem
           p={"25px"}
           pb={"10px"}
@@ -161,16 +148,16 @@ export const component = function Dashboard() {
             mb={"10px"}
             alignItems={"baseline"}
           >
-            <Box>
-              {" "}
-              {data.reduce(
-                (current, datapoint) => current + datapoint.spend,
-                0
-              )}
-            </Box>
-            <Box fontSize={"small"} color={"gray.700"}>
-              USD
-            </Box>
+            {isFetching ? (
+              <Spinner size={"sm"} />
+            ) : (
+              <>
+                <Box>{spend.toString()}</Box>
+                <Box fontSize={"small"} color={"gray.700"}>
+                  USD
+                </Box>
+              </>
+            )}
           </HStack>
         </GridItem>
         <GridItem
