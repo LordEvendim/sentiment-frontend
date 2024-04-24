@@ -16,6 +16,7 @@ import { useMemo } from "react";
 
 import { useGetUserGoogleAccounts } from "#hooks/api/useGetUserGoogleAccounts";
 
+import { GoogleAdAccountItem } from "./GoogleAdAccountItem";
 import { GoogleAnalyticsAccountItem } from "./GoogleAnalyticsAccountItem";
 
 interface Props {
@@ -28,8 +29,15 @@ export const GoogleModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const selectedPage = useMemo(
     () =>
-      accounts?.analyticsAccounts?.find(
-        (page) => page.id === accounts?.selectedAnalyticsAccount
+      accounts?.analyticsAccounts.find(
+        (page) => page.id === accounts.selectedAnalyticsAccount
+      ),
+    [accounts]
+  );
+  const selectedAdAccount = useMemo(
+    () =>
+      accounts?.adAccounts.find(
+        (page) => page.id === accounts.selectedAdAccount
       ),
     [accounts]
   );
@@ -60,7 +68,7 @@ export const GoogleModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 <Heading mb={"20px"} fontSize={"2xl"} color={"gray.700"}>
                   Analytics accounts
                 </Heading>
-                {accounts?.analyticsAccounts?.map((page) => (
+                {accounts?.analyticsAccounts.map((page) => (
                   <GoogleAnalyticsAccountItem
                     key={page.id}
                     isSelected={page.id === selectedPage?.id}
@@ -74,6 +82,13 @@ export const GoogleModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 <Heading mb={"20px"} fontSize={"2xl"} color={"gray.700"}>
                   Ad Accounts
                 </Heading>
+                {accounts?.adAccounts.map((account) => (
+                  <GoogleAdAccountItem
+                    key={account.id}
+                    isSelected={account.id === selectedAdAccount?.id}
+                    accountId={account.id}
+                  />
+                ))}
               </VStack>
             </SimpleGrid>
           )}

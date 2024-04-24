@@ -17,7 +17,11 @@ export interface GetMetaAccounts {
 
 export interface GetGoogleAccounts {
   analyticsAccounts: GoogleAnalyticsAccount[];
+  adAccounts: {
+    id: number;
+  }[];
   selectedAnalyticsAccount: number | undefined;
+  selectedAdAccount: number | undefined;
 }
 
 export interface GoogleAnalyticsAccount {

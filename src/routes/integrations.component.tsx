@@ -20,6 +20,7 @@ import { Facebook } from "#components/Facebook";
 import { FacebookAdAccountItem } from "#components/integrations/FacebookAdAccountItem";
 import { FacebookModal } from "#components/integrations/FacebookModal";
 import { FacebookPageItem } from "#components/integrations/FacebookPageItem";
+import { GoogleAdAccountItem } from "#components/integrations/GoogleAdAccountItem";
 import { GoogleAnalyticsAccountItem } from "#components/integrations/GoogleAnalyticsAccountItem";
 import { GoogleModal } from "#components/integrations/GoogleModal";
 import { useCreateMetaAccessToken } from "#hooks/api/useCreateMetaAccessToken";
@@ -283,6 +284,19 @@ export const component = function Integrations() {
               >
                 Google Ads
               </Box>
+              {isFetchingGoogleIntegration ? (
+                <Center>
+                  <Spinner />
+                </Center>
+              ) : (
+                googleIntegration?.selectedPage && (
+                  <GoogleAdAccountItem
+                    accountId={googleIntegration.selectedPage?.id}
+                    isSelected={true}
+                    hideButton
+                  />
+                )
+              )}
             </Box>
           </SimpleGrid>
         </Box>
