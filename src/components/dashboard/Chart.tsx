@@ -46,6 +46,15 @@ const data = [
     date_start: "2024-02-29",
     date_stop: "2024-02-29",
   },
+  {
+    clicks: "1100",
+    impressions: "50348",
+    spend: "290.02",
+    reach: "41501",
+    cpc: "0.324467",
+    date_start: "2024-02-30",
+    date_stop: "2024-02-30",
+  },
 ].map((dataPoint) => ({
   ...dataPoint,
   spend: parseFloat(dataPoint.spend),
@@ -57,7 +66,7 @@ export const Chart: React.FC<{
   metrics: string[];
   colSpan: number | "auto";
   rowSpan: number | "auto";
-}> = () => {
+}> = ({ colSpan, rowSpan }) => {
   return (
     <GridItem
       p={"25px"}
@@ -67,7 +76,8 @@ export const Chart: React.FC<{
       borderColor={"gray.200"}
       borderWidth={"1px"}
       boxShadow={"md"}
-      colSpan={2}
+      colSpan={colSpan}
+      rowSpan={rowSpan}
     >
       <HStack justifyContent={"center"} mb={"20px"}>
         <Heading fontSize={"lg"} fontWeight={400}>
