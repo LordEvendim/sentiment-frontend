@@ -90,7 +90,7 @@ export const Chart: React.FC<{
           </span>
         </Tooltip>
       </HStack>
-      <Box w={"full"} h={"300px"}>
+      <Box w={"full"} h={"250px"}>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}

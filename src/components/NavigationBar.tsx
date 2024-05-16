@@ -3,6 +3,7 @@ import {
   Button,
   Flex,
   HStack,
+  Link as ChakraLink,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -11,7 +12,7 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { CiSettings } from "react-icons/ci";
 import { LuUser } from "react-icons/lu";
 import { MdOutlineLogout, MdOutlineSupportAgent } from "react-icons/md";
@@ -23,6 +24,7 @@ export const NavigationBar = () => {
   const { userData } = useSession();
   const { isPending, logout } = useLogout();
   const toast = useToast({ position: "top-left" });
+  const router = useRouter();
 
   return (
     <Box
@@ -47,11 +49,11 @@ export const NavigationBar = () => {
         </Box>
         {userData ? (
           <HStack spacing={"25px"}>
-            <Button variant={"ghost"} fontSize={"14px"} fontWeight={"normal"}>
-              <Link to="/integrations" className="[&.active]:font-bold">
+            <Link to="/integrations" className="[&.active]:font-bold">
+              <Button variant={"ghost"} fontSize={"14px"} fontWeight={"normal"}>
                 Integrations
-              </Link>
-            </Button>
+              </Button>
+            </Link>
             <Popover isLazy>
               <PopoverTrigger>
                 <Button
@@ -79,10 +81,11 @@ export const NavigationBar = () => {
                       w={"full"}
                       justifyContent={"start"}
                       fontWeight={"normal"}
+                      onClick={() => router.navigate({ to: "/profile" })}
                     >
                       <LuUser size={"20px"} />
                       <Box ml={"20px"} marginBottom={"2px"}>
-                        <Link to="/profile">Profile</Link>
+                        Profile
                       </Box>
                     </Button>
                     <Button
@@ -96,17 +99,23 @@ export const NavigationBar = () => {
                         Settings
                       </Box>
                     </Button>
-                    <Button
-                      variant={"ghost"}
+                    <ChakraLink
+                      href="https://discord.gg/2D4wYgeq"
                       w={"full"}
-                      justifyContent={"start"}
-                      fontWeight={"normal"}
+                      isExternal
                     >
-                      <MdOutlineSupportAgent size={"20px"} />
-                      <Box ml={"20px"} marginBottom={"2px"}>
-                        Support
-                      </Box>
-                    </Button>
+                      <Button
+                        variant={"ghost"}
+                        w={"full"}
+                        justifyContent={"start"}
+                        fontWeight={"normal"}
+                      >
+                        <MdOutlineSupportAgent size={"20px"} />
+                        <Box ml={"20px"} marginBottom={"2px"}>
+                          Support
+                        </Box>
+                      </Button>
+                    </ChakraLink>
                     <Button
                       variant={"ghost"}
                       w={"full"}

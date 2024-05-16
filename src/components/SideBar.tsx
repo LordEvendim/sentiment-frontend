@@ -53,6 +53,7 @@ export const SideBar = () => {
               to: "/dashboard",
             })
           }
+          isDisabled
         >
           <AiOutlineBarChart size={"18px"} />
           <Box ml={"10px"} mb={"2px"} fontWeight={"normal"} fontSize={"16px"}>
@@ -69,6 +70,7 @@ export const SideBar = () => {
               to: "/product",
             })
           }
+          isDisabled
         >
           <RiHandCoinLine size={"18px"} />
           <Box ml={"10px"} mb={"2px"} fontWeight={"normal"} fontSize={"16px"}>
@@ -85,6 +87,7 @@ export const SideBar = () => {
               to: "/dashboard",
             })
           }
+          isDisabled
         >
           <MdOutlinePersonSearch size={"18px"} />
           <Box ml={"10px"} mb={"2px"} fontWeight={"normal"} fontSize={"16px"}>
@@ -101,6 +104,7 @@ export const SideBar = () => {
               to: "/dashboard",
             })
           }
+          isDisabled
         >
           <MdTrendingUp size={"18px"} />
           <Box ml={"10px"} mb={"2px"} fontWeight={"normal"} fontSize={"16px"}>

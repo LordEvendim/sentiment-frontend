@@ -54,7 +54,7 @@ export const component = function Dashboard() {
       </Flex>
       <Grid templateColumns="repeat(8, 1fr)" gap={"5px"}>
         <GridItem
-          p={"30px"}
+          p={"15px"}
           background={"white"}
           borderRadius={"10px"}
           borderColor={"gray.200"}
@@ -115,7 +115,7 @@ export const component = function Dashboard() {
           source="meta-insights"
           name="Page impressions"
           unitSymbol=""
-          key={"impressions"}
+          key={"page-impressions"}
           colSpan={1}
           rowSpan={1}
         />
@@ -143,11 +143,11 @@ export const component = function Dashboard() {
         />
         <Chart
           colSpan={3}
-          rowSpan={3}
+          rowSpan={2}
           metrics={["activeUsers"]}
           key={"chart:activeUsers"}
         />
-        <PageViewReport isFetching={isFetching} colSpan={2} rowSpan={3} />
+        <PageViewReport isFetching={isFetching} colSpan={2} rowSpan={2} />
         <TopRunningCampgains isFetching={isFetching} colSpan={5} rowSpan={3} />
       </Grid>
     </Box>
