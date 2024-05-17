@@ -43,7 +43,17 @@ export const NamedMetric: React.FC<{
   source,
 }) => {
   const metrics = useMemo(
-    () => data?.filter((value) => value.metricId === metricId),
+    () =>
+      data?.filter(
+        (value) => value.metricId === metricId && value.display === "metric"
+      ) as
+        | {
+            display: "metric";
+            metricId: string;
+            source: ReportMetricSource;
+            value: number;
+          }[]
+        | undefined,
     [data, metricId]
   );
   const value = useMemo(

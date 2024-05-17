@@ -16,9 +16,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { IoInformationCircleOutline } from "react-icons/io5";
-import { MdMergeType } from "react-icons/md";
 
-import GoogleLogo from "#assets/integrations/google.png";
 import MetaLogo from "#assets/integrations/meta.png";
 
 export const TopRunningCampgains: React.FC<{
@@ -44,7 +42,7 @@ export const TopRunningCampgains: React.FC<{
       <HStack justifyContent={"center"} mb={"15px"}>
         <Tooltip label="Metric combined from a few data sources" p={"10px"}>
           <span>
-            <MdMergeType size={"20px"} />
+            <Image src={MetaLogo} height={"20px"} />
           </span>
         </Tooltip>
         <Heading fontSize={"lg"} fontWeight={400}>
@@ -72,22 +70,6 @@ export const TopRunningCampgains: React.FC<{
                 </Tr>
               </Thead>
               <Tbody>
-                <Tr>
-                  <Td>
-                    <Image src={GoogleLogo} height={"20px"} ml={"15px"} />
-                  </Td>
-                  <Td>Campgain 1</Td>
-                  <Td isNumeric>10302</Td>
-                  <Td isNumeric>$250.42</Td>
-                </Tr>
-                <Tr>
-                  <Td>
-                    <Image src={GoogleLogo} height={"20px"} ml={"15px"} />
-                  </Td>
-                  <Td>Campgain 2</Td>
-                  <Td isNumeric>2302</Td>
-                  <Td isNumeric>$150.42</Td>
-                </Tr>
                 <Tr>
                   <Td>
                     <Image src={MetaLogo} height={"20px"} ml={"15px"} />

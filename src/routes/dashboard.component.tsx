@@ -1,28 +1,16 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  GridItem,
-  Heading,
-  HStack,
-  Spacer,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Flex, Grid, HStack, Spacer, Text } from "@chakra-ui/react";
 import { IoCalendarClearOutline } from "react-icons/io5";
 
 import { Chart } from "#components/dashboard/Chart";
 import { NamedMetric } from "#components/dashboard/NamedMetric";
-import { PageViewReport } from "#components/dashboard/PageViewReport";
+import { Report } from "#components/dashboard/Report";
 import { TopRunningCampgains } from "#components/dashboard/TopRunningCampgains";
-import { useGenerateReport } from "#hooks/api/useGenerateReport";
 import { useGetGeneralDashboardData } from "#hooks/api/useGetGeneralDashboardData";
-import { useGetReport } from "#hooks/api/useGetReport";
 
 export const component = function Dashboard() {
   const { data: dashbaordData, isFetching } = useGetGeneralDashboardData();
-  const { generateReport, isPending: isGeneratingReport } = useGenerateReport();
-  const { report } = useGetReport();
+
+  console.log(dashbaordData);
 
   return (
     <Box w={"full"} h={"full"} p={"15px"} className="polka_background">
@@ -53,41 +41,7 @@ export const component = function Dashboard() {
         </HStack>
       </Flex>
       <Grid templateColumns="repeat(8, 1fr)" gap={"5px"}>
-        <GridItem
-          p={"15px"}
-          background={"white"}
-          borderRadius={"10px"}
-          borderColor={"gray.200"}
-          borderWidth={"1px"}
-          boxShadow={"md"}
-          colSpan={3}
-          rowSpan={6}
-          alignSelf={"stretch"}
-        >
-          <HStack mb={"20px"}>
-            <Heading fontSize={"2xl"}>Weekly report</Heading>
-            <Spacer />
-            <Button
-              background={"blue.400"}
-              color={"white"}
-              shadow={"md"}
-              onClick={() => generateReport()}
-              isLoading={isGeneratingReport}
-            >
-              Generate
-            </Button>
-          </HStack>
-          <Box>
-            {report?.split("\n").map((part) => (
-              <Box
-                mt={"2px"}
-                fontWeight={part.includes("**") ? "bold" : "normal"}
-              >
-                {part.replaceAll("**", "").replaceAll("*", "-")}
-              </Box>
-            ))}
-          </Box>
-        </GridItem>
+        <Report colSpan={3} rowSpan={6} />
         <NamedMetric
           data={dashbaordData}
           isFetching={isFetching}
@@ -142,12 +96,13 @@ export const component = function Dashboard() {
           rowSpan={1}
         />
         <Chart
-          colSpan={3}
+          colSpan={5}
           rowSpan={2}
-          metrics={["activeUsers"]}
-          key={"chart:activeUsers"}
+          metrics={["spend"]}
+          key={"chart:spend"}
+          data={dashbaordData}
         />
-        <PageViewReport isFetching={isFetching} colSpan={2} rowSpan={2} />
+        {/* <PageViewReport isFetching={isFetching} colSpan={2} rowSpan={2} /> */}
         <TopRunningCampgains isFetching={isFetching} colSpan={5} rowSpan={3} />
       </Grid>
     </Box>
