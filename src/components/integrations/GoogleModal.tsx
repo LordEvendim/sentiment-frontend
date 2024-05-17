@@ -119,7 +119,6 @@ export const GoogleModal: React.FC<Props> = ({ isOpen, onClose }) => {
                           <GoogleAnalyticsAccountItem
                             key={account.id}
                             isSelected={account.id === selectedPage?.id}
-                            parentAccountName={account.parentAccountName}
                             name={account.name}
                             pageId={account.id}
                             inGroup

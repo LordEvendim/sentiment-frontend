@@ -14,10 +14,10 @@ interface Props {
   pageId: number;
   isSelected: boolean;
   name: string;
-  parentAccountName: string;
   picture?: string;
   hideButton?: boolean;
   inGroup?: boolean;
+  parentAccountName?: string;
 }
 
 export const GoogleAnalyticsAccountItem: React.FC<Props> = ({
@@ -26,6 +26,7 @@ export const GoogleAnalyticsAccountItem: React.FC<Props> = ({
   name,
   hideButton,
   inGroup,
+  parentAccountName,
 }) => {
   const { userData } = useSession();
   const { selectPage } = useSelectGoogleAccount();
@@ -58,6 +59,9 @@ export const GoogleAnalyticsAccountItem: React.FC<Props> = ({
         borderRadius={"5px"}
       ></Box>
       <VStack spacing={"0px"} alignItems={"start"}>
+        <Box fontSize={"small"} color={"gray.500"}>
+          {parentAccountName}
+        </Box>
         <Box>{name}</Box>
       </VStack>
       <Spacer />

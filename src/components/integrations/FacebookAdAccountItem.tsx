@@ -15,6 +15,7 @@ interface Props {
   isSelected: boolean;
   hideButton?: boolean;
   inGroup?: boolean;
+  parentAccountName?: string;
 }
 
 export const FacebookAdAccountItem: React.FC<Props> = ({
@@ -22,6 +23,7 @@ export const FacebookAdAccountItem: React.FC<Props> = ({
   isSelected,
   hideButton,
   inGroup,
+  parentAccountName,
 }) => {
   const { userData } = useSession();
   const { selectAdAccount } = useSelectMetaAdAccount();
@@ -54,6 +56,9 @@ export const FacebookAdAccountItem: React.FC<Props> = ({
         borderRadius={"5px"}
       ></Box>
       <VStack spacing={"0px"} alignItems={"start"}>
+        <Box fontSize={"small"} color={"gray.500"}>
+          {parentAccountName}
+        </Box>
         <Box>{adAccountId}</Box>
       </VStack>
       <Spacer />
