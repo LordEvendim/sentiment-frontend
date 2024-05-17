@@ -13,7 +13,6 @@ import { useSession } from "#hooks/api/useSession";
 interface Props {
   adAccountId: number;
   isSelected: boolean;
-  parentAccountName: string;
   hideButton?: boolean;
   inGroup?: boolean;
 }
@@ -22,7 +21,6 @@ export const FacebookAdAccountItem: React.FC<Props> = ({
   adAccountId,
   isSelected,
   hideButton,
-  parentAccountName,
   inGroup,
 }) => {
   const { userData } = useSession();
@@ -56,9 +54,6 @@ export const FacebookAdAccountItem: React.FC<Props> = ({
         borderRadius={"5px"}
       ></Box>
       <VStack spacing={"0px"} alignItems={"start"}>
-        <Box fontSize={"small"} color={"gray.500"}>
-          {parentAccountName}
-        </Box>
         <Box>{adAccountId}</Box>
       </VStack>
       <Spacer />

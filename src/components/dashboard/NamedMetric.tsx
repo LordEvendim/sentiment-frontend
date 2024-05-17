@@ -96,7 +96,7 @@ export const NamedMetric: React.FC<{
         ) : (
           <Image src={dataSourcesLogos[source!]} height={"20px"} />
         )}
-        <Heading fontSize={"lg"} fontWeight={400}>
+        <Heading fontSize={"16px"} fontWeight={400}>
           {name}
         </Heading>
         <Spacer />
@@ -107,12 +107,16 @@ export const NamedMetric: React.FC<{
         </Tooltip>
       </HStack>
       <Spacer />
-      <HStack fontSize={"2xl"} fontWeight={"normal"} alignItems={"baseline"}>
+      <HStack fontSize={"xl"} fontWeight={"normal"} alignItems={"baseline"}>
         {isFetching ? (
           <Spinner size={"sm"} />
         ) : (
           <>
-            <Box>{Number.isInteger(value) ? value : value.toFixed(2)}</Box>
+            <Box>
+              {(Number.isInteger(value) ? value : value.toFixed(2))
+                .toLocaleString("en")
+                .replaceAll(",", " ")}
+            </Box>
             <Box fontSize={"small"} color={"gray.700"}>
               {unitSymbol ?? ""}
             </Box>

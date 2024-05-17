@@ -129,7 +129,6 @@ export const FacebookModal: React.FC<Props> = ({ isOpen, onClose }) => {
                           <FacebookAdAccountItem
                             key={account.id}
                             isSelected={account.id === selectedAdAccount?.id}
-                            parentAccountName={account.parentAccountName}
                             adAccountId={account.id}
                             inGroup
                           />
