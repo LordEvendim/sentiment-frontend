@@ -80,7 +80,7 @@ export const Chart: React.FC<{
       <Box w={"full"} h={"250px"}>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
-            data={transformedChartData?.[0].values ?? []}
+            data={transformedChartData?.[0]?.values ?? []}
             margin={{
               top: 20,
               right: 30,
