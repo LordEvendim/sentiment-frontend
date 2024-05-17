@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useMemo } from "react";
 
+import { GoogleAnalyticsAccount } from "#hooks/api/types/accounts";
 import { useGetUserGoogleAccounts } from "#hooks/api/useGetUserGoogleAccounts";
 
 import { GoogleAdAccountItem } from "./GoogleAdAccountItem";
@@ -41,6 +42,33 @@ export const GoogleModal: React.FC<Props> = ({ isOpen, onClose }) => {
       ),
     [accounts]
   );
+  const groupedAnalyticsAccounts = useMemo(() => {
+    const parentAccounts = new Map<string, GoogleAnalyticsAccount[]>();
+
+    if (!accounts || !accounts.analyticsAccounts) return [];
+
+    for (let i = 0; i < accounts.analyticsAccounts.length; i++) {
+      const parentAccountName = accounts.analyticsAccounts[i].parentAccountName;
+
+      parentAccounts.set(parentAccountName, [
+        ...(parentAccounts.get(parentAccountName) ?? []),
+        accounts.analyticsAccounts[i],
+      ]);
+    }
+
+    const result: {
+      groupAccountName: string;
+      accounts: GoogleAnalyticsAccount[];
+    }[] = [];
+    for (const [key, value] of parentAccounts.entries()) {
+      result.push({
+        groupAccountName: key,
+        accounts: value,
+      });
+    }
+
+    return result;
+  }, [accounts]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"4xl"}>
@@ -65,21 +93,45 @@ export const GoogleModal: React.FC<Props> = ({ isOpen, onClose }) => {
           ) : (
             <SimpleGrid columns={2} spacing={10}>
               <VStack spacing={"10px"} alignItems={"start"}>
-                <Heading mb={"20px"} fontSize={"2xl"} color={"gray.700"}>
+                <Heading mb={"5px"} fontSize={"2xl"} color={"gray.700"}>
                   Analytics accounts
                 </Heading>
-                {accounts?.analyticsAccounts.map((page) => (
-                  <GoogleAnalyticsAccountItem
-                    key={page.id}
-                    isSelected={page.id === selectedPage?.id}
-                    parentAccountName={page.parentAccountName}
-                    name={page.name}
-                    pageId={page.id}
-                  />
+                {groupedAnalyticsAccounts.map((group) => (
+                  <Box w={"full"} mb={"10px"}>
+                    <Box
+                      fontSize={"small"}
+                      color={"gray.500"}
+                      ml={"15px"}
+                      mb={"5px"}
+                    >
+                      {group.groupAccountName}
+                    </Box>
+                    <VStack
+                      borderColor={"gray.300"}
+                      borderWidth={"1px"}
+                      borderRadius={"10px"}
+                      boxShadow={"md"}
+                      spacing={"5px"}
+                      w={"full"}
+                    >
+                      {group.accounts.map((account) => (
+                        <>
+                          <GoogleAnalyticsAccountItem
+                            key={account.id}
+                            isSelected={account.id === selectedPage?.id}
+                            parentAccountName={account.parentAccountName}
+                            name={account.name}
+                            pageId={account.id}
+                            inGroup
+                          />
+                        </>
+                      ))}
+                    </VStack>
+                  </Box>
                 ))}
               </VStack>
               <VStack spacing={"10px"} alignItems={"start"}>
-                <Heading mb={"20px"} fontSize={"2xl"} color={"gray.700"}>
+                <Heading mb={"30px"} fontSize={"2xl"} color={"gray.700"}>
                   Ad Accounts
                 </Heading>
                 {accounts?.adAccounts.map((account) => (

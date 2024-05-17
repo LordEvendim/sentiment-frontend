@@ -107,12 +107,12 @@ export const NamedMetric: React.FC<{
         </Tooltip>
       </HStack>
       <Spacer />
-      <HStack fontSize={"2xl"} fontWeight={"extrabold"} alignItems={"baseline"}>
+      <HStack fontSize={"2xl"} fontWeight={"normal"} alignItems={"baseline"}>
         {isFetching ? (
           <Spinner size={"sm"} />
         ) : (
           <>
-            <Box>{value.toString()}</Box>
+            <Box>{Number.isInteger(value) ? value : value.toFixed(2)}</Box>
             <Box fontSize={"small"} color={"gray.700"}>
               {unitSymbol ?? ""}
             </Box>

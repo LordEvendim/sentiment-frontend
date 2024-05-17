@@ -62,7 +62,7 @@ export const NavigationBar = () => {
                   minWidth={"10px"}
                 >
                   <HStack spacing={"20px"}>
-                    <Box>{userData.fullName}</Box>
+                    <Box fontWeight={"normal"}>{userData.fullName}</Box>
                     <Box
                       w={"25px"}
                       h={"25px"}

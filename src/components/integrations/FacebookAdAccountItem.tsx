@@ -15,6 +15,7 @@ interface Props {
   isSelected: boolean;
   parentAccountName: string;
   hideButton?: boolean;
+  inGroup?: boolean;
 }
 
 export const FacebookAdAccountItem: React.FC<Props> = ({
@@ -22,6 +23,7 @@ export const FacebookAdAccountItem: React.FC<Props> = ({
   isSelected,
   hideButton,
   parentAccountName,
+  inGroup,
 }) => {
   const { userData } = useSession();
   const { selectAdAccount } = useSelectMetaAdAccount();
@@ -29,14 +31,23 @@ export const FacebookAdAccountItem: React.FC<Props> = ({
 
   return (
     <HStack
-      borderColor={"gray.300"}
-      borderWidth={"1px"}
       padding={"10px"}
       borderRadius={"10px"}
-      boxShadow={"md"}
-      spacing={"15px"}
       w={"full"}
       h={"70px"}
+      _hover={
+        inGroup
+          ? {
+              background: "gray.50",
+              transitionDuration: "200ms",
+              transitionTimingFunction: "ease-in-out",
+            }
+          : {}
+      }
+      boxShadow={inGroup ? "none" : "md"}
+      borderColor={inGroup ? "none" : "gray.300"}
+      borderWidth={inGroup ? "0px" : "1px"}
+      spacing={"15px"}
     >
       <Box
         h={"50px"}
@@ -53,7 +64,11 @@ export const FacebookAdAccountItem: React.FC<Props> = ({
       <Spacer />
       {!hideButton &&
         (isSelected ? (
-          <Button variant={"outline"} borderColor={"gray.300"}>
+          <Button
+            variant={"outline"}
+            borderColor={"gray.300"}
+            cursor={"default"}
+          >
             Using
           </Button>
         ) : (

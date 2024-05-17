@@ -5,14 +5,14 @@ export interface GetMetaAccounts {
         id: number;
       }[]
     | undefined;
-  adAccounts:
-    | {
-        id: number;
-        parentAccountName: string;
-      }[]
-    | undefined;
+  adAccounts: MetaAdAccount[] | undefined;
   selectedPage: number | undefined;
   selectedAdAccount: number | undefined;
+}
+
+export interface MetaAdAccount {
+  id: number;
+  parentAccountName: string;
 }
 
 export interface GetGoogleAccounts {

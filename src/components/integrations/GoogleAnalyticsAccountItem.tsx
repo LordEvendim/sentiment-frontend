@@ -17,14 +17,15 @@ interface Props {
   parentAccountName: string;
   picture?: string;
   hideButton?: boolean;
+  inGroup?: boolean;
 }
 
 export const GoogleAnalyticsAccountItem: React.FC<Props> = ({
   pageId,
   isSelected,
   name,
-  parentAccountName,
   hideButton,
+  inGroup,
 }) => {
   const { userData } = useSession();
   const { selectPage } = useSelectGoogleAccount();
@@ -32,14 +33,23 @@ export const GoogleAnalyticsAccountItem: React.FC<Props> = ({
 
   return (
     <HStack
-      borderColor={"gray.300"}
-      borderWidth={"1px"}
       padding={"10px"}
       borderRadius={"10px"}
-      boxShadow={"md"}
-      spacing={"15px"}
       w={"full"}
       h={"70px"}
+      _hover={
+        inGroup
+          ? {
+              background: "gray.50",
+              transitionDuration: "200ms",
+              transitionTimingFunction: "ease-in-out",
+            }
+          : {}
+      }
+      boxShadow={inGroup ? "none" : "md"}
+      borderColor={inGroup ? "none" : "gray.300"}
+      borderWidth={inGroup ? "0px" : "1px"}
+      spacing={"15px"}
     >
       <Box
         h={"50px"}
@@ -48,15 +58,16 @@ export const GoogleAnalyticsAccountItem: React.FC<Props> = ({
         borderRadius={"5px"}
       ></Box>
       <VStack spacing={"0px"} alignItems={"start"}>
-        <Box fontSize={"small"} color={"gray.500"}>
-          {parentAccountName}
-        </Box>
         <Box>{name}</Box>
       </VStack>
       <Spacer />
       {!hideButton &&
         (isSelected ? (
-          <Button variant={"outline"} borderColor={"gray.300"}>
+          <Button
+            variant={"outline"}
+            borderColor={"gray.300"}
+            cursor={"default"}
+          >
             Using
           </Button>
         ) : (
