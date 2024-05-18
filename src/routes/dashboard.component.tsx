@@ -40,7 +40,7 @@ export const component = function Dashboard() {
           <IoCalendarClearOutline />
         </HStack>
       </Flex>
-      <Grid templateColumns="repeat(8, 1fr)" gap={"5px"}>
+      <Grid templateColumns="repeat(8, 1fr)" gap={"5px"} gridAutoRows={"120px"}>
         <Report colSpan={3} rowSpan={6} />
         <NamedMetric
           data={dashbaordData}
@@ -97,13 +97,13 @@ export const component = function Dashboard() {
         />
         <Chart
           colSpan={5}
-          rowSpan={2}
+          rowSpan={3}
           metrics={["spend"]}
           key={"chart:spend"}
           data={dashbaordData}
         />
         {/* <PageViewReport isFetching={isFetching} colSpan={2} rowSpan={2} /> */}
-        <TopRunningCampgains isFetching={isFetching} colSpan={5} rowSpan={3} />
+        <TopRunningCampgains isFetching={isFetching} colSpan={5} rowSpan={2} />
       </Grid>
     </Box>
   );

@@ -4,7 +4,7 @@ import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 
 const generateReport = async () => {
-  const result = await axiosMainServer.post<Report>("/reporter/page-weekly");
+  const result = await axiosMainServer.post<Report>("/reporter/general/weekly");
 
   console.log(JSON.stringify(result));
 

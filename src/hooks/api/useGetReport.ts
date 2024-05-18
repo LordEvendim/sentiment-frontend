@@ -7,7 +7,7 @@ import { Report } from "./types/report";
 import { useGetMetaIntegration } from "./useGetMetaIntegration";
 
 const fetchReport = async () => {
-  const result = await axiosMainServer.get<Report>("/reporter/page-weekly");
+  const result = await axiosMainServer.get<Report>("/reporter/general/weekly");
 
   return result.data;
 };
