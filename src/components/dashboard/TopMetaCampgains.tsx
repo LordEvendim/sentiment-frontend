@@ -18,12 +18,16 @@ import {
 import { IoInformationCircleOutline } from "react-icons/io5";
 
 import MetaLogo from "#assets/integrations/meta.png";
+import { useGetTopMetaCampaigns } from "#hooks/api/useGetTopMetaCampaigns";
 
-export const TopRunningCampgains: React.FC<{
+export const TopMetaCampgains: React.FC<{
   isFetching: boolean;
   colSpan: number | "auto";
   rowSpan: number | "auto";
 }> = ({ isFetching, colSpan = "auto", rowSpan = "auto" }) => {
+  const { isFetching: isFetchingCampaigns, campaigns } =
+    useGetTopMetaCampaigns();
+
   return (
     <GridItem
       p={"15px"}
@@ -49,43 +53,52 @@ export const TopRunningCampgains: React.FC<{
           Top campgains
         </Heading>
         <Spacer />
-        <Tooltip label={"Page view description"} p={"10px"}>
+        <Tooltip label={"Top campaigns"} p={"10px"}>
           <span>
             <IoInformationCircleOutline size={"20px"} />
           </span>
         </Tooltip>
       </HStack>
       <VStack alignItems={"baseline"}>
-        {isFetching ? (
+        {isFetching || isFetchingCampaigns ? (
           <Spinner size={"sm"} />
         ) : (
           <TableContainer w={"full"}>
             <Table variant="simple">
               <Thead>
                 <Tr>
-                  <Th>source</Th>
                   <Th>name</Th>
-                  <Th isNumeric>impressions</Th>
+                  <Th isNumeric>clikcs</Th>
                   <Th isNumeric>spend</Th>
+                  <Th isNumeric>impressions</Th>
+                  <Th isNumeric>Cost per link click</Th>
+                  <Th isNumeric>reach</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                <Tr>
-                  <Td>
-                    <Image src={MetaLogo} height={"20px"} ml={"15px"} />
-                  </Td>
-                  <Td>Campgain 3</Td>
-                  <Td isNumeric>302</Td>
-                  <Td isNumeric>$25.42</Td>
-                </Tr>
-                <Tr>
-                  <Td>
-                    <Image src={MetaLogo} height={"20px"} ml={"15px"} />
-                  </Td>
-                  <Td>Campgain 4</Td>
-                  <Td isNumeric>20</Td>
-                  <Td isNumeric>$2.42</Td>
-                </Tr>
+                {campaigns?.map((campaign) => (
+                  <Tr>
+                    {/* <Td>
+                      <Image src={MetaLogo} height={"20px"} ml={"15px"} />
+                    </Td> */}
+                    <Td
+                      maxWidth={"300px"}
+                      wordBreak={"break-word"}
+                      overflow={"hidden"}
+                    >
+                      <Tooltip label={campaign.name} p={"10px"}>
+                        {campaign.name}
+                      </Tooltip>
+                    </Td>
+                    <Td isNumeric>{campaign.clicks}</Td>
+                    <Td isNumeric>${campaign.spend.toFixed(2)}</Td>
+                    <Td isNumeric>{campaign.impressions}</Td>
+                    <Td isNumeric>
+                      ${campaign.cost_per_unique_inline_link_click.toFixed(2)}
+                    </Td>
+                    <Td isNumeric>{campaign.reach}</Td>
+                  </Tr>
+                ))}
               </Tbody>
             </Table>
           </TableContainer>

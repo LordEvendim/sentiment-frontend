@@ -27,7 +27,8 @@ export const Chart: React.FC<{
   data: ReportData | undefined;
   colSpan: number | "auto";
   rowSpan: number | "auto";
-}> = ({ colSpan, rowSpan, metrics, data }) => {
+  label?: string;
+}> = ({ colSpan, rowSpan, metrics, data, label }) => {
   const chartData = useMemo(
     () =>
       data?.filter(
@@ -71,7 +72,7 @@ export const Chart: React.FC<{
           Ad spend
         </Heading>
         <Spacer />
-        <Tooltip label={"Your ads impressions over time"} p={"10px"}>
+        <Tooltip label={label} p={"10px"}>
           <span>
             <IoInformationCircleOutline size={"20px"} />
           </span>

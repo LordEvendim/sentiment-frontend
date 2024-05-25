@@ -11,4 +11,5 @@ export enum QueryKey {
   MetaIntegration = "meta-integration",
   GoogleAccounts = "google-accounts",
   DashboardData = "dashboard-data",
+  TopMetaCampaigns = "top-meta-campaigns",
 }
