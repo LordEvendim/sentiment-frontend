@@ -36,6 +36,8 @@ export const useSelectGoogleAccount = () => {
               }
             : oldData
       );
+
+      queryClient.invalidateQueries({ queryKey: [QueryKey.GoogleIntegration] });
     },
   });
 

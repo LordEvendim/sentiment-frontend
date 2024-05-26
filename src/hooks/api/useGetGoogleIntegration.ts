@@ -3,13 +3,15 @@ import { useQuery } from "@tanstack/react-query";
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 
-import { GoogleAnalyticsAccount } from "./types/accounts";
+import { GoogleAdAccount, GoogleAnalyticsAccount } from "./types/accounts";
 import { useSession } from "./useSession";
 
-interface GoogleIntegration {
+export interface GoogleIntegration {
+  id: number;
   ownerId: number;
   selectedPage: GoogleAnalyticsAccount | null;
-  accessToken: string;
+  selectedAdAccount: GoogleAdAccount | null;
+  accessToken: string | null;
 }
 
 const fetchGoogleIntegration = async () => {

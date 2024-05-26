@@ -289,9 +289,9 @@ export const component = function Integrations() {
                   <Spinner />
                 </Center>
               ) : (
-                googleIntegration?.selectedPage && (
+                googleIntegration?.selectedAdAccount && (
                   <GoogleAdAccountItem
-                    accountId={googleIntegration.selectedPage?.id}
+                    accountId={googleIntegration.selectedAdAccount?.id}
                     isSelected={true}
                     hideButton
                   />

@@ -36,6 +36,8 @@ export const useSelectMetaPage = () => {
               }
             : oldData
       );
+
+      queryClient.invalidateQueries({ queryKey: [QueryKey.MetaIntegration] });
     },
   });
 

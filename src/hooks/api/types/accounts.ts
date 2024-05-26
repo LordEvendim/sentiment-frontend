@@ -29,3 +29,7 @@ export interface GoogleAnalyticsAccount {
   name: string;
   parentAccountName: string;
 }
+
+export interface GoogleAdAccount {
+  id: number;
+}

@@ -36,6 +36,8 @@ export const useSelectMetaAdAccount = () => {
               }
             : oldData
       );
+
+      queryClient.invalidateQueries({ queryKey: [QueryKey.MetaIntegration] });
     },
   });
 
