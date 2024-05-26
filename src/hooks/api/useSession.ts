@@ -3,10 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 
-import { UserData } from "./types/session";
+import { UserSession } from "./types/session";
 
 const fetchSession = async () => {
-  const result = await axiosMainServer.get<UserData | undefined>("/auth/");
+  const result = await axiosMainServer.get<UserSession | undefined>("/auth/");
 
   return result.data;
 };

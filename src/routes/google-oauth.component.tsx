@@ -1,4 +1,4 @@
-import { Box, Center, Spinner, useToast } from "@chakra-ui/react";
+import { Box, Center, Spinner } from "@chakra-ui/react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
 
@@ -12,7 +12,6 @@ export const component = function GoogleOAuth() {
   const { createGoogleAccessToken: setGoogleAccessToken, isPending } =
     useCreateGoogleAccessToken();
   const navigate = useNavigate();
-  const toast = useToast();
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -27,33 +26,9 @@ export const component = function GoogleOAuth() {
     if (isPending || initialized.current) return;
     if (!initialized.current) initialized.current = true;
 
-    setGoogleAccessToken(
-      {
-        code: code as string,
-      },
-      {
-        onSuccess: () => {
-          toast({
-            status: "success",
-            title: "Google",
-            description: "Sucessfully integrated with Google",
-          });
-          navigate({
-            to: "/integrations",
-          });
-        },
-        onError: () => {
-          toast({
-            status: "error",
-            title: "Google",
-            description: "Failed to integrate with Google",
-          });
-          navigate({
-            to: "/integrations",
-          });
-        },
-      }
-    );
+    setGoogleAccessToken({
+      code: code as string,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

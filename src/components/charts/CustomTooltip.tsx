@@ -16,7 +16,10 @@ export const CustomTooltip = ({ active, payload, label }: any) => {
         <p className="label">{`${format(label ?? Date.now(), "MMM dd yyyy")}`}</p>
         <div>
           {payload.map((pld: any) => (
-            <div style={{ display: "inline-block", padding: 10 }}>
+            <div
+              key={`${pld.name}: ${pld.value}`}
+              style={{ display: "inline-block", padding: 10 }}
+            >
               <div
                 style={{ color: pld.fill }}
               >{`${pld.name}: ${pld.value}`}</div>

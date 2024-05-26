@@ -4,7 +4,7 @@ import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 import { handleAxiosError } from "#utils/error";
 
-import { UserData } from "./types/session";
+import { UserSession } from "./types/session";
 
 interface FetchParams {
   username: string;
@@ -30,7 +30,7 @@ export const useLogin = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      queryClient.setQueryData<UserData>([QueryKey.Session], () => data);
+      queryClient.setQueryData<UserSession>([QueryKey.Session], () => data);
     },
   });
 

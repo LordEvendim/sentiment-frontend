@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Center,
+  Divider,
   GridItem,
   HStack,
   Spacer,
@@ -11,6 +12,7 @@ import { format, subDays } from "date-fns";
 import ReactMarkdown from "react-markdown";
 
 import { useGenerateReport } from "#hooks/api/useGenerateReport";
+import { useGetCredits } from "#hooks/api/useGetCredits";
 import { useGetReport } from "#hooks/api/useGetReport";
 
 export const Report: React.FC<{
@@ -19,7 +21,10 @@ export const Report: React.FC<{
 }> = ({ colSpan, rowSpan }) => {
   const { report } = useGetReport();
   const { generateReport, isPending } = useGenerateReport();
+  const { isFetching: isLodingCredits, credits: creditsData } = useGetCredits();
   const toast = useToast();
+
+  const credits = creditsData?.value;
 
   const handleGenerateReport = () => {
     generateReport(undefined, {
@@ -76,8 +81,9 @@ export const Report: React.FC<{
               <Button
                 height={"35px"}
                 fontSize={"small"}
-                isLoading={isPending}
+                isLoading={isPending || isLodingCredits}
                 onClick={() => handleGenerateReport()}
+                isDisabled={credits === undefined || credits === 0}
               >
                 Generate
               </Button>
@@ -85,14 +91,23 @@ export const Report: React.FC<{
                 position={"absolute"}
                 fontWeight={"bold"}
                 fontSize={"x-small"}
-                color={"gray.600"}
+                color={
+                  credits !== undefined && credits > 0 ? "gray.500" : "gray.300"
+                }
                 bottom={"-15px"}
                 left={"30px"}
               >
-                {"10 left"}
+                {`${credits ?? 0} left`}
               </Box>
             </Box>
           </HStack>
+          <Divider
+            mt={"25px"}
+            mb={"15px"}
+            w={"90%"}
+            mx={"auto"}
+            borderColor={"gray.300"}
+          />
           <Box fontSize={"sm"}>
             <ReactMarkdown>{report?.data}</ReactMarkdown>
           </Box>

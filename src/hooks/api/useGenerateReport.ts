@@ -16,6 +16,13 @@ export const useGenerateReport = () => {
     mutationFn: generateReport,
     onSuccess: (report) => {
       queryClient.setQueryData<Report>([QueryKey.Report], () => report);
+      queryClient.setQueryData<{ value: number | undefined }>(
+        [QueryKey.Credits],
+        (credits) =>
+          credits === undefined || credits?.value === undefined
+            ? undefined
+            : { value: credits.value - 1 }
+      );
     },
   });
 
