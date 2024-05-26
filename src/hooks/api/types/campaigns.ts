@@ -1,4 +1,5 @@
 export interface TopMetaCampaign {
+  id: string;
   name: string;
   clicks: number;
   cost_per_unique_inline_link_click: number;

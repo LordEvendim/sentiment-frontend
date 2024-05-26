@@ -13,7 +13,7 @@ export const CustomTooltip = ({ active, payload, label }: any) => {
         boxShadow={"md"}
         borderRadius={"10px"}
       >
-        <p className="label">{`${format(label, "MMM dd yyyy")}`}</p>
+        <p className="label">{`${format(label ?? Date.now(), "MMM dd yyyy")}`}</p>
         <div>
           {payload.map((pld: any) => (
             <div style={{ display: "inline-block", padding: 10 }}>

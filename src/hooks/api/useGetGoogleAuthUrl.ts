@@ -15,7 +15,7 @@ export const useGetGoogleAuthUrl = () => {
   const { userData } = useSession();
 
   const { data, isFetching } = useQuery({
-    staleTime: 0,
+    staleTime: 1000,
     enabled: Boolean(userData?.id),
     queryKey: [QueryKey.GoogleAuthUrl],
     queryFn: () => fetchUrl(),

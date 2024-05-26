@@ -77,7 +77,7 @@ export const TopMetaCampgains: React.FC<{
               </Thead>
               <Tbody>
                 {campaigns?.map((campaign) => (
-                  <Tr>
+                  <Tr key={campaign.id}>
                     {/* <Td>
                       <Image src={MetaLogo} height={"20px"} ml={"15px"} />
                     </Td> */}
