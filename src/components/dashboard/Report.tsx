@@ -1,6 +1,16 @@
-import { Box, GridItem, Spacer } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  GridItem,
+  HStack,
+  Spacer,
+  useToast,
+} from "@chakra-ui/react";
+import { format, subDays } from "date-fns";
 import ReactMarkdown from "react-markdown";
 
+import { useGenerateReport } from "#hooks/api/useGenerateReport";
 import { useGetReport } from "#hooks/api/useGetReport";
 
 export const Report: React.FC<{
@@ -8,6 +18,27 @@ export const Report: React.FC<{
   rowSpan: number | "auto";
 }> = ({ colSpan, rowSpan }) => {
   const { report } = useGetReport();
+  const { generateReport, isPending } = useGenerateReport();
+  const toast = useToast();
+
+  const handleGenerateReport = () => {
+    generateReport(undefined, {
+      onSuccess: () => {
+        toast({
+          status: "success",
+          title: "Insights",
+          description: "Sucessfully generated ai insights",
+        });
+      },
+      onError: () => {
+        toast({
+          status: "error",
+          title: "Insights",
+          description: "Failed to generate ai insights",
+        });
+      },
+    });
+  };
 
   return (
     <GridItem
@@ -34,22 +65,45 @@ export const Report: React.FC<{
         },
       }}
     >
-      {/* <HStack mb={"20px"}> */}
-      {/* <Heading fontSize={"2xl"}>General Insights</Heading> */}
-      <Spacer />
-      {/* <Button
-          background={"blue.400"}
-          color={"white"}
-          shadow={"md"}
-          onClick={() => generateReport()}
-          isLoading={isGeneratingReport}
-        >
-          Generate
-        </Button> */}
-      {/* </HStack> */}
-      <Box fontSize={"sm"}>
-        <ReactMarkdown>{report}</ReactMarkdown>
-      </Box>
+      {report ? (
+        <>
+          <HStack mb={"20px"}>
+            <Box fontWeight={"bold"} color={"gray.500"}>
+              {`${format(subDays(report.createdAd, report.period), "MM/dd/yyyy")} to ${format(report.createdAd, "MM/dd/yyyy")}`}
+            </Box>
+            <Spacer />
+            <Box position={"relative"}>
+              <Button
+                height={"35px"}
+                fontSize={"small"}
+                isLoading={isPending}
+                onClick={() => handleGenerateReport()}
+              >
+                Generate
+              </Button>
+              <Box
+                position={"absolute"}
+                fontWeight={"bold"}
+                fontSize={"x-small"}
+                color={"gray.600"}
+                bottom={"-15px"}
+                left={"30px"}
+              >
+                {"10 left"}
+              </Box>
+            </Box>
+          </HStack>
+          <Box fontSize={"sm"}>
+            <ReactMarkdown>{report?.data}</ReactMarkdown>
+          </Box>
+        </>
+      ) : (
+        <Center>
+          <Button isLoading={isPending} onClick={() => handleGenerateReport()}>
+            Generate
+          </Button>
+        </Center>
+      )}
     </GridItem>
   );
 };

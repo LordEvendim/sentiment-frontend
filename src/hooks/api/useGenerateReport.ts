@@ -6,8 +6,6 @@ import { QueryKey } from "#config/query";
 const generateReport = async () => {
   const result = await axiosMainServer.post<Report>("/reporter/general/weekly");
 
-  console.log(JSON.stringify(result));
-
   return result.data;
 };
 

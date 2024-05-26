@@ -85,6 +85,7 @@ export const TopMetaCampgains: React.FC<{
                       maxWidth={"300px"}
                       wordBreak={"break-word"}
                       overflow={"hidden"}
+                      fontSize={"small"}
                     >
                       <Tooltip label={campaign.name} p={"10px"}>
                         {campaign.name}

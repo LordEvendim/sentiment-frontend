@@ -6,7 +6,9 @@ import { QueryKey } from "#config/query";
 import { Report } from "./types/report";
 
 const fetchReport = async () => {
-  const result = await axiosMainServer.get<Report>("/reporter/general/weekly");
+  const result = await axiosMainServer.get<Report | undefined>(
+    "/reporter/general/weekly"
+  );
 
   return result.data;
 };
