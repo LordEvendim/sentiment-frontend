@@ -22,6 +22,7 @@ import { FacebookModal } from "#components/integrations/FacebookModal";
 import { FacebookPageItem } from "#components/integrations/FacebookPageItem";
 import { GoogleAdAccountItem } from "#components/integrations/GoogleAdAccountItem";
 import { GoogleAnalyticsAccountItem } from "#components/integrations/GoogleAnalyticsAccountItem";
+import { GoogleLoginButton } from "#components/integrations/GoogleLoginButton";
 import { GoogleModal } from "#components/integrations/GoogleModal";
 import { useCreateMetaAccessToken } from "#hooks/api/useCreateMetaAccessToken";
 import { useGetGoogleAuthUrl } from "#hooks/api/useGetGoogleAuthUrl";
@@ -234,12 +235,10 @@ export const component = function Integrations() {
             </HStack>
             <Spacer />
             <HStack spacing={"10px"}>
-              <Button
-                onClick={() => handleGoogleLogin()}
+              <GoogleLoginButton
                 isLoading={isFetchingGoogleIntegration}
-              >
-                {googleIntegration ? "Reconnect" : "Login"}
-              </Button>
+                onClick={() => handleGoogleLogin()}
+              />
               <Button onClick={onGoogleModalOpen} background={"blue.200"}>
                 Configure
               </Button>
