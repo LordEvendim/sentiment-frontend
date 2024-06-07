@@ -28,6 +28,8 @@
   border-style: solid;
   border-color: var(--chakra-colors-gray-300);
   border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.7);
 }
 
 .react-datepicker__calendar-icon {

@@ -5,8 +5,10 @@ import DatePicker from "react-datepicker";
 import { IoCalendarClearOutline } from "react-icons/io5";
 
 import { Chart } from "#components/dashboard/Chart";
+import { MetaCampaignSummaryMetric } from "#components/dashboard/MetaCampaignSummaryMetric";
 import { NamedMetric } from "#components/dashboard/NamedMetric";
 import { Report } from "#components/dashboard/Report";
+import { TopGoogleCampgains } from "#components/dashboard/TopGoogleCampgains";
 import { TopMetaCampgains } from "#components/dashboard/TopMetaCampgains";
 import { useGetGeneralDashboardData } from "#hooks/api/useGetGeneralDashboardData";
 
@@ -19,9 +21,7 @@ export const component = function Dashboard() {
     new Date(Date.now()),
   ]);
   const [startDate, endDate] = dateRange;
-  const [maxDate, setMaxDate] = useState<Date>(
-    subDays(new Date(Date.now()), 1)
-  );
+  const [maxDate, setMaxDate] = useState<Date>(subDays(Date.now(), 1));
 
   return (
     <Box w={"full"} h={"full"} p={"15px"} className="polka_background">
@@ -67,26 +67,20 @@ export const component = function Dashboard() {
         />
       </Flex>
       <Grid templateColumns="repeat(8, 1fr)" gap={"5px"} gridAutoRows={"120px"}>
-        <Report colSpan={3} rowSpan={6} />
+        <Report colSpan={3} rowSpan={5} />
         <NamedMetric
           data={dashbaordData}
           isFetching={isFetching}
           metricId="spend"
           name="Spend"
           unitSymbol="USD"
-          key={"spend"}
-          colSpan={1}
-          rowSpan={1}
         />
         <NamedMetric
           data={dashbaordData}
           isFetching={isFetching}
           metricId="impressions"
-          name="Impressions"
+          name="Ads Impressions"
           unitSymbol=""
-          key={"impressions"}
-          colSpan={1}
-          rowSpan={1}
         />
         <NamedMetric
           data={dashbaordData}
@@ -95,9 +89,6 @@ export const component = function Dashboard() {
           source="meta-insights"
           name="Page impressions"
           unitSymbol=""
-          key={"page_impressions"}
-          colSpan={1}
-          rowSpan={1}
         />
         <NamedMetric
           data={dashbaordData}
@@ -106,9 +97,6 @@ export const component = function Dashboard() {
           source="google-analytics"
           name="New users"
           unitSymbol=""
-          key={"newUsers"}
-          colSpan={1}
-          rowSpan={1}
         />
         <NamedMetric
           data={dashbaordData}
@@ -117,20 +105,55 @@ export const component = function Dashboard() {
           source="google-analytics"
           name="Active users"
           unitSymbol=""
-          key={"activeUsers"}
-          colSpan={1}
-          rowSpan={1}
         />
         <Chart
-          colSpan={5}
-          rowSpan={3}
           metrics={["spend"]}
-          key={"chart:spend"}
           data={dashbaordData}
           label="Ad spend"
+          colSpan={5}
+          rowSpan={3}
+        />
+        <MetaCampaignSummaryMetric
+          description="Total amount of link clicks"
+          metricId="clicks"
+          name="Link clicks"
+          unitSymbol=""
+        />
+        <NamedMetric
+          data={dashbaordData}
+          isFetching={isFetching}
+          metricId="activeUsers"
+          source="google-ads"
+          name="Ads clicks"
+          unitSymbol=""
+        />
+        <NamedMetric
+          data={dashbaordData}
+          isFetching={isFetching}
+          metricId="cpc"
+          source="meta-ads"
+          name="Average CPC"
+          unitSymbol=""
+        />
+        <NamedMetric
+          data={dashbaordData}
+          isFetching={isFetching}
+          metricId="cpc"
+          source="google-ads"
+          name="Average CPC"
+          unitSymbol=""
+        />
+        <NamedMetric
+          data={dashbaordData}
+          isFetching={isFetching}
+          metricId="sessions"
+          source="google-analytics"
+          name="Website sessions"
+          unitSymbol=""
         />
         {/* <PageViewReport isFetching={isFetching} colSpan={2} rowSpan={2} /> */}
-        <TopMetaCampgains isFetching={isFetching} colSpan={5} rowSpan={2} />
+        <TopMetaCampgains isFetching={isFetching} colSpan={8} rowSpan={3} />
+        <TopGoogleCampgains isFetching={isFetching} colSpan={8} rowSpan={3} />
       </Grid>
     </Box>
   );
