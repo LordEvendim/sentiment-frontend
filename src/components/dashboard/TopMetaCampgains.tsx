@@ -18,16 +18,14 @@ import {
 import { IoInformationCircleOutline } from "react-icons/io5";
 
 import MetaLogo from "#assets/integrations/meta.png";
-import { useGetTopMetaCampaigns } from "#hooks/api/useGetTopMetaCampaigns";
+import { TopMetaCampaign } from "#hooks/api/types/campaigns";
 
 export const TopMetaCampgains: React.FC<{
+  data: TopMetaCampaign[] | undefined;
   isFetching: boolean;
   colSpan: number | "auto";
   rowSpan: number | "auto";
-}> = ({ isFetching, colSpan = "auto", rowSpan = "auto" }) => {
-  const { isFetching: isFetchingCampaigns, campaigns } =
-    useGetTopMetaCampaigns();
-
+}> = ({ isFetching, colSpan = "auto", rowSpan = "auto", data }) => {
   return (
     <GridItem
       p={"15px"}
@@ -60,7 +58,7 @@ export const TopMetaCampgains: React.FC<{
         </Tooltip>
       </HStack>
       <VStack alignItems={"baseline"}>
-        {isFetching || isFetchingCampaigns ? (
+        {isFetching ? (
           <Spinner size={"sm"} />
         ) : (
           <TableContainer w={"full"}>
@@ -76,7 +74,7 @@ export const TopMetaCampgains: React.FC<{
                 </Tr>
               </Thead>
               <Tbody>
-                {campaigns?.map((campaign) => (
+                {data?.map((campaign) => (
                   <Tr key={campaign.id}>
                     {/* <Td>
                       <Image src={MetaLogo} height={"20px"} ml={"15px"} />
