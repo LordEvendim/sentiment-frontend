@@ -135,6 +135,8 @@ export const component = function Dashboard() {
           metricId="clicks"
           name="Link clicks"
           unitSymbol=""
+          data={metaCampaigns}
+          isFetching={isFetchingMetaCampaigns}
         />
         <NamedMetric
           data={dashbaordData}

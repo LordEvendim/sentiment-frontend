@@ -13,11 +13,12 @@ import { IoInformationCircleOutline } from "react-icons/io5";
 
 import MetaLogo from "#assets/integrations/meta.png";
 import { TopMetaCampaign } from "#hooks/api/types/campaigns";
-import { useGetTopMetaCampaigns } from "#hooks/api/useGetTopMetaCampaigns";
 import { ReportMetricSource } from "#types/report";
 
 export const MetaCampaignSummaryMetric: React.FC<{
   name: string;
+  data: TopMetaCampaign[] | undefined;
+  isFetching: boolean;
   description: string;
   metricId: Exclude<
     keyof TopMetaCampaign,
@@ -36,12 +37,12 @@ export const MetaCampaignSummaryMetric: React.FC<{
   colSpan = 1,
   rowSpan = 1,
   toFixed = 2,
+  data,
+  isFetching,
 }) => {
-  const { isFetching, campaigns } = useGetTopMetaCampaigns();
-
   const value = useMemo(
     () =>
-      campaigns?.reduce((accumulator, metric) => {
+      data?.reduce((accumulator, metric) => {
         const inc: number =
           typeof metric[metricId] === "string"
             ? parseInt(metric[metricId] as string)
@@ -49,7 +50,7 @@ export const MetaCampaignSummaryMetric: React.FC<{
 
         return accumulator + inc;
       }, 0) ?? 0,
-    [campaigns, metricId]
+    [data, metricId]
   );
 
   return (
