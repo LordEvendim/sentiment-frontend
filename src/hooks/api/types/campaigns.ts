@@ -6,4 +6,5 @@ export interface TopMetaCampaign {
   impressions: string;
   spend: number;
   reach: string;
+  inline_link_clicks: number;
 }

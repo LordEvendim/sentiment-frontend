@@ -93,7 +93,11 @@ export const TopMetaCampgains: React.FC<{
                     <Td isNumeric>${campaign.spend.toFixed(2)}</Td>
                     <Td isNumeric>{campaign.impressions}</Td>
                     <Td isNumeric>
-                      ${campaign.cost_per_unique_inline_link_click.toFixed(2)}
+                      $
+                      {(campaign.inline_link_clicks === 0
+                        ? 0
+                        : campaign.spend / campaign.inline_link_clicks
+                      ).toFixed(2)}
                     </Td>
                     <Td isNumeric>{campaign.reach}</Td>
                   </Tr>

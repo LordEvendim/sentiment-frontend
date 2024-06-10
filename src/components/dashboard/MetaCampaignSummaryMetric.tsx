@@ -53,6 +53,8 @@ export const MetaCampaignSummaryMetric: React.FC<{
     [data, metricId]
   );
 
+  console.log(data);
+
   return (
     <GridItem
       p={"15px"}

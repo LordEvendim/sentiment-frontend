@@ -15,6 +15,7 @@ import { subDays } from "date-fns";
 import { useState } from "react";
 import { IoCalendarOutline } from "react-icons/io5";
 
+import { AverageMetric } from "#components/dashboard/AverageMetric";
 import { Chart } from "#components/dashboard/Chart";
 import { MetaCampaignSummaryMetric } from "#components/dashboard/MetaCampaignSummaryMetric";
 import { NamedMetric } from "#components/dashboard/NamedMetric";
@@ -132,7 +133,7 @@ export const component = function Dashboard() {
         />
         <MetaCampaignSummaryMetric
           description="Total amount of link clicks"
-          metricId="clicks"
+          metricId="inline_link_clicks"
           name="Link clicks"
           unitSymbol=""
           data={metaCampaigns}
@@ -146,10 +147,11 @@ export const component = function Dashboard() {
           name="Ads clicks"
           unitSymbol=""
         />
-        <NamedMetric
+        <AverageMetric
           data={dashbaordData}
           isFetching={isFetching}
-          metricId="cpc"
+          dividentMetricId="spend"
+          divisorMetricId="clicks"
           source="meta-ads"
           name="Average CPC"
           unitSymbol="USD"
