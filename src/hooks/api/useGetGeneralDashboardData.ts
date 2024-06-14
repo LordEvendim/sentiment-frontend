@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
@@ -13,10 +14,10 @@ const fetchGeneralDashboardData = async (timeframe: DashboardTimeframe) => {
     "/reporter/dashboard/general",
     {
       params: {
-        since: calculateTimeframeStart(
-          new Date(Date.now()),
-          timeframe
-        ).getTime(),
+        since: format(
+          calculateTimeframeStart(new Date(Date.now()), timeframe).getTime(),
+          "yyyyMMdd"
+        ),
       },
     }
   );
