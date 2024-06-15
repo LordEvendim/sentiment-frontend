@@ -1,4 +1,5 @@
 import {
+  Box,
   GridItem,
   Heading,
   HStack,
@@ -9,12 +10,22 @@ import {
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tooltip,
   Tr,
   VStack,
 } from "@chakra-ui/react";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import React from "react";
+import { FaSort, FaSortDown, FaSortUp } from "react-icons/fa";
 import { IoInformationCircleOutline } from "react-icons/io5";
 
 import MetaLogo from "#assets/integrations/meta.png";
@@ -26,6 +37,64 @@ export const TopMetaCampgains: React.FC<{
   colSpan: number | "auto";
   rowSpan: number | "auto";
 }> = ({ isFetching, colSpan = "auto", rowSpan = "auto", data }) => {
+  const columns = React.useMemo<ColumnDef<TopMetaCampaign>[]>(
+    () => [
+      {
+        accessorKey: "name",
+        header: "Name",
+        cell({ cell }) {
+          return (
+            <Text
+              fontSize={"smaller"}
+              fontWeight={"semibold"}
+              color={"gray.600"}
+            >{`${cell.getValue()}`}</Text>
+          );
+        },
+      },
+      {
+        accessorKey: "clicks",
+        header: "Clicks",
+        cell: ({ cell }) =>
+          (cell.getValue() as number).toLocaleString("en").replaceAll(",", " "),
+      },
+      {
+        accessorKey: "spend",
+        header: "Spend",
+        cell({ cell }) {
+          return `$ ${(cell.getValue() as number).toFixed(2)}`;
+        },
+      },
+      {
+        accessorKey: "impressions",
+        header: "Impressions",
+      },
+      {
+        accessorKey: "inline_link_clicks",
+        header: "Cost per link click",
+        cell({ row }) {
+          const inlineLinkClicks = row.getValue("inline_link_clicks") as number;
+          const spend = row.getValue("spend") as number;
+
+          return `$ ${(inlineLinkClicks === 0 ? 0 : spend / inlineLinkClicks).toFixed(2)}`;
+        },
+      },
+      {
+        accessorKey: "reach",
+        header: "Reach",
+      },
+    ],
+    []
+  );
+
+  const table = useReactTable({
+    columns,
+    data: data ?? [],
+    debugTable: true,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+  });
+
   return (
     <GridItem
       p={"15px"}
@@ -64,42 +133,48 @@ export const TopMetaCampgains: React.FC<{
           <TableContainer w={"full"}>
             <Table variant="simple">
               <Thead>
-                <Tr>
-                  <Th>name</Th>
-                  <Th isNumeric>clikcs</Th>
-                  <Th isNumeric>spend</Th>
-                  <Th isNumeric>impressions</Th>
-                  <Th isNumeric>Cost per link click</Th>
-                  <Th isNumeric>reach</Th>
-                </Tr>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <Tr key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <Th key={header.id} colSpan={header.colSpan}>
+                        {header.isPlaceholder ? null : (
+                          <HStack
+                            cursor={
+                              header.column.getCanSort() ? "pointer" : "auto"
+                            }
+                            userSelect={"none"}
+                            onClick={header.column.getToggleSortingHandler()}
+                          >
+                            <Box>
+                              {`${flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )} `}
+                            </Box>
+                            {{
+                              asc: <FaSortUp />,
+                              desc: <FaSortDown />,
+                            }[header.column.getIsSorted() as string] ?? (
+                              <FaSort />
+                            )}
+                          </HStack>
+                        )}
+                      </Th>
+                    ))}
+                  </Tr>
+                ))}
               </Thead>
               <Tbody>
-                {data?.map((campaign) => (
-                  <Tr key={campaign.id}>
-                    {/* <Td>
-                      <Image src={MetaLogo} height={"20px"} ml={"15px"} />
-                    </Td> */}
-                    <Td
-                      maxWidth={"300px"}
-                      wordBreak={"break-word"}
-                      overflow={"hidden"}
-                      fontSize={"small"}
-                    >
-                      <Tooltip label={campaign.name} p={"10px"}>
-                        {campaign.name}
-                      </Tooltip>
-                    </Td>
-                    <Td isNumeric>{campaign.clicks}</Td>
-                    <Td isNumeric>${campaign.spend.toFixed(2)}</Td>
-                    <Td isNumeric>{campaign.impressions}</Td>
-                    <Td isNumeric>
-                      $
-                      {(campaign.inline_link_clicks === 0
-                        ? 0
-                        : campaign.spend / campaign.inline_link_clicks
-                      ).toFixed(2)}
-                    </Td>
-                    <Td isNumeric>{campaign.reach}</Td>
+                {table.getRowModel().rows.map((row) => (
+                  <Tr key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                      <Td key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </Td>
+                    ))}
                   </Tr>
                 ))}
               </Tbody>
