@@ -3,7 +3,12 @@ import {
   Button,
   Center,
   HStack,
+  IconButton,
   Image,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   SimpleGrid,
   Spacer,
   Spinner,
@@ -11,7 +16,10 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
+import { FiLogOut } from "react-icons/fi";
+import { IoMdSettings } from "react-icons/io";
 import { PiPlugsConnectedBold } from "react-icons/pi";
+import { RxHamburgerMenu, RxLoop } from "react-icons/rx";
 import { TbPlugConnectedX } from "react-icons/tb";
 
 import GoogleLogo from "#assets/integrations/google.png";
@@ -28,6 +36,8 @@ import { useCreateMetaAccessToken } from "#hooks/api/useCreateMetaAccessToken";
 import { useGetGoogleAuthUrl } from "#hooks/api/useGetGoogleAuthUrl";
 import { useGetGoogleIntegration } from "#hooks/api/useGetGoogleIntegration";
 import { useGetMetaIntegration } from "#hooks/api/useGetMetaIntegration";
+import { useGoogleLogout } from "#hooks/api/useGoogleLogout";
+import { useMetaLogout } from "#hooks/api/useMetaLogout";
 
 export const component = function Integrations() {
   const {
@@ -47,6 +57,10 @@ export const component = function Integrations() {
     useGetGoogleIntegration();
   const { metaIntegration, isFetching: isFetchingMetaIntegration } =
     useGetMetaIntegration();
+  const { isPending: isPendingGoogleLogout, logout: googleLogout } =
+    useGoogleLogout();
+  const { isPending: isPendingMetaLogout, logout: metaLogout } =
+    useMetaLogout();
 
   const { createMetaAccessToken } = useCreateMetaAccessToken();
 
@@ -147,15 +161,52 @@ export const component = function Integrations() {
             </HStack>
             <Spacer />
             <HStack spacing={"10px"}>
-              <Button
-                onClick={() => handleFacebookLogin()}
-                isLoading={isFetchingMetaIntegration}
-              >
-                {metaIntegration ? "Reconnect" : "Login"}
-              </Button>
-              <Button onClick={onFacebookModalOpen} background={"blue.200"}>
-                Configure
-              </Button>
+              {metaIntegration ? (
+                <>
+                  <Button
+                    onClick={onFacebookModalOpen}
+                    rightIcon={<IoMdSettings size={"15px"} />}
+                    background={"blue.50"}
+                    borderColor={"blue.100"}
+                    borderWidth={"1px"}
+                  >
+                    Configure
+                  </Button>
+                  <Menu>
+                    <MenuButton
+                      as={IconButton}
+                      aria-label="Options"
+                      icon={<RxHamburgerMenu />}
+                      variant="outline"
+                      background={"blue.50"}
+                      borderColor={"blue.100"}
+                      borderWidth={"1px"}
+                    />
+                    <MenuList>
+                      <MenuItem
+                        icon={<RxLoop />}
+                        onClick={() => handleFacebookLogin()}
+                      >
+                        Reconnect
+                      </MenuItem>
+                      <MenuItem
+                        icon={<FiLogOut />}
+                        color={"red.600"}
+                        onClick={() => metaLogout()}
+                      >
+                        {isPendingMetaLogout ? <Spinner /> : "Logout"}
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                </>
+              ) : (
+                <Button
+                  onClick={() => handleFacebookLogin()}
+                  isLoading={isFetchingMetaIntegration}
+                >
+                  {metaIntegration ? "Reconnect" : "Login"}
+                </Button>
+              )}
             </HStack>
           </HStack>
           <SimpleGrid columns={2} spacing={"10px"} minHeight={"200px"}>
@@ -235,13 +286,50 @@ export const component = function Integrations() {
             </HStack>
             <Spacer />
             <HStack spacing={"10px"}>
-              <GoogleLoginButton
-                isLoading={isFetchingGoogleIntegration}
-                onClick={() => handleGoogleLogin()}
-              />
-              <Button onClick={onGoogleModalOpen} background={"blue.200"}>
-                Configure
-              </Button>
+              {googleIntegration ? (
+                <>
+                  <Button
+                    onClick={onGoogleModalOpen}
+                    rightIcon={<IoMdSettings size={"15px"} />}
+                    background={"blue.50"}
+                    borderColor={"blue.100"}
+                    borderWidth={"1px"}
+                  >
+                    Configure
+                  </Button>
+                  <Menu>
+                    <MenuButton
+                      as={IconButton}
+                      aria-label="Options"
+                      icon={<RxHamburgerMenu />}
+                      variant="outline"
+                      background={"blue.50"}
+                      borderColor={"blue.100"}
+                      borderWidth={"1px"}
+                    />
+                    <MenuList>
+                      <MenuItem
+                        icon={<RxLoop />}
+                        onClick={() => handleGoogleLogin()}
+                      >
+                        Reconnect
+                      </MenuItem>
+                      <MenuItem
+                        icon={<FiLogOut />}
+                        color={"red.600"}
+                        onClick={() => googleLogout()}
+                      >
+                        {isPendingGoogleLogout ? <Spinner /> : "Logout"}
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                </>
+              ) : (
+                <GoogleLoginButton
+                  isLoading={isFetchingGoogleIntegration}
+                  onClick={() => handleGoogleLogin()}
+                />
+              )}
             </HStack>
           </HStack>
           <SimpleGrid columns={2} spacing={"10px"} minHeight={"200px"}>
