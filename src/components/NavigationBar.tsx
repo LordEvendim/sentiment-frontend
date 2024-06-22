@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import { Link, useRouter } from "@tanstack/react-router";
 import { CiSettings } from "react-icons/ci";
-import { LuUser } from "react-icons/lu";
 import { MdOutlineLogout, MdOutlineSupportAgent } from "react-icons/md";
 
 import { useLogout } from "#hooks/api/useLogout";
@@ -81,18 +80,7 @@ export const NavigationBar = () => {
                       w={"full"}
                       justifyContent={"start"}
                       fontWeight={"normal"}
-                      onClick={() => router.navigate({ to: "/profile" })}
-                    >
-                      <LuUser size={"20px"} />
-                      <Box ml={"20px"} marginBottom={"2px"}>
-                        Profile
-                      </Box>
-                    </Button>
-                    <Button
-                      variant={"ghost"}
-                      w={"full"}
-                      justifyContent={"start"}
-                      fontWeight={"normal"}
+                      onClick={() => router.navigate({ to: "/settings" })}
                     >
                       <CiSettings size={"20px"} />
                       <Box ml={"20px"} marginBottom={"2px"}>

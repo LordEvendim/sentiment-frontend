@@ -8,8 +8,11 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
-const ProfileComponentImport = new FileRoute('/profile').createRoute()
+const SettingsComponentImport = new FileRoute('/settings').createRoute()
 const ProductComponentImport = new FileRoute('/product').createRoute()
+const PasswordResetComponentImport = new FileRoute(
+  '/password-reset',
+).createRoute()
 const IntegrationsComponentImport = new FileRoute('/integrations').createRoute()
 const GoogleOauthComponentImport = new FileRoute('/google-oauth').createRoute()
 const DashboardComponentImport = new FileRoute('/dashboard').createRoute()
@@ -18,12 +21,12 @@ const IndexComponentImport = new FileRoute('/').createRoute()
 
 // Create/Update Routes
 
-const ProfileComponentRoute = ProfileComponentImport.update({
-  path: '/profile',
+const SettingsComponentRoute = SettingsComponentImport.update({
+  path: '/settings',
   getParentRoute: () => rootRoute,
 } as any).update({
   component: lazyRouteComponent(
-    () => import('./routes/profile.component'),
+    () => import('./routes/settings.component'),
     'component',
   ),
 })
@@ -34,6 +37,16 @@ const ProductComponentRoute = ProductComponentImport.update({
 } as any).update({
   component: lazyRouteComponent(
     () => import('./routes/product.component'),
+    'component',
+  ),
+})
+
+const PasswordResetComponentRoute = PasswordResetComponentImport.update({
+  path: '/password-reset',
+  getParentRoute: () => rootRoute,
+} as any).update({
+  component: lazyRouteComponent(
+    () => import('./routes/password-reset.component'),
     'component',
   ),
 })
@@ -112,12 +125,16 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IntegrationsComponentImport
       parentRoute: typeof rootRoute
     }
+    '/password-reset': {
+      preLoaderRoute: typeof PasswordResetComponentImport
+      parentRoute: typeof rootRoute
+    }
     '/product': {
       preLoaderRoute: typeof ProductComponentImport
       parentRoute: typeof rootRoute
     }
-    '/profile': {
-      preLoaderRoute: typeof ProfileComponentImport
+    '/settings': {
+      preLoaderRoute: typeof SettingsComponentImport
       parentRoute: typeof rootRoute
     }
   }
@@ -131,6 +148,7 @@ export const routeTree = rootRoute.addChildren([
   DashboardComponentRoute,
   GoogleOauthComponentRoute,
   IntegrationsComponentRoute,
+  PasswordResetComponentRoute,
   ProductComponentRoute,
-  ProfileComponentRoute,
+  SettingsComponentRoute,
 ])

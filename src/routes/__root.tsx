@@ -23,6 +23,7 @@ function RootComponent() {
 
   useEffect(() => {
     if (matchRoute({ to: "/google-oauth" })) return;
+    if (matchRoute({ to: "/password-reset" })) return;
 
     if (!userData) {
       navigate({ to: "/" });
@@ -30,6 +31,10 @@ function RootComponent() {
       navigate({ to: "/dashboard" });
     }
   }, [matchRoute, navigate, userData]);
+
+  if (matchRoute({ to: "/password-reset" })) {
+    return <Outlet />;
+  }
 
   return (
     <Flex h={"100vh"} w={"full"} flexDir={"column"}>
