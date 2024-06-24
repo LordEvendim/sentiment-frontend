@@ -22,6 +22,7 @@ import { NamedMetric } from "#components/dashboard/NamedMetric";
 import { Report } from "#components/dashboard/Report";
 import { TopGoogleCampgains } from "#components/dashboard/TopGoogleCampgains";
 import { TopMetaCampgains } from "#components/dashboard/TopMetaCampgains";
+import { useGetGeneralDashboardCompareData } from "#hooks/api/useGetGeneralDashboardCompareData";
 import { useGetGeneralDashboardData } from "#hooks/api/useGetGeneralDashboardData";
 import { useGetTopGoogleCampaigns } from "#hooks/api/useGetTopGoogleCampaigns";
 import { useGetTopMetaCampaigns } from "#hooks/api/useGetTopMetaCampaigns";
@@ -31,6 +32,7 @@ export const component = function Dashboard() {
   const [timeframe, setTimeframe] = useState<DashboardTimeframe>("last-week");
   const { data: dashbaordData, isFetching } =
     useGetGeneralDashboardData(timeframe);
+  const { data: compareData } = useGetGeneralDashboardCompareData(timeframe);
   const { isFetching: isFetchingMetaCampaigns, campaigns: metaCampaigns } =
     useGetTopMetaCampaigns(timeframe);
   const { isFetching: isFetchingGoogleCampaigns, campaigns: googleCampaigns } =
@@ -88,6 +90,7 @@ export const component = function Dashboard() {
         <Report colSpan={3} rowSpan={5} />
         <NamedMetric
           data={dashbaordData}
+          compareData={compareData}
           isFetching={isFetching}
           metricId="spend"
           name="Spend"
@@ -95,6 +98,7 @@ export const component = function Dashboard() {
         />
         <NamedMetric
           data={dashbaordData}
+          compareData={compareData}
           isFetching={isFetching}
           metricId="impressions"
           name="Ads Impressions"
@@ -102,6 +106,7 @@ export const component = function Dashboard() {
         />
         <NamedMetric
           data={dashbaordData}
+          compareData={compareData}
           isFetching={isFetching}
           metricId="page_impressions"
           source="meta-insights"
@@ -110,6 +115,7 @@ export const component = function Dashboard() {
         />
         <NamedMetric
           data={dashbaordData}
+          compareData={compareData}
           isFetching={isFetching}
           metricId="newUsers"
           source="google-analytics"
@@ -118,6 +124,7 @@ export const component = function Dashboard() {
         />
         <NamedMetric
           data={dashbaordData}
+          compareData={compareData}
           isFetching={isFetching}
           metricId="activeUsers"
           source="google-analytics"
@@ -141,6 +148,7 @@ export const component = function Dashboard() {
         />
         <NamedMetric
           data={dashbaordData}
+          compareData={compareData}
           isFetching={isFetching}
           metricId="activeUsers"
           source="google-ads"
@@ -158,6 +166,7 @@ export const component = function Dashboard() {
         />
         <NamedMetric
           data={dashbaordData}
+          compareData={compareData}
           isFetching={isFetching}
           metricId="cpc"
           source="google-ads"
@@ -166,6 +175,7 @@ export const component = function Dashboard() {
         />
         <NamedMetric
           data={dashbaordData}
+          compareData={compareData}
           isFetching={isFetching}
           metricId="sessions"
           source="google-analytics"

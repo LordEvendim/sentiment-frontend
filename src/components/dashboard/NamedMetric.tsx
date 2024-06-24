@@ -6,6 +6,10 @@ import {
   Image,
   Spacer,
   Spinner,
+  Stat,
+  StatArrow,
+  StatHelpText,
+  StatNumber,
   Tooltip,
 } from "@chakra-ui/react";
 import { useMemo } from "react";
@@ -27,6 +31,7 @@ export const NamedMetric: React.FC<{
   name: string;
   isFetching: boolean;
   data: ReportData | undefined;
+  compareData: ReportData | undefined;
   metricId: string;
   source?: ReportMetricSource;
   unitSymbol?: string;
@@ -35,6 +40,7 @@ export const NamedMetric: React.FC<{
   toFixed?: number;
 }> = ({
   data,
+  compareData,
   isFetching,
   metricId,
   unitSymbol,
@@ -62,11 +68,39 @@ export const NamedMetric: React.FC<{
 
     [data, metricId, source]
   );
+  const compareMetrics = useMemo(
+    () =>
+      compareData?.filter(
+        (value) =>
+          value.metricId === metricId &&
+          value.display === "metric" &&
+          (source ? value.source === source : true)
+      ) as
+        | {
+            display: "metric";
+            metricId: string;
+            source: ReportMetricSource;
+            value: number;
+          }[]
+        | undefined,
+
+    [compareData, metricId, source]
+  );
   const value = useMemo(
     () =>
       metrics?.reduce((accumulator, metric) => accumulator + metric.value, 0) ??
       0,
     [metrics]
+  );
+  const compareValue = useMemo(
+    () =>
+      compareMetrics?.reduce(
+        (accumulator, metric) => accumulator + metric.value,
+        0
+      ) ??
+      0 - value ??
+      0,
+    [compareMetrics, value]
   );
   const description = useMemo(
     () =>
@@ -77,10 +111,15 @@ export const NamedMetric: React.FC<{
         .join("/n"),
     [metrics]
   );
+  const percentageChange = useMemo(
+    () => (100 * (value - compareValue)) / Math.abs(compareValue) ?? 0,
+    [compareValue, value]
+  );
 
   return (
     <GridItem
       p={"15px"}
+      pb={"10px"}
       background={"white"}
       borderRadius={"10px"}
       borderColor={"gray.200"}
@@ -92,7 +131,7 @@ export const NamedMetric: React.FC<{
       alignSelf={"stretch"}
       flexDir={"column"}
     >
-      <HStack justifyContent={"center"} mb={"15px"}>
+      <HStack justifyContent={"center"}>
         {source === undefined ? (
           <Tooltip label="Metric combined from a few data sources" p={"10px"}>
             <span>
@@ -117,16 +156,38 @@ export const NamedMetric: React.FC<{
         {isFetching ? (
           <Spinner size={"sm"} />
         ) : (
-          <>
-            <Box>
-              {(Number.isInteger(value) ? value : value.toFixed(toFixed))
-                .toLocaleString("en")
-                .replaceAll(",", " ")}
-            </Box>
-            <Box fontSize={"small"} color={"gray.700"}>
-              {unitSymbol ?? ""}
-            </Box>
-          </>
+          <Stat>
+            <StatHelpText
+              mb={"-2px"}
+              fontSize={"12px"}
+              color={percentageChange >= 0 ? "green.600" : "red.600"}
+            >
+              <StatArrow
+                type={percentageChange >= 0 ? "increase" : "decrease"}
+                height={"12px"}
+              />
+              {(isNaN(percentageChange) ? 0 : percentageChange).toFixed(2)} %
+            </StatHelpText>
+            <StatNumber
+              flexDir={"row"}
+              display={"flex"}
+              alignItems={"baseline"}
+            >
+              <Box fontSize={"xl"} fontWeight={"normal"}>
+                {(Number.isInteger(value) ? value : value.toFixed(toFixed))
+                  .toLocaleString("en")
+                  .replaceAll(",", " ")}
+              </Box>
+              <Box
+                fontSize={"small"}
+                color={"gray.700"}
+                ml={"5px"}
+                fontWeight={"normal"}
+              >
+                {unitSymbol ?? ""}
+              </Box>
+            </StatNumber>
+          </Stat>
         )}
       </HStack>
     </GridItem>
