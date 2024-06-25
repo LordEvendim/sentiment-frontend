@@ -94,12 +94,10 @@ export const NamedMetric: React.FC<{
   );
   const compareValue = useMemo(
     () =>
-      compareMetrics?.reduce(
+      (compareMetrics?.reduce(
         (accumulator, metric) => accumulator + metric.value,
         0
-      ) ??
-      0 - value ??
-      0,
+      ) ?? 0) - value ?? 0,
     [compareMetrics, value]
   );
   const description = useMemo(
@@ -115,6 +113,10 @@ export const NamedMetric: React.FC<{
     () => (100 * (value - compareValue)) / Math.abs(compareValue) ?? 0,
     [compareValue, value]
   );
+
+  console.log(metricId);
+  console.log(compareValue);
+  console.log(value);
 
   return (
     <GridItem
