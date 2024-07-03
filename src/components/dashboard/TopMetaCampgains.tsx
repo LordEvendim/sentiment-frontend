@@ -78,6 +78,13 @@ export const TopMetaCampgains: React.FC<{
 
           return `$ ${(inlineLinkClicks === 0 ? 0 : spend / inlineLinkClicks).toFixed(2)}`;
         },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        sortingFn: (rowA: any, rowB: any) =>
+          rowA.original["spend"] / rowA.original["inline_link_clicks"] -
+            rowB.original["spend"] / rowB.original["inline_link_clicks"] >
+          0
+            ? 1
+            : -1,
       },
       {
         accessorKey: "reach",
@@ -93,6 +100,11 @@ export const TopMetaCampgains: React.FC<{
     debugTable: true,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    sortingFns: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      numberSorting: (rowA: any, rowB: any, columnId: any) =>
+        rowA.original[columnId] - rowB.original[columnId] > 0 ? 1 : -1,
+    },
   });
 
   return (
