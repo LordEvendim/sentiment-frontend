@@ -10,11 +10,11 @@
 }
 
 .polka_background {
-  background-image: radial-gradient(
+  /* background-image: radial-gradient(
     rgba(0, 0, 0, 0.04) 3px,
     rgb(230, 230, 230) 3px
   );
-  background-size: 40px 40px;
+  background-size: 40px 40px; */
 }
 
 .react-datepicker__input-container input {

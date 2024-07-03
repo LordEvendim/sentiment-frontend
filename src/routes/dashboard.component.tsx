@@ -11,7 +11,7 @@ import {
   Spacer,
   Text,
 } from "@chakra-ui/react";
-import { subDays } from "date-fns";
+import { format, subDays } from "date-fns";
 import { useState } from "react";
 import { IoCalendarOutline } from "react-icons/io5";
 
@@ -65,7 +65,7 @@ export const component = function Dashboard() {
               color={"gray.500"}
             >
               <IoCalendarOutline size={"15px"} />
-              <Box>{`${calculateTimeframeStart(new Date(Date.now()), timeframe).toLocaleDateString()} - ${subDays(Date.now(), 1).toLocaleDateString()}`}</Box>
+              <Box>{`${format(calculateTimeframeStart(new Date(Date.now()), timeframe), "MMM/dd/yyyy")} - ${format(subDays(Date.now(), 1), "MMM/dd/yyyy")}`}</Box>
             </HStack>
           </MenuButton>
           <Portal>
@@ -86,7 +86,11 @@ export const component = function Dashboard() {
           </Portal>
         </Menu>
       </Flex>
-      <Grid templateColumns="repeat(8, 1fr)" gap={"5px"} gridAutoRows={"120px"}>
+      <Grid
+        templateColumns="repeat(8, 1fr)"
+        gap={"10px"}
+        gridAutoRows={"120px"}
+      >
         <Report colSpan={3} rowSpan={5} />
         <NamedMetric
           data={dashbaordData}
@@ -138,6 +142,7 @@ export const component = function Dashboard() {
           colSpan={5}
           rowSpan={3}
         />
+
         <MetaCampaignSummaryMetric
           description="Total amount of link clicks"
           metricId="inline_link_clicks"
@@ -145,6 +150,16 @@ export const component = function Dashboard() {
           unitSymbol=""
           data={metaCampaigns}
           isFetching={isFetchingMetaCampaigns}
+        />
+
+        <AverageMetric
+          data={dashbaordData}
+          isFetching={isFetching}
+          dividentMetricId="spend"
+          divisorMetricId="clicks"
+          source="meta-ads"
+          name="Average CPC"
+          unitSymbol="USD"
         />
         <NamedMetric
           data={dashbaordData}
@@ -154,15 +169,6 @@ export const component = function Dashboard() {
           source="google-ads"
           name="Ads clicks"
           unitSymbol=""
-        />
-        <AverageMetric
-          data={dashbaordData}
-          isFetching={isFetching}
-          dividentMetricId="spend"
-          divisorMetricId="clicks"
-          source="meta-ads"
-          name="Average CPC"
-          unitSymbol="USD"
         />
         <NamedMetric
           data={dashbaordData}

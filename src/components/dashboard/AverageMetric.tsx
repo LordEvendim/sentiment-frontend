@@ -93,10 +93,8 @@ export const AverageMetric: React.FC<{
     <GridItem
       p={"15px"}
       background={"white"}
-      borderRadius={"10px"}
-      borderColor={"gray.200"}
-      borderWidth={"1px"}
-      boxShadow={"md"}
+      borderRadius={"8px"}
+      boxShadow={"-2px 2px 1px 0px rgba(66, 68, 90, 0.20);"}
       colSpan={colSpan}
       rowSpan={rowSpan}
       display={"flex"}
