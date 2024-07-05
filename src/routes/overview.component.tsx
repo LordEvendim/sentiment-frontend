@@ -20,23 +20,18 @@ import { Chart } from "#components/dashboard/Chart";
 import { MetaCampaignSummaryMetric } from "#components/dashboard/MetaCampaignSummaryMetric";
 import { NamedMetric } from "#components/dashboard/NamedMetric";
 import { Report } from "#components/dashboard/Report";
-import { TopGoogleCampgains } from "#components/dashboard/TopGoogleCampgains";
-import { TopMetaCampgains } from "#components/dashboard/TopMetaCampgains";
 import { useGetGeneralDashboardCompareData } from "#hooks/api/useGetGeneralDashboardCompareData";
 import { useGetGeneralDashboardData } from "#hooks/api/useGetGeneralDashboardData";
-import { useGetTopGoogleCampaigns } from "#hooks/api/useGetTopGoogleCampaigns";
 import { useGetTopMetaCampaigns } from "#hooks/api/useGetTopMetaCampaigns";
 import { calculateTimeframeStart, DashboardTimeframe } from "#utils/timeframes";
 
-export const component = function Dashboard() {
+export const component = function Overview() {
   const [timeframe, setTimeframe] = useState<DashboardTimeframe>("last-week");
   const { data: dashbaordData, isFetching } =
     useGetGeneralDashboardData(timeframe);
   const { data: compareData } = useGetGeneralDashboardCompareData(timeframe);
   const { isFetching: isFetchingMetaCampaigns, campaigns: metaCampaigns } =
     useGetTopMetaCampaigns(timeframe);
-  const { isFetching: isFetchingGoogleCampaigns, campaigns: googleCampaigns } =
-    useGetTopGoogleCampaigns(timeframe);
 
   return (
     <Box w={"full"} h={"full"} p={"15px"} className="polka_background">
@@ -187,19 +182,6 @@ export const component = function Dashboard() {
           source="google-analytics"
           name="Website sessions"
           unitSymbol=""
-        />
-        {/* <PageViewReport isFetching={isFetching} colSpan={2} rowSpan={2} /> */}
-        <TopMetaCampgains
-          isFetching={isFetchingMetaCampaigns}
-          colSpan={8}
-          rowSpan={3}
-          data={metaCampaigns}
-        />
-        <TopGoogleCampgains
-          isFetching={isFetchingGoogleCampaigns}
-          colSpan={8}
-          rowSpan={3}
-          data={googleCampaigns}
         />
       </Grid>
     </Box>

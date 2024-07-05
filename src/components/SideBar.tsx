@@ -34,13 +34,13 @@ export const SideBar = () => {
           w={"full"}
           onClick={() =>
             navigate({
-              to: "/dashboard",
+              to: "/overview",
             })
           }
         >
           <MdOutlineSpaceDashboard size={"18px"} />
           <Box ml={"10px"} mb={"2px"} fontWeight={"normal"} fontSize={"16px"}>
-            Dashboard
+            Overview
           </Box>
         </Button>
         <Button
@@ -50,10 +50,9 @@ export const SideBar = () => {
           w={"full"}
           onClick={() =>
             navigate({
-              to: "/dashboard",
+              to: "/advertising",
             })
           }
-          isDisabled
         >
           <AiOutlineBarChart size={"18px"} />
           <Box ml={"10px"} mb={"2px"} fontWeight={"normal"} fontSize={"16px"}>
@@ -84,7 +83,7 @@ export const SideBar = () => {
           w={"full"}
           onClick={() =>
             navigate({
-              to: "/dashboard",
+              to: "/overview",
             })
           }
           isDisabled
@@ -101,7 +100,7 @@ export const SideBar = () => {
           w={"full"}
           onClick={() =>
             navigate({
-              to: "/dashboard",
+              to: "/overview",
             })
           }
           isDisabled

@@ -13,9 +13,10 @@ const ProductComponentImport = new FileRoute('/product').createRoute()
 const PasswordResetComponentImport = new FileRoute(
   '/password-reset',
 ).createRoute()
+const OverviewComponentImport = new FileRoute('/overview').createRoute()
 const IntegrationsComponentImport = new FileRoute('/integrations').createRoute()
 const GoogleOauthComponentImport = new FileRoute('/google-oauth').createRoute()
-const DashboardComponentImport = new FileRoute('/dashboard').createRoute()
+const AdvertisingComponentImport = new FileRoute('/advertising').createRoute()
 const AboutComponentImport = new FileRoute('/about').createRoute()
 const IndexComponentImport = new FileRoute('/').createRoute()
 
@@ -51,6 +52,16 @@ const PasswordResetComponentRoute = PasswordResetComponentImport.update({
   ),
 })
 
+const OverviewComponentRoute = OverviewComponentImport.update({
+  path: '/overview',
+  getParentRoute: () => rootRoute,
+} as any).update({
+  component: lazyRouteComponent(
+    () => import('./routes/overview.component'),
+    'component',
+  ),
+})
+
 const IntegrationsComponentRoute = IntegrationsComponentImport.update({
   path: '/integrations',
   getParentRoute: () => rootRoute,
@@ -71,12 +82,12 @@ const GoogleOauthComponentRoute = GoogleOauthComponentImport.update({
   ),
 })
 
-const DashboardComponentRoute = DashboardComponentImport.update({
-  path: '/dashboard',
+const AdvertisingComponentRoute = AdvertisingComponentImport.update({
+  path: '/advertising',
   getParentRoute: () => rootRoute,
 } as any).update({
   component: lazyRouteComponent(
-    () => import('./routes/dashboard.component'),
+    () => import('./routes/advertising.component'),
     'component',
   ),
 })
@@ -113,8 +124,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutComponentImport
       parentRoute: typeof rootRoute
     }
-    '/dashboard': {
-      preLoaderRoute: typeof DashboardComponentImport
+    '/advertising': {
+      preLoaderRoute: typeof AdvertisingComponentImport
       parentRoute: typeof rootRoute
     }
     '/google-oauth': {
@@ -123,6 +134,10 @@ declare module '@tanstack/react-router' {
     }
     '/integrations': {
       preLoaderRoute: typeof IntegrationsComponentImport
+      parentRoute: typeof rootRoute
+    }
+    '/overview': {
+      preLoaderRoute: typeof OverviewComponentImport
       parentRoute: typeof rootRoute
     }
     '/password-reset': {
@@ -145,9 +160,10 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   IndexComponentRoute,
   AboutComponentRoute,
-  DashboardComponentRoute,
+  AdvertisingComponentRoute,
   GoogleOauthComponentRoute,
   IntegrationsComponentRoute,
+  OverviewComponentRoute,
   PasswordResetComponentRoute,
   ProductComponentRoute,
   SettingsComponentRoute,

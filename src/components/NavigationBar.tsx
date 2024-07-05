@@ -63,7 +63,7 @@ export const NavigationBar = () => {
             aria-label="sidebar-toggle"
             background={"transparent"}
           />
-          <Link to="/dashboard">
+          <Link to="/overview">
             <Image src={Logo} height={"38px"} mb={"5px"}></Image>
           </Link>
         </HStack>

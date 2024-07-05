@@ -34,7 +34,7 @@ function RootComponent() {
     if (!userData) {
       navigate({ to: "/" });
     } else {
-      navigate({ to: "/dashboard" });
+      navigate({ to: "/overview" });
     }
   }, [matchRoute, navigate, userData]);
 

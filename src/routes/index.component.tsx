@@ -49,7 +49,7 @@ export const component = function Index() {
             title: "Login",
             description: "Successfully logged in",
           });
-          navigate({ to: "/dashboard" });
+          navigate({ to: "/overview" });
         },
       }
     );
