@@ -22,7 +22,8 @@ import { useGetTopMetaCampaigns } from "#hooks/api/useGetTopMetaCampaigns";
 import { calculateTimeframeStart, DashboardTimeframe } from "#utils/timeframes";
 
 export const component = function Advertising() {
-  const [timeframe, setTimeframe] = useState<DashboardTimeframe>("last-week");
+  const [timeframe, setTimeframe] =
+    useState<DashboardTimeframe>("last-14-days");
   const { isFetching: isFetchingMetaCampaigns, campaigns: metaCampaigns } =
     useGetTopMetaCampaigns(timeframe);
   const { isFetching: isFetchingGoogleCampaigns, campaigns: googleCampaigns } =
@@ -60,14 +61,17 @@ export const component = function Advertising() {
           </MenuButton>
           <Portal>
             <MenuList>
-              <MenuItem onClick={() => setTimeframe("last-week")}>
-                Last week
+              <MenuItem onClick={() => setTimeframe("last-7-days")}>
+                Last 7 days
               </MenuItem>
-              <MenuItem onClick={() => setTimeframe("last-month")}>
-                Last month
+              <MenuItem onClick={() => setTimeframe("last-14-days")}>
+                Last 14 days
               </MenuItem>
               <MenuItem onClick={() => setTimeframe("last-90-days")}>
                 Last 90 days
+              </MenuItem>
+              <MenuItem onClick={() => setTimeframe("last-6-months")}>
+                Last 6 months
               </MenuItem>
               <MenuItem onClick={() => setTimeframe("last-year")}>
                 Last year
