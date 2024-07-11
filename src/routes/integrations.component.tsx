@@ -118,7 +118,7 @@ export const component = function Integrations() {
   const handleGoogleLogin = () => {
     if (!url) return;
 
-    window.location.replace(url);
+    window.location.href = url;
   };
 
   return (
