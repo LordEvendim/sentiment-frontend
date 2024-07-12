@@ -18,8 +18,9 @@ import { IoCalendarOutline } from "react-icons/io5";
 import { AverageMetric } from "#components/dashboard/AverageMetric";
 import { Chart } from "#components/dashboard/Chart";
 import { MetaCampaignSummaryMetric } from "#components/dashboard/MetaCampaignSummaryMetric";
+import { MetricReport } from "#components/dashboard/MetricReport";
 import { NamedMetric } from "#components/dashboard/NamedMetric";
-import { Report } from "#components/dashboard/Report";
+import { SpacerCard } from "#components/dashboard/SpacerCard";
 import { useGetGeneralDashboardCompareData } from "#hooks/api/useGetGeneralDashboardCompareData";
 import { useGetGeneralDashboardData } from "#hooks/api/useGetGeneralDashboardData";
 import { useGetTopMetaCampaigns } from "#hooks/api/useGetTopMetaCampaigns";
@@ -90,7 +91,13 @@ export const component = function Overview() {
         gap={"10px"}
         gridAutoRows={"120px"}
       >
-        <Report colSpan={3} rowSpan={5} />
+        <MetricReport
+          colSpan={3}
+          rowSpan={1}
+          timeframe={timeframe}
+          metricDisplayName="Clicks"
+          name="clicks"
+        />
         <NamedMetric
           data={dashbaordData}
           compareData={compareData}
@@ -134,6 +141,13 @@ export const component = function Overview() {
           name="Active users"
           unitSymbol=""
         />
+        <MetricReport
+          colSpan={3}
+          rowSpan={1}
+          timeframe={timeframe}
+          metricDisplayName="Cost per click"
+          name="cpc"
+        />
         <Chart
           metrics={["spend"]}
           data={dashbaordData}
@@ -142,6 +156,21 @@ export const component = function Overview() {
           rowSpan={3}
         />
 
+        <MetricReport
+          colSpan={3}
+          rowSpan={1}
+          timeframe={timeframe}
+          metricDisplayName="Spend"
+          name="spend"
+        />
+        <MetricReport
+          colSpan={3}
+          rowSpan={1}
+          timeframe={timeframe}
+          metricDisplayName="Spend"
+          name="spend"
+        />
+        <SpacerCard colSpan={3} rowSpan={1} />
         <MetaCampaignSummaryMetric
           description="Total amount of link clicks"
           metricId="inline_link_clicks"
@@ -160,6 +189,7 @@ export const component = function Overview() {
           name="Average CPC"
           unitSymbol="USD"
         />
+
         <NamedMetric
           data={dashbaordData}
           compareData={compareData}

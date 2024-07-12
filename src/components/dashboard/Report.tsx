@@ -2,52 +2,65 @@ import {
   Box,
   Button,
   Center,
-  Divider,
   GridItem,
   HStack,
+  Menu,
+  MenuButton,
+  MenuList,
   Spacer,
+  Spinner,
   useToast,
 } from "@chakra-ui/react";
-import { format, subDays } from "date-fns";
+import { format } from "date-fns";
+import { VscSettings } from "react-icons/vsc";
 import ReactMarkdown from "react-markdown";
 
 import { useGenerateReport } from "#hooks/api/useGenerateReport";
 import { useGetCredits } from "#hooks/api/useGetCredits";
 import { useGetReport } from "#hooks/api/useGetReport";
+import { calculateTimeframeStart, DashboardTimeframe } from "#utils/timeframes";
 
 export const Report: React.FC<{
   colSpan: number | "auto";
   rowSpan: number | "auto";
-}> = ({ colSpan, rowSpan }) => {
-  const { report } = useGetReport();
+  timeframe: DashboardTimeframe;
+}> = ({ colSpan, rowSpan, timeframe }) => {
+  const { report, isFetching } = useGetReport(timeframe);
   const { generateReport, isPending } = useGenerateReport();
-  const { isFetching: isLodingCredits, credits: creditsData } = useGetCredits();
+  const { isFetching: isLoadingCredits, credits: creditsData } =
+    useGetCredits();
   const toast = useToast();
 
   const credits = creditsData?.value;
 
   const handleGenerateReport = () => {
-    generateReport(undefined, {
-      onSuccess: () => {
-        toast({
-          status: "success",
-          title: "Insights",
-          description: "Sucessfully generated ai insights",
-        });
+    generateReport(
+      {
+        timeframe,
       },
-      onError: () => {
-        toast({
-          status: "error",
-          title: "Insights",
-          description: "Failed to generate ai insights",
-        });
-      },
-    });
+      {
+        onSuccess: () => {
+          toast({
+            status: "success",
+            title: "Insights",
+            description: "Sucessfully generated ai insights",
+          });
+        },
+        onError: () => {
+          toast({
+            status: "error",
+            title: "Insights",
+            description: "Failed to generate ai insights",
+          });
+        },
+      }
+    );
   };
 
   return (
     <GridItem
-      p={"25px"}
+      px={"25px"}
+      py={"10px"}
       background={"white"}
       borderRadius={"8px"}
       boxShadow={"-2px 2px 1px 0px rgba(66, 68, 90, 0.20);"}
@@ -55,6 +68,7 @@ export const Report: React.FC<{
       rowSpan={rowSpan}
       alignSelf={"stretch"}
       overflowY={"scroll"}
+      overflowX={"hidden"}
       css={{
         "&::-webkit-scrollbar": {
           width: "4px",
@@ -68,50 +82,45 @@ export const Report: React.FC<{
         },
       }}
     >
-      {report ? (
+      {isFetching && (
+        <Center mt={"100px"}>
+          <Spinner size={"sm"} />
+        </Center>
+      )}
+
+      {report && !isFetching ? (
         <>
-          <HStack mb={"20px"}>
-            <Box fontWeight={"bold"} color={"gray.500"}>
-              {`${format(subDays(report.createdAd, report.period), "MM/dd/yyyy")} to ${format(report.createdAd, "MM/dd/yyyy")}`}
+          <HStack>
+            <Box fontWeight={"bold"} color={"gray.300"} fontSize={"16px"}>
+              {`${format(calculateTimeframeStart(report.createdAt, report.period), "MMM dd yyyy")} to ${format(report.createdAt, "MMM dd yyyy")}`}
             </Box>
             <Spacer />
             <Box position={"relative"}>
-              <Button
-                height={"35px"}
-                fontSize={"small"}
-                isLoading={isPending || isLodingCredits}
-                onClick={() => handleGenerateReport()}
-                isDisabled={credits === undefined || credits === 0}
-              >
-                Generate
-              </Button>
-              <Box
-                position={"absolute"}
-                fontWeight={"bold"}
-                fontSize={"x-small"}
-                color={
-                  credits !== undefined && credits > 0 ? "gray.500" : "gray.300"
-                }
-                bottom={"-15px"}
-                left={"30px"}
-              >
-                {`${credits ?? 0} left`}
-              </Box>
+              <Menu>
+                <MenuButton as={Button} variant={"ghost"}>
+                  <VscSettings size={"15px"} />
+                </MenuButton>
+                <MenuList>
+                  <Button
+                    onClick={() => handleGenerateReport()}
+                    variant={"ghost"}
+                    w={"full"}
+                    justifyContent={"start"}
+                    fontWeight={"normal"}
+                    fontSize={"small"}
+                    isDisabled={credits === undefined || credits === 0}
+                    isLoading={isLoadingCredits}
+                  >{`Regenerate (${credits ?? 0} left)`}</Button>
+                </MenuList>
+              </Menu>
             </Box>
           </HStack>
-          <Divider
-            mt={"25px"}
-            mb={"15px"}
-            w={"90%"}
-            mx={"auto"}
-            borderColor={"gray.300"}
-          />
-          <Box fontSize={"sm"}>
+          <Box fontSize={"sm"} mt={"10px"}>
             <ReactMarkdown>{report?.data}</ReactMarkdown>
           </Box>
         </>
       ) : (
-        <Center>
+        <Center mt={"100px"}>
           <Button isLoading={isPending} onClick={() => handleGenerateReport()}>
             Generate
           </Button>

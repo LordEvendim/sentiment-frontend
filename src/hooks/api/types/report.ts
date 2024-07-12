@@ -1,7 +1,9 @@
+import { DashboardTimeframe } from "#utils/timeframes";
+
 export type Report = {
   data: string;
   reportId: number;
-  createdAd: number;
-  period: number;
-  ownerId: number | null;
+  createdAt: Date;
+  period: DashboardTimeframe;
+  ownerId: number;
 };

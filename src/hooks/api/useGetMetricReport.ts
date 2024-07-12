@@ -7,18 +7,16 @@ import { DashboardTimeframe } from "#utils/timeframes";
 
 import { Report } from "./types/report";
 
-const fetchReport = async (timeframe: DashboardTimeframe, untilDate?: Date) => {
-  const until = format(
-    subDays(untilDate ?? new Date(Date.now()), 1),
-    "yyyyMMdd"
-  );
+const fetchReport = async (name: string, timeframe: DashboardTimeframe) => {
+  const until = format(subDays(new Date(Date.now()), 1), "yyyyMMdd");
 
   const result = await axiosMainServer.get<Report | undefined>(
-    "/reporter/overview",
+    "/reporter/metric",
     {
       params: {
         timeframe,
-        until: until,
+        name,
+        until,
       },
     }
   );
@@ -26,11 +24,14 @@ const fetchReport = async (timeframe: DashboardTimeframe, untilDate?: Date) => {
   return result.data;
 };
 
-export const useGetReport = (timeframe: DashboardTimeframe, until?: Date) => {
+export const useGetMetricReport = (
+  timeframe: DashboardTimeframe,
+  name: string
+) => {
   const { data, isFetching } = useQuery({
     staleTime: 60 * 1000,
-    queryKey: [QueryKey.Report, timeframe, until],
-    queryFn: () => fetchReport(timeframe, until),
+    queryKey: [QueryKey.MetricReport, name, timeframe],
+    queryFn: () => fetchReport(name, timeframe),
     retry: 0,
   });
 

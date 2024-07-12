@@ -1,4 +1,4 @@
-import { addDays, startOfDay, subDays, subMonths, subYears } from "date-fns";
+import { startOfDay, subDays, subMonths, subYears } from "date-fns";
 
 export type DashboardTimeframe =
   | "last-7-days"
@@ -14,12 +14,11 @@ const timeframeStartFunctions: Record<DashboardTimeframe, (end: Date) => Date> =
     "last-14-days": (end) => subDays(end, 14),
     "last-30-days": (end) => subDays(end, 30),
     "last-90-days": (end) => subDays(end, 90),
-    "last-6-months": (end) => subMonths(end, 3),
+    "last-6-months": (end) => subMonths(end, 6),
     "last-year": (end) => subYears(end, 1),
   };
 
 export const calculateTimeframeStart = (
   now: Date,
   timeframe: DashboardTimeframe
-) =>
-  startOfDay(addDays(timeframeStartFunctions[timeframe](subDays(now, 1)), 1));
+) => startOfDay(timeframeStartFunctions[timeframe](now));
