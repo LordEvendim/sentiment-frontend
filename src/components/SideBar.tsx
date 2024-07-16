@@ -8,8 +8,11 @@ import {
 } from "react-icons/md";
 import { RiHandCoinLine } from "react-icons/ri";
 
+import { useGhost } from "#hooks/useGhost";
+
 export const SideBar = () => {
   const navigate = useNavigate();
+  const toggleGhostMode = useGhost((state) => state.toggle);
 
   return (
     <Box
@@ -110,6 +113,12 @@ export const SideBar = () => {
             Online Trends
           </Box>
         </Button>
+        <Button
+          variant={"ghost"}
+          onClick={() => toggleGhostMode()}
+          w={"full"}
+          h={"50px"}
+        ></Button>
       </VStack>
     </Box>
   );

@@ -24,6 +24,7 @@ import { SpacerCard } from "#components/dashboard/SpacerCard";
 import { useGetGeneralDashboardCompareData } from "#hooks/api/useGetGeneralDashboardCompareData";
 import { useGetGeneralDashboardData } from "#hooks/api/useGetGeneralDashboardData";
 import { useGetTopMetaCampaigns } from "#hooks/api/useGetTopMetaCampaigns";
+import { useGhost } from "#hooks/useGhost";
 import { calculateTimeframeStart, DashboardTimeframe } from "#utils/timeframes";
 
 export const component = function Overview() {
@@ -34,6 +35,7 @@ export const component = function Overview() {
   const { data: compareData } = useGetGeneralDashboardCompareData(timeframe);
   const { isFetching: isFetchingMetaCampaigns, campaigns: metaCampaigns } =
     useGetTopMetaCampaigns(timeframe);
+  const isGhostMode = useGhost((state) => state.isGhostMode);
 
   return (
     <Box w={"full"} h={"full"} p={"15px"} className="polka_background">
@@ -91,13 +93,17 @@ export const component = function Overview() {
         gap={"10px"}
         gridAutoRows={"120px"}
       >
-        <MetricReport
-          colSpan={3}
-          rowSpan={1}
-          timeframe={timeframe}
-          metricDisplayName="Clicks"
-          name="clicks"
-        />
+        {isGhostMode ? (
+          <SpacerCard colSpan={3} rowSpan={1} />
+        ) : (
+          <MetricReport
+            colSpan={3}
+            rowSpan={1}
+            timeframe={timeframe}
+            metricDisplayName="Clicks"
+            name="clicks"
+          />
+        )}
         <NamedMetric
           data={dashbaordData}
           compareData={compareData}
@@ -141,13 +147,17 @@ export const component = function Overview() {
           name="Active users"
           unitSymbol=""
         />
-        <MetricReport
-          colSpan={3}
-          rowSpan={1}
-          timeframe={timeframe}
-          metricDisplayName="Cost per click"
-          name="cpc"
-        />
+        {isGhostMode ? (
+          <SpacerCard colSpan={3} rowSpan={1} />
+        ) : (
+          <MetricReport
+            colSpan={3}
+            rowSpan={1}
+            timeframe={timeframe}
+            metricDisplayName="Cost per click"
+            name="cpc"
+          />
+        )}
         <Chart
           metrics={["spend"]}
           data={dashbaordData}
@@ -155,21 +165,29 @@ export const component = function Overview() {
           colSpan={5}
           rowSpan={3}
         />
+        {isGhostMode ? (
+          <SpacerCard colSpan={3} rowSpan={1} />
+        ) : (
+          <MetricReport
+            colSpan={3}
+            rowSpan={1}
+            timeframe={timeframe}
+            metricDisplayName="Cost per click"
+            name="cpc"
+          />
+        )}
 
-        <MetricReport
-          colSpan={3}
-          rowSpan={1}
-          timeframe={timeframe}
-          metricDisplayName="Spend"
-          name="spend"
-        />
-        <MetricReport
-          colSpan={3}
-          rowSpan={1}
-          timeframe={timeframe}
-          metricDisplayName="Spend"
-          name="spend"
-        />
+        {isGhostMode ? (
+          <SpacerCard colSpan={3} rowSpan={1} />
+        ) : (
+          <MetricReport
+            colSpan={3}
+            rowSpan={1}
+            timeframe={timeframe}
+            metricDisplayName="Spend"
+            name="spend"
+          />
+        )}
         <SpacerCard colSpan={3} rowSpan={1} />
         <MetaCampaignSummaryMetric
           description="Total amount of link clicks"
