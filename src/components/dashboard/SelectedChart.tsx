@@ -1,5 +1,6 @@
 import {
   Box,
+  Center,
   GridItem,
   Heading,
   HStack,
@@ -40,8 +41,8 @@ export const SelectedChart: React.FC<{
   const transformedChartData = useMemo(
     () =>
       data?.data.map((datapoint) => ({
-        time: new Date(datapoint[0]),
-        value: datapoint[1],
+        value: datapoint[0],
+        time: new Date(datapoint[1]),
       })),
     [data]
   );
@@ -57,7 +58,9 @@ export const SelectedChart: React.FC<{
         colSpan={colSpan}
         rowSpan={rowSpan}
       >
-        <Spinner size={"small"} />
+        <Center mt={"100px"}>
+          <Spinner size={"sm"} />
+        </Center>
       </GridItem>
     );
   }
@@ -117,20 +120,13 @@ export const SelectedChart: React.FC<{
               dataKey="value"
               domain={([, dataMax]) => [
                 0,
-                Math.ceil(Math.max(dataMax + 0.1 * dataMax, 100)),
+                Math.ceil(Math.min(dataMax + 0.1 * dataMax, 10)),
               ]}
               style={{
                 fontSize: "0.8rem",
               }}
               allowDecimals={false}
             />
-            {/* <RechartsTooltip
-              wrapperStyle={{ outline: "none" }}
-              isAnimationActive={false}
-              cursor={{ stroke: "#d1d5db", strokeWidth: 1 }}
-              position={{ y: 100 }}
-              labelFormatter={(label) => format(label, "MMM dd yyyy")}
-            /> */}
             <RechartsTooltip
               content={<CustomTooltip />}
               cursor={{ fill: "transparent" }}
@@ -144,7 +140,7 @@ export const SelectedChart: React.FC<{
               fillOpacity={0.8}
               strokeLinejoin="round"
               strokeLinecap="round"
-              name={"Meta spend"}
+              name={selectedMetric.name}
             />
           </AreaChart>
         </ResponsiveContainer>
