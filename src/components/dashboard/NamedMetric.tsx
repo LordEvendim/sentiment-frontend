@@ -18,6 +18,7 @@ import { MdMergeType } from "react-icons/md";
 
 import GoogleLogo from "#assets/integrations/google.png";
 import MetaLogo from "#assets/integrations/meta.png";
+import { useOverviewDashbaord } from "#hooks/useOverviewDashboard";
 import { ReportData, ReportMetricSource } from "#types/report";
 
 const dataSourcesLogos: Record<ReportMetricSource, string> = {
@@ -114,6 +115,8 @@ export const NamedMetric: React.FC<{
     [compareValue, value]
   );
 
+  const selectChartMetric = useOverviewDashbaord((state) => state.select);
+
   return (
     <GridItem
       p={"15px"}
@@ -126,6 +129,14 @@ export const NamedMetric: React.FC<{
       display={"flex"}
       alignSelf={"stretch"}
       flexDir={"column"}
+      cursor={"pointer"}
+      onClick={() =>
+        selectChartMetric({
+          metricId,
+          name,
+          source: source ?? "meta-ads",
+        })
+      }
     >
       <HStack justifyContent={"center"}>
         {source === undefined ? (

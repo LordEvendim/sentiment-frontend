@@ -16,10 +16,10 @@ import { useState } from "react";
 import { IoCalendarOutline } from "react-icons/io5";
 
 import { AverageMetric } from "#components/dashboard/AverageMetric";
-import { Chart } from "#components/dashboard/Chart";
 import { MetaCampaignSummaryMetric } from "#components/dashboard/MetaCampaignSummaryMetric";
 import { MetricReport } from "#components/dashboard/MetricReport";
 import { NamedMetric } from "#components/dashboard/NamedMetric";
+import { SelectedChart } from "#components/dashboard/SelectedChart";
 import { SpacerCard } from "#components/dashboard/SpacerCard";
 import { useGetGeneralDashboardCompareData } from "#hooks/api/useGetGeneralDashboardCompareData";
 import { useGetGeneralDashboardData } from "#hooks/api/useGetGeneralDashboardData";
@@ -158,13 +158,14 @@ export const component = function Overview() {
             name="cpc"
           />
         )}
-        <Chart
+        {/* <Chart
           metrics={["spend"]}
           data={dashbaordData}
           label="Ad spend"
           colSpan={5}
           rowSpan={3}
-        />
+        /> */}
+        <SelectedChart colSpan={5} rowSpan={3} timeframe={timeframe} />
         {isGhostMode ? (
           <SpacerCard colSpan={3} rowSpan={1} />
         ) : (
