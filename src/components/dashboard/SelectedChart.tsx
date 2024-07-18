@@ -120,7 +120,7 @@ export const SelectedChart: React.FC<{
               dataKey="value"
               domain={([, dataMax]) => [
                 0,
-                Math.ceil(Math.min(dataMax + 0.1 * dataMax, 10)),
+                Math.ceil(Math.max(dataMax + 0.1 * dataMax, 5)),
               ]}
               style={{
                 fontSize: "0.8rem",
