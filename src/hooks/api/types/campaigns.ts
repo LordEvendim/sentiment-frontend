@@ -8,3 +8,12 @@ export interface TopMetaCampaign {
   reach: string;
   inline_link_clicks: number;
 }
+
+export interface TopGoogleCampaign {
+  id: string;
+  name: string;
+  clicks: number;
+  impressions: number;
+  spend: number;
+  unique_users: number;
+}

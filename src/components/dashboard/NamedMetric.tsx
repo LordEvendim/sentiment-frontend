@@ -105,9 +105,10 @@ export const NamedMetric: React.FC<{
     () =>
       metrics
         ?.map(
-          (metric) => `${metric.source.replaceAll("-", " ")}: ${metric.value}`
+          (metric) =>
+            `${metric.source.replaceAll("-", " ")}: ${metric.value.toFixed(2)}`
         )
-        .join("/n"),
+        .join(" \n "),
     [metrics]
   );
   const percentageChange = useMemo(

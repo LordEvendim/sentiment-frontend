@@ -213,16 +213,16 @@ export const component = function Overview() {
           data={dashbaordData}
           compareData={compareData}
           isFetching={isFetching}
-          metricId="activeUsers"
+          metricId="clicks"
           source="google-ads"
           name="Ads clicks"
           unitSymbol=""
         />
-        <NamedMetric
+        <AverageMetric
           data={dashbaordData}
-          compareData={compareData}
           isFetching={isFetching}
-          metricId="cpc"
+          dividentMetricId="cost_micros"
+          divisorMetricId="clicks"
           source="google-ads"
           name="Average CPC"
           unitSymbol="USD"

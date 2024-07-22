@@ -29,6 +29,8 @@ export const component = function Advertising() {
   const { isFetching: isFetchingGoogleCampaigns, campaigns: googleCampaigns } =
     useGetTopGoogleCampaigns(timeframe);
 
+  console.log(googleCampaigns);
+
   return (
     <Box w={"full"} h={"full"} p={"15px"} className="polka_background">
       <Flex mb={"10px"}>

@@ -83,9 +83,10 @@ export const AverageMetric: React.FC<{
     () =>
       metrics
         ?.map(
-          (metric) => `${metric.source.replaceAll("-", " ")}: ${metric.value}`
+          (metric) =>
+            `${metric.source.replaceAll("-", " ")}: ${metric.value.toFixed(4)}`
         )
-        .join("/n"),
+        .join(" \n "),
     [metrics]
   );
 

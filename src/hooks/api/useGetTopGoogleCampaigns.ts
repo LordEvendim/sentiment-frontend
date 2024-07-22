@@ -1,20 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 import { calculateTimeframeStart, DashboardTimeframe } from "#utils/timeframes";
 
-import { TopMetaCampaign } from "./types/campaigns";
+import { TopGoogleCampaign } from "./types/campaigns";
 
 const fetchTopGoogleCampaigns = async (timeframe: DashboardTimeframe) => {
-  const result = await axiosMainServer.get<TopMetaCampaign[]>(
+  const result = await axiosMainServer.get<TopGoogleCampaign[]>(
     "/google/campaigns/top",
     {
       params: {
-        since: calculateTimeframeStart(
-          new Date(Date.now()),
-          timeframe
-        ).getTime(),
+        since: format(
+          calculateTimeframeStart(new Date(Date.now()), timeframe).getTime(),
+          "yyyyMMdd"
+        ),
       },
     }
   );
