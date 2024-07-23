@@ -24,7 +24,15 @@ import {
 import { CustomTooltip } from "#components/charts/CustomTooltip";
 import { useGetChartData } from "#hooks/api/useGetChartData";
 import { useOverviewDashbaord } from "#hooks/useOverviewDashboard";
+import { ReportMetricSource } from "#types/report";
 import { DashboardTimeframe } from "#utils/timeframes";
+
+const CHART_COLORS: Record<ReportMetricSource, string> = {
+  "google-ads": "#d62424",
+  "google-analytics": "#d62424",
+  "meta-ads": "#3f82d9",
+  "meta-insights": "#3f82d9",
+};
 
 export const SelectedChart: React.FC<{
   colSpan: number | "auto";
@@ -34,18 +42,53 @@ export const SelectedChart: React.FC<{
   const selectedMetric = useOverviewDashbaord((state) => state.selectedMetric);
 
   const { data, isFetching } = useGetChartData(
-    timeframe,
-    selectedMetric.metricId,
-    selectedMetric.source
+    selectedMetric.metrics,
+    timeframe
   );
-  const transformedChartData = useMemo(
-    () =>
-      data?.data.map((datapoint) => ({
-        value: datapoint[0],
-        time: new Date(datapoint[1]),
-      })),
-    [data]
-  );
+  const transformedChartData = useMemo(() => {
+    if (!data) return [];
+
+    const timestampMap: Record<
+      number,
+      { time?: Date } & {
+        [key in ReportMetricSource]?: number;
+      }
+    > = {};
+
+    for (const [source, sourceData] of Object.entries(data.data)) {
+      for (const datapoint of sourceData) {
+        const timestamp = datapoint[1];
+
+        if (timestampMap[timestamp]) {
+          timestampMap[timestamp][source as ReportMetricSource] = datapoint[0];
+        } else {
+          timestampMap[timestamp] = {};
+          timestampMap[timestamp].time = new Date(timestamp);
+          timestampMap[timestamp][source as ReportMetricSource] = datapoint[0];
+        }
+      }
+    }
+
+    return Object.values(timestampMap);
+  }, [data]);
+  const maxSum = useMemo(() => {
+    if (!transformedChartData) return 0;
+
+    const maxes: Partial<Record<ReportMetricSource, number>> = {};
+
+    for (let i = 0; i < transformedChartData.length; i++) {
+      for (const [key, value] of Object.entries(transformedChartData[i])) {
+        if (key === "time") continue;
+
+        maxes[key as ReportMetricSource] = Math.max(
+          value as number,
+          maxes[key as ReportMetricSource] ?? 0
+        );
+      }
+    }
+
+    return Object.values(maxes).reduce((partialSum, a) => partialSum + a, 0);
+  }, [transformedChartData]);
 
   if (isFetching) {
     return (
@@ -97,12 +140,6 @@ export const SelectedChart: React.FC<{
               bottom: 0,
             }}
           >
-            <defs>
-              <linearGradient id="colorSpend" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-              </linearGradient>
-            </defs>
             <CartesianGrid
               strokeDasharray={"4 4"}
               horizontal={true}
@@ -118,10 +155,7 @@ export const SelectedChart: React.FC<{
             />
             <YAxis
               dataKey="value"
-              domain={([, dataMax]) => [
-                0,
-                Math.ceil(Math.max(dataMax + 0.1 * dataMax, 5)),
-              ]}
+              domain={[0, Math.max(maxSum + maxSum * 0.1, 5)]}
               style={{
                 fontSize: "0.8rem",
               }}
@@ -131,17 +165,20 @@ export const SelectedChart: React.FC<{
               content={<CustomTooltip />}
               cursor={{ fill: "transparent" }}
             />
-            <Area
-              type="monotone"
-              dataKey="value"
-              stroke="#8884d8"
-              fill="url(#colorSpend)"
-              strokeWidth={2}
-              fillOpacity={0.8}
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              name={selectedMetric.name}
-            />
+            {selectedMetric.metrics.map((metric) => (
+              <Area
+                dataKey={metric.source}
+                stackId="1"
+                type="monotone"
+                stroke={CHART_COLORS[metric.source!]}
+                fill={CHART_COLORS[metric.source!]}
+                strokeWidth={2}
+                fillOpacity={0.4}
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                name={metric.source}
+              />
+            ))}
           </AreaChart>
         </ResponsiveContainer>
       </Box>

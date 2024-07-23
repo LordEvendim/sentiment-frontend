@@ -81,13 +81,10 @@ export const AverageMetric: React.FC<{
   );
   const description = useMemo(
     () =>
-      metrics
-        ?.map(
-          (metric) =>
-            `${metric.source.replaceAll("-", " ")}: ${metric.value.toFixed(4)}`
-        )
-        .join(" \n "),
-    [metrics]
+      metrics?.map((metric) => (
+        <Box>{`${metric.source.replaceAll("-", " ")} : ${metric.value.toFixed(2)} ${unitSymbol}`}</Box>
+      )),
+    [metrics, unitSymbol]
   );
 
   return (

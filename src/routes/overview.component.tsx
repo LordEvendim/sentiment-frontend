@@ -108,7 +108,16 @@ export const component = function Overview() {
           data={dashbaordData}
           compareData={compareData}
           isFetching={isFetching}
-          metricId="spend"
+          metricsConfig={[
+            {
+              metricId: "spend",
+              source: "meta-ads",
+            },
+            {
+              metricId: "cost_micros",
+              source: "google-ads",
+            },
+          ]}
           name="Spend"
           unitSymbol="USD"
         />
@@ -116,7 +125,16 @@ export const component = function Overview() {
           data={dashbaordData}
           compareData={compareData}
           isFetching={isFetching}
-          metricId="impressions"
+          metricsConfig={[
+            {
+              metricId: "impressions",
+              source: "meta-ads",
+            },
+            {
+              metricId: "impressions",
+              source: "google-ads",
+            },
+          ]}
           name="Ads Impressions"
           unitSymbol=""
         />
@@ -124,8 +142,12 @@ export const component = function Overview() {
           data={dashbaordData}
           compareData={compareData}
           isFetching={isFetching}
-          metricId="page_impressions"
-          source="meta-insights"
+          metricsConfig={[
+            {
+              metricId: "page_impressions",
+              source: "meta-insights",
+            },
+          ]}
           name="Page impressions"
           unitSymbol=""
         />
@@ -133,8 +155,12 @@ export const component = function Overview() {
           data={dashbaordData}
           compareData={compareData}
           isFetching={isFetching}
-          metricId="newUsers"
-          source="google-analytics"
+          metricsConfig={[
+            {
+              metricId: "newUsers",
+              source: "google-analytics",
+            },
+          ]}
           name="New users"
           unitSymbol=""
         />
@@ -142,8 +168,12 @@ export const component = function Overview() {
           data={dashbaordData}
           compareData={compareData}
           isFetching={isFetching}
-          metricId="activeUsers"
-          source="google-analytics"
+          metricsConfig={[
+            {
+              metricId: "activeUsers",
+              source: "google-analytics",
+            },
+          ]}
           name="Active users"
           unitSymbol=""
         />
@@ -158,13 +188,6 @@ export const component = function Overview() {
             name="cpc"
           />
         )}
-        {/* <Chart
-          metrics={["spend"]}
-          data={dashbaordData}
-          label="Ad spend"
-          colSpan={5}
-          rowSpan={3}
-        /> */}
         <SelectedChart colSpan={5} rowSpan={3} timeframe={timeframe} />
         {isGhostMode ? (
           <SpacerCard colSpan={3} rowSpan={1} />
@@ -213,8 +236,12 @@ export const component = function Overview() {
           data={dashbaordData}
           compareData={compareData}
           isFetching={isFetching}
-          metricId="clicks"
-          source="google-ads"
+          metricsConfig={[
+            {
+              metricId: "clicks",
+              source: "google-ads",
+            },
+          ]}
           name="Ads clicks"
           unitSymbol=""
         />
@@ -231,8 +258,12 @@ export const component = function Overview() {
           data={dashbaordData}
           compareData={compareData}
           isFetching={isFetching}
-          metricId="sessions"
-          source="google-analytics"
+          metricsConfig={[
+            {
+              metricId: "sessions",
+              source: "google-analytics",
+            },
+          ]}
           name="Website sessions"
           unitSymbol=""
         />

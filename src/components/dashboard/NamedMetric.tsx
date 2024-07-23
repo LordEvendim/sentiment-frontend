@@ -33,8 +33,10 @@ export const NamedMetric: React.FC<{
   isFetching: boolean;
   data: ReportData | undefined;
   compareData: ReportData | undefined;
-  metricId: string;
-  source?: ReportMetricSource;
+  metricsConfig: {
+    metricId: string;
+    source: ReportMetricSource;
+  }[];
   unitSymbol?: string;
   colSpan?: number | "auto";
   rowSpan?: number | "auto";
@@ -43,50 +45,55 @@ export const NamedMetric: React.FC<{
   data,
   compareData,
   isFetching,
-  metricId,
+  metricsConfig,
   unitSymbol,
   name,
   colSpan = 1,
   rowSpan = 1,
-  source,
   toFixed = 2,
 }) => {
-  const metrics = useMemo(
-    () =>
-      data?.filter(
-        (value) =>
-          value.metricId === metricId &&
-          value.display === "metric" &&
-          (source ? value.source === source : true)
-      ) as
-        | {
-            display: "metric";
-            metricId: string;
-            source: ReportMetricSource;
-            value: number;
-          }[]
-        | undefined,
+  const metrics = useMemo(() => {
+    if (!data) return [];
 
-    [data, metricId, source]
-  );
-  const compareMetrics = useMemo(
-    () =>
-      compareData?.filter(
-        (value) =>
-          value.metricId === metricId &&
-          value.display === "metric" &&
-          (source ? value.source === source : true)
-      ) as
-        | {
-            display: "metric";
-            metricId: string;
-            source: ReportMetricSource;
-            value: number;
-          }[]
-        | undefined,
+    const result: {
+      metricId: string;
+      source: ReportMetricSource;
+      value: number;
+    }[] = [];
 
-    [compareData, metricId, source]
-  );
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < metricsConfig.length; j++) {
+        if (
+          data[i].metricId === metricsConfig[j].metricId &&
+          data[i].source === metricsConfig[j].source
+        )
+          result.push(data[i]);
+      }
+    }
+
+    return result;
+  }, [data, metricsConfig]);
+  const compareMetrics = useMemo(() => {
+    if (!compareData) return [];
+
+    const result: {
+      metricId: string;
+      source: ReportMetricSource;
+      value: number;
+    }[] = [];
+
+    for (let i = 0; i < compareData.length; i++) {
+      for (let j = 0; j < metricsConfig.length; j++) {
+        if (
+          compareData[i].metricId === metricsConfig[j].metricId &&
+          compareData[i].source === metricsConfig[j].source
+        )
+          result.push(compareData[i]);
+      }
+    }
+
+    return result;
+  }, [compareData, metricsConfig]);
   const value = useMemo(
     () =>
       metrics?.reduce((accumulator, metric) => accumulator + metric.value, 0) ??
@@ -96,20 +103,17 @@ export const NamedMetric: React.FC<{
   const compareValue = useMemo(
     () =>
       (compareMetrics?.reduce(
-        (accumulator, metric) => accumulator + metric.value,
+        (accumulator, metric) => accumulator + metric.value ?? 0,
         0
       ) ?? 0) - value ?? 0,
     [compareMetrics, value]
   );
   const description = useMemo(
     () =>
-      metrics
-        ?.map(
-          (metric) =>
-            `${metric.source.replaceAll("-", " ")}: ${metric.value.toFixed(2)}`
-        )
-        .join(" \n "),
-    [metrics]
+      metrics?.map((metric) => (
+        <Box>{`${metric.source.replaceAll("-", " ")} : ${(metric.value ?? 0).toFixed(2)} ${unitSymbol}`}</Box>
+      )),
+    [metrics, unitSymbol]
   );
   const percentageChange = useMemo(
     () => (100 * (value - compareValue)) / Math.abs(compareValue) ?? 0,
@@ -133,21 +137,23 @@ export const NamedMetric: React.FC<{
       cursor={"pointer"}
       onClick={() =>
         selectChartMetric({
-          metricId,
-          name,
-          source: source ?? "meta-ads",
+          metrics: metrics ?? [],
+          name: name,
         })
       }
     >
       <HStack justifyContent={"center"}>
-        {source === undefined ? (
+        {metricsConfig.length > 1 ? (
           <Tooltip label="Metric combined from a few data sources" p={"10px"}>
             <span>
               <MdMergeType size={"20px"} />
             </span>
           </Tooltip>
         ) : (
-          <Image src={dataSourcesLogos[source!]} height={"20px"} />
+          <Image
+            src={dataSourcesLogos[metricsConfig[0].source!]}
+            height={"20px"}
+          />
         )}
         <Heading fontSize={"16px"} fontWeight={400}>
           {name}

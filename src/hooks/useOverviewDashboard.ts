@@ -4,8 +4,10 @@ import { persist } from "zustand/middleware";
 import { ReportMetricSource } from "#types/report";
 
 export interface SelectedMetricDetails {
-  metricId: string;
-  source: ReportMetricSource;
+  metrics: {
+    metricId: string;
+    source: ReportMetricSource;
+  }[];
   name: string;
 }
 
@@ -18,9 +20,17 @@ export const useOverviewDashbaord = create<OverviewDashboardState>()(
   persist(
     (set) => ({
       selectedMetric: {
-        metricId: "spend",
-        name: "Ad spend",
-        source: "meta-ads",
+        metrics: [
+          {
+            metricId: "cost_micros",
+            source: "google-ads",
+          },
+          {
+            metricId: "spend",
+            source: "meta-ads",
+          },
+        ],
+        name: "Spend",
       },
       select: (selectedMetricDetails) =>
         set({ selectedMetric: selectedMetricDetails }),

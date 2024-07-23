@@ -3,14 +3,17 @@ import { format } from "date-fns";
 
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
+import { SelectedMetricDetails } from "#hooks/useOverviewDashboard";
 import { ReportMetricSource } from "#types/report";
 import { calculateTimeframeStart, DashboardTimeframe } from "#utils/timeframes";
 
-import { ChartData } from "./types/chart";
+type ChartData = {
+  since: string;
+  data: Partial<Record<ReportMetricSource, [number, number][]>>;
+};
 
 const fetchData = async (
-  metricId: string,
-  source: ReportMetricSource,
+  metrics: SelectedMetricDetails["metrics"],
   timeframe: DashboardTimeframe
 ) => {
   const since = format(
@@ -20,8 +23,7 @@ const fetchData = async (
 
   const result = await axiosMainServer.get<ChartData>("/reporter/chart", {
     params: {
-      metricId,
-      source,
+      metrics: metrics,
       timeframe,
       since,
     },
@@ -31,14 +33,13 @@ const fetchData = async (
 };
 
 export const useGetChartData = (
-  timeframe: DashboardTimeframe,
-  metricId: string,
-  source: ReportMetricSource
+  metrics: SelectedMetricDetails["metrics"],
+  timeframe: DashboardTimeframe
 ) => {
   const { data, isFetching } = useQuery({
     staleTime: 60 * 1000,
-    queryKey: [QueryKey.ChartData, metricId, source, timeframe],
-    queryFn: () => fetchData(metricId, source, timeframe),
+    queryKey: [QueryKey.ChartData, metrics, timeframe],
+    queryFn: () => fetchData(metrics, timeframe),
     retry: 0,
   });
 
