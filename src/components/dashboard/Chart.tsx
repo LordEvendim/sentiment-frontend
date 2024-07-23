@@ -31,9 +31,7 @@ export const Chart: React.FC<{
 }> = ({ colSpan, rowSpan, metrics, data, label }) => {
   const chartData = useMemo(
     () =>
-      data?.filter(
-        (value) => metrics.includes(value.metricId) && value.display === "chart"
-      ) as
+      data?.filter((value) => metrics.includes(value.metricId)) as
         | {
             display: "chart";
             metricId: string;
@@ -117,13 +115,6 @@ export const Chart: React.FC<{
               }}
               allowDecimals={false}
             />
-            {/* <RechartsTooltip
-              wrapperStyle={{ outline: "none" }}
-              isAnimationActive={false}
-              cursor={{ stroke: "#d1d5db", strokeWidth: 1 }}
-              position={{ y: 100 }}
-              labelFormatter={(label) => format(label, "MMM dd yyyy")}
-            /> */}
             <RechartsTooltip
               content={<CustomTooltip />}
               cursor={{ fill: "transparent" }}
