@@ -155,25 +155,54 @@ export const SelectedChart: React.FC<{
             />
             <YAxis
               dataKey="value"
-              domain={[0, Math.max(maxSum + maxSum * 0.1, 5)]}
+              domain={[0, Math.ceil(Math.max(maxSum + maxSum * 0.1, 5))]}
               style={{
                 fontSize: "0.8rem",
               }}
               allowDecimals={false}
             />
             <RechartsTooltip
-              content={<CustomTooltip />}
+              content={
+                <CustomTooltip showTotal={selectedMetric.metrics.length > 1} />
+              }
               cursor={{ fill: "transparent" }}
             />
             {selectedMetric.metrics.map((metric) => (
+              <defs key={metric.metricId + metric.source + "defs"}>
+                <linearGradient
+                  id={metric.metricId + metric.source}
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop
+                    offset="20%"
+                    stopColor={CHART_COLORS[metric.source!]}
+                    stopOpacity={1}
+                  />
+                  <stop
+                    offset="100%"
+                    stopColor={CHART_COLORS[metric.source!]}
+                    stopOpacity={0.2}
+                  />
+                </linearGradient>
+              </defs>
+            ))}
+            {selectedMetric.metrics.map((metric) => (
               <Area
+                key={metric.metricId + metric.source}
                 dataKey={metric.source}
                 stackId="1"
                 type="monotone"
                 stroke={CHART_COLORS[metric.source!]}
-                fill={CHART_COLORS[metric.source!]}
+                fill={
+                  selectedMetric.metrics.length > 1
+                    ? CHART_COLORS[metric.source!]
+                    : `url(#${metric.metricId + metric.source})`
+                }
+                fillOpacity={0.2}
                 strokeWidth={2}
-                fillOpacity={0.4}
                 strokeLinejoin="round"
                 strokeLinecap="round"
                 name={metric.source}

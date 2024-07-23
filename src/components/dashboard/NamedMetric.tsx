@@ -111,7 +111,9 @@ export const NamedMetric: React.FC<{
   const description = useMemo(
     () =>
       metrics?.map((metric) => (
-        <Box>{`${metric.source.replaceAll("-", " ")} : ${(metric.value ?? 0).toFixed(2)} ${unitSymbol}`}</Box>
+        <Box
+          key={metric.metricId + metric.source}
+        >{`${metric.source.replaceAll("-", " ")} : ${(metric.value ?? 0).toFixed(2)} ${unitSymbol}`}</Box>
       )),
     [metrics, unitSymbol]
   );
@@ -137,7 +139,7 @@ export const NamedMetric: React.FC<{
       cursor={"pointer"}
       onClick={() =>
         selectChartMetric({
-          metrics: metrics ?? [],
+          metrics: metricsConfig,
           name: name,
         })
       }

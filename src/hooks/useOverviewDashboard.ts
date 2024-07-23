@@ -22,12 +22,12 @@ export const useOverviewDashbaord = create<OverviewDashboardState>()(
       selectedMetric: {
         metrics: [
           {
-            metricId: "cost_micros",
-            source: "google-ads",
-          },
-          {
             metricId: "spend",
             source: "meta-ads",
+          },
+          {
+            metricId: "cost_micros",
+            source: "google-ads",
           },
         ],
         name: "Spend",
@@ -36,7 +36,7 @@ export const useOverviewDashbaord = create<OverviewDashboardState>()(
         set({ selectedMetric: selectedMetricDetails }),
     }),
     {
-      name: "app-state",
+      name: "overview-dashboard-state",
     }
   )
 );
