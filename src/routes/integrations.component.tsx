@@ -30,6 +30,7 @@ import { FacebookModal } from "#components/integrations/FacebookModal";
 import { FacebookPageItem } from "#components/integrations/FacebookPageItem";
 import { GoogleAdAccountItem } from "#components/integrations/GoogleAdAccountItem";
 import { GoogleAnalyticsAccountItem } from "#components/integrations/GoogleAnalyticsAccountItem";
+import { GoogleConsentModal } from "#components/integrations/GoogleConsentModal";
 import { GoogleLoginButton } from "#components/integrations/GoogleLoginButton";
 import { GoogleModal } from "#components/integrations/GoogleModal";
 import { useCreateMetaAccessToken } from "#hooks/api/useCreateMetaAccessToken";
@@ -49,6 +50,11 @@ export const component = function Integrations() {
     isOpen: isGoogleModalOpen,
     onOpen: onGoogleModalOpen,
     onClose: onGoogleModalClose,
+  } = useDisclosure();
+  const {
+    isOpen: isGoogleConsentModalOpen,
+    onOpen: onGoogleConsentModalOpen,
+    onClose: onGoogleCosentModalClose,
   } = useDisclosure();
   const toast = useToast();
   const { url } = useGetGoogleAuthUrl();
@@ -129,6 +135,11 @@ export const component = function Integrations() {
         onClose={onFacebookModalClose}
       />
       <GoogleModal isOpen={isGoogleModalOpen} onClose={onGoogleModalClose} />
+      <GoogleConsentModal
+        isOpen={isGoogleConsentModalOpen}
+        onClose={onGoogleCosentModalClose}
+        handleLogin={handleGoogleLogin}
+      />
       <Text
         color={"gray.700"}
         mb={"20px"}
@@ -327,7 +338,7 @@ export const component = function Integrations() {
               ) : (
                 <GoogleLoginButton
                   isLoading={isFetchingGoogleIntegration}
-                  onClick={() => handleGoogleLogin()}
+                  onClick={onGoogleConsentModalOpen}
                 />
               )}
             </HStack>

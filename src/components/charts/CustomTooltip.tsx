@@ -1,6 +1,8 @@
 import { Box, Divider } from "@chakra-ui/react";
 import { format } from "date-fns";
 
+import { capitalize } from "#utils/string";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const CustomTooltip = ({ active, payload, label, showTotal }: any) => {
   if (active && payload && payload.length) {
@@ -19,7 +21,7 @@ export const CustomTooltip = ({ active, payload, label, showTotal }: any) => {
             <Box key={`${pld.name}: ${pld.value}`} mt={"10px"} mb={"5px"}>
               <div
                 style={{ color: pld.fill }}
-              >{`${pld.name}: ${pld.value.toFixed(2).replace(/[.,]00$/, "")}`}</div>
+              >{`${capitalize(pld.name.replaceAll("-", " "))}: ${pld.value.toFixed(2).replace(/[.,]00$/, "")}`}</div>
             </Box>
           ))}
           {showTotal && (
