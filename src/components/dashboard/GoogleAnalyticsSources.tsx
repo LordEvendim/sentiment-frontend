@@ -8,7 +8,7 @@ import {
   Spinner,
   Tooltip,
 } from "@chakra-ui/react";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { useMemo } from "react";
 import { IoInformationCircleOutline } from "react-icons/io5";
 import {
@@ -22,78 +22,96 @@ import {
 } from "recharts";
 
 import { CustomTooltip } from "#components/charts/CustomTooltip";
-import { useGetChartData } from "#hooks/api/useGetChartData";
-import { useOverviewDashbaord } from "#hooks/useOverviewDashboard";
-import { ReportMetricSource } from "#types/report";
+import { useGetSourcesData } from "#hooks/api/useGetSourcesData";
 import { DashboardTimeframe } from "#utils/timeframes";
 
-const CHART_COLORS: Record<ReportMetricSource, string> = {
-  "google-ads": "#d62424",
-  "google-analytics": "#d62424",
-  "meta-ads": "#3f82d9",
-  "meta-insights": "#3f82d9",
-};
+const CHART_COLORS = [
+  "#FFA420",
+  "#CB2821",
+  "#0E294B",
+  "#2271B3",
+  "#008F39",
+  "#193737",
+  "#AF2B1E",
+  "#F3A505",
+  "#642424",
+  "#25221B",
+];
 
-export const SelectedChart: React.FC<{
+export const GoogleAnalyticsSources: React.FC<{
   colSpan: number | "auto";
   rowSpan: number | "auto";
   timeframe: DashboardTimeframe;
 }> = ({ colSpan, rowSpan, timeframe }) => {
-  const selectedMetric = useOverviewDashbaord((state) => state.selectedMetric);
+  const { sources, isFetching } = useGetSourcesData(timeframe);
 
-  const { data, isFetching } = useGetChartData(
-    selectedMetric.metrics,
-    timeframe
-  );
   const transformedChartData = useMemo(() => {
-    if (!data) return [];
+    if (!sources || sources.length === 0) return [];
 
-    const timestampMap: Record<
-      number,
-      { time?: Date } & {
-        [key in ReportMetricSource]?: number;
-      }
-    > = {};
+    let lastDate = sources[0].created_at;
+    const result: ({
+      [key: string]: number;
+    } & { time: Date })[] = [
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-expect-error
+      {
+        time: parse(lastDate, "yyyy-MM-dd", Date.now()),
+      },
+    ];
 
-    for (const [source, sourceData] of Object.entries(data.data)) {
-      for (const datapoint of sourceData) {
-        const timestamp = datapoint[1];
+    for (let i = 0; i < sources.length; i++) {
+      const datapoint = sources[i];
 
-        if (timestampMap[timestamp]) {
-          timestampMap[timestamp][source as ReportMetricSource] = datapoint[0];
-        } else {
-          timestampMap[timestamp] = {};
-          timestampMap[timestamp].time = new Date(timestamp);
-          timestampMap[timestamp][source as ReportMetricSource] = datapoint[0];
-        }
+      if (datapoint.created_at === lastDate) {
+        result[result.length - 1][datapoint.source] = datapoint.sessions;
+      } else {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        result.push({
+          time: parse(datapoint.created_at, "yyyy-MM-dd", Date.now()),
+          [datapoint.source]: datapoint.sessions as number,
+        });
+        lastDate = datapoint.created_at;
       }
     }
 
-    return Object.values(timestampMap);
-  }, [data]);
+    return result;
+  }, [sources]);
+  const sourcesNames = useMemo(() => {
+    if (!sources) return [];
+
+    const set = new Set<string>();
+
+    for (let i = 0; i < sources.length; i++) {
+      set.add(sources[i].source);
+    }
+
+    return Array.from(set);
+  }, [sources]);
   const maxSum = useMemo(() => {
     if (!transformedChartData) return 0;
 
-    const maxes: Partial<Record<ReportMetricSource, number>> = {};
+    let currentMax = 0;
 
     for (let i = 0; i < transformedChartData.length; i++) {
+      let sum = 0;
+
       for (const [key, value] of Object.entries(transformedChartData[i])) {
         if (key === "time") continue;
 
-        maxes[key as ReportMetricSource] = Math.max(
-          value as number,
-          maxes[key as ReportMetricSource] ?? 0
-        );
+        sum += value as number;
       }
+
+      currentMax = Math.max(currentMax, sum);
     }
 
-    return Object.values(maxes).reduce((partialSum, a) => partialSum + a, 0);
+    return currentMax;
   }, [transformedChartData]);
 
   if (isFetching) {
     return (
       <GridItem
-        p={"20px"}
+        p={"25px"}
         pb={"10px"}
         background={"white"}
         borderRadius={"8px"}
@@ -110,7 +128,7 @@ export const SelectedChart: React.FC<{
 
   return (
     <GridItem
-      p={"25px"}
+      p={"20px"}
       pb={"10px"}
       background={"white"}
       borderRadius={"8px"}
@@ -120,24 +138,27 @@ export const SelectedChart: React.FC<{
     >
       <HStack justifyContent={"center"} mb={"20px"}>
         <Heading fontSize={"lg"} fontWeight={400}>
-          {selectedMetric.name}
+          Traffic sources
         </Heading>
         <Spacer />
-        <Tooltip label={selectedMetric.name} p={"10px"}>
+        <Tooltip
+          label={"Top sources of the traffic to your website"}
+          p={"10px"}
+        >
           <span>
             <IoInformationCircleOutline size={"20px"} />
           </span>
         </Tooltip>
       </HStack>
-      <Box w={"full"} h={"250px"}>
+      <Box w={"full"} h={"170px"}>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={transformedChartData ?? []}
             margin={{
               top: 20,
-              right: 30,
-              left: 0,
-              bottom: 0,
+              right: 20,
+              left: -20,
+              bottom: -10,
             }}
           >
             <CartesianGrid
@@ -162,50 +183,41 @@ export const SelectedChart: React.FC<{
               allowDecimals={false}
             />
             <RechartsTooltip
-              content={
-                <CustomTooltip showTotal={selectedMetric.metrics.length > 1} />
-              }
+              wrapperStyle={{ zIndex: 1000 }}
+              content={<CustomTooltip showTotal={true} />}
               cursor={{ fill: "transparent" }}
             />
-            {selectedMetric.metrics.map((metric) => (
-              <defs key={metric.metricId + metric.source + "defs"}>
-                <linearGradient
-                  id={metric.metricId + metric.source}
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
+            {sourcesNames.map((source, i) => (
+              <defs key={source + "defs"}>
+                <linearGradient id={source} x1="0" y1="0" x2="0" y2="1">
                   <stop
                     offset="20%"
-                    stopColor={CHART_COLORS[metric.source!]}
+                    stopColor={CHART_COLORS[i]}
                     stopOpacity={1}
                   />
                   <stop
                     offset="100%"
-                    stopColor={CHART_COLORS[metric.source!]}
+                    stopColor={CHART_COLORS[i]}
                     stopOpacity={0.2}
                   />
                 </linearGradient>
               </defs>
             ))}
-            {selectedMetric.metrics.map((metric) => (
+            {sourcesNames.map((source, i) => (
               <Area
-                key={metric.metricId + metric.source}
-                dataKey={metric.source}
+                key={source}
+                dataKey={source}
                 stackId="1"
                 type="monotone"
-                stroke={CHART_COLORS[metric.source!]}
+                stroke={CHART_COLORS[i]}
                 fill={
-                  selectedMetric.metrics.length > 1
-                    ? CHART_COLORS[metric.source!]
-                    : `url(#${metric.metricId + metric.source})`
+                  sourcesNames.length > 1 ? CHART_COLORS[i] : `url(#${source})`
                 }
-                fillOpacity={0.2}
+                fillOpacity={0.15}
                 strokeWidth={2}
                 strokeLinejoin="round"
                 strokeLinecap="round"
-                name={metric.source}
+                name={source}
               />
             ))}
           </AreaChart>

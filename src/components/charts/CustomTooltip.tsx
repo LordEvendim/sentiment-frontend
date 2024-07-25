@@ -14,6 +14,7 @@ export const CustomTooltip = ({ active, payload, label, showTotal }: any) => {
         background={"white"}
         boxShadow={"md"}
         borderRadius={"10px"}
+        zIndex={99}
       >
         <p className="label">{`${format(label ?? Date.now(), "MMM dd yyyy")}`}</p>
         <div>

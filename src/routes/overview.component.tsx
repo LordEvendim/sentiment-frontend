@@ -16,6 +16,7 @@ import { useState } from "react";
 import { IoCalendarOutline } from "react-icons/io5";
 
 import { AverageMetric } from "#components/dashboard/AverageMetric";
+import { GoogleAnalyticsSources } from "#components/dashboard/GoogleAnalyticsSources";
 import { MetaCampaignSummaryMetric } from "#components/dashboard/MetaCampaignSummaryMetric";
 import { MetricReport } from "#components/dashboard/MetricReport";
 import { NamedMetric } from "#components/dashboard/NamedMetric";
@@ -93,17 +94,7 @@ export const component = function Overview() {
         gap={"10px"}
         gridAutoRows={"120px"}
       >
-        {isGhostMode ? (
-          <SpacerCard colSpan={3} rowSpan={1} />
-        ) : (
-          <MetricReport
-            colSpan={3}
-            rowSpan={1}
-            timeframe={timeframe}
-            metricDisplayName="Clicks"
-            name="clicks"
-          />
-        )}
+        <GoogleAnalyticsSources colSpan={3} rowSpan={2} timeframe={timeframe} />
         <NamedMetric
           data={dashbaordData}
           compareData={compareData}
@@ -177,17 +168,6 @@ export const component = function Overview() {
           name="Active users"
           unitSymbol=""
         />
-        {isGhostMode ? (
-          <SpacerCard colSpan={3} rowSpan={1} />
-        ) : (
-          <MetricReport
-            colSpan={3}
-            rowSpan={1}
-            timeframe={timeframe}
-            metricDisplayName="Cost per click"
-            name="cpc"
-          />
-        )}
         <SelectedChart colSpan={5} rowSpan={3} timeframe={timeframe} />
         {isGhostMode ? (
           <SpacerCard colSpan={3} rowSpan={1} />
@@ -212,7 +192,17 @@ export const component = function Overview() {
             name="spend"
           />
         )}
-        <SpacerCard colSpan={3} rowSpan={1} />
+        {isGhostMode ? (
+          <SpacerCard colSpan={3} rowSpan={1} />
+        ) : (
+          <MetricReport
+            colSpan={3}
+            rowSpan={1}
+            timeframe={timeframe}
+            metricDisplayName="Clicks"
+            name="clicks"
+          />
+        )}
         <MetaCampaignSummaryMetric
           description="Total amount of link clicks"
           metricId="inline_link_clicks"

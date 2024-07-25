@@ -17,4 +17,5 @@ export enum QueryKey {
   TopGoogleCampaigns = "top-google-campaigns",
   Credits = "credits",
   ChartData = "chart-data",
+  Sources = "sources",
 }
