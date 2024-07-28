@@ -89,12 +89,8 @@ export const component = function Overview() {
           </Portal>
         </Menu>
       </Flex>
-      <Grid
-        templateColumns="repeat(8, 1fr)"
-        gap={"10px"}
-        gridAutoRows={"120px"}
-      >
-        <GoogleAnalyticsSources colSpan={3} rowSpan={2} timeframe={timeframe} />
+      <Grid templateColumns="repeat(8, 1fr)" gap={"10px"} gridAutoRows={"80px"}>
+        <GoogleAnalyticsSources colSpan={3} rowSpan={3} timeframe={timeframe} />
         <NamedMetric
           data={dashbaordData}
           compareData={compareData}
@@ -111,6 +107,8 @@ export const component = function Overview() {
           ]}
           name="Spend"
           unitSymbol="USD"
+          rowSpan={2}
+          toFixed={0}
         />
         <NamedMetric
           data={dashbaordData}
@@ -128,6 +126,8 @@ export const component = function Overview() {
           ]}
           name="Ads Impressions"
           unitSymbol=""
+          rowSpan={2}
+          toFixed={0}
         />
         <NamedMetric
           data={dashbaordData}
@@ -141,6 +141,7 @@ export const component = function Overview() {
           ]}
           name="Page impressions"
           unitSymbol=""
+          rowSpan={2}
         />
         <NamedMetric
           data={dashbaordData}
@@ -154,6 +155,7 @@ export const component = function Overview() {
           ]}
           name="New users"
           unitSymbol=""
+          rowSpan={2}
         />
         <NamedMetric
           data={dashbaordData}
@@ -167,14 +169,15 @@ export const component = function Overview() {
           ]}
           name="Active users"
           unitSymbol=""
+          rowSpan={2}
         />
-        <SelectedChart colSpan={5} rowSpan={3} timeframe={timeframe} />
+        <SelectedChart colSpan={5} rowSpan={4} timeframe={timeframe} />
         {isGhostMode ? (
-          <SpacerCard colSpan={3} rowSpan={1} />
+          <SpacerCard colSpan={3} rowSpan={2} />
         ) : (
           <MetricReport
             colSpan={3}
-            rowSpan={1}
+            rowSpan={2}
             timeframe={timeframe}
             metricDisplayName="Cost per click"
             name="cpc"
@@ -182,25 +185,14 @@ export const component = function Overview() {
         )}
 
         {isGhostMode ? (
-          <SpacerCard colSpan={3} rowSpan={1} />
+          <SpacerCard colSpan={3} rowSpan={2} />
         ) : (
           <MetricReport
             colSpan={3}
-            rowSpan={1}
+            rowSpan={2}
             timeframe={timeframe}
             metricDisplayName="Spend"
             name="spend"
-          />
-        )}
-        {isGhostMode ? (
-          <SpacerCard colSpan={3} rowSpan={1} />
-        ) : (
-          <MetricReport
-            colSpan={3}
-            rowSpan={1}
-            timeframe={timeframe}
-            metricDisplayName="Clicks"
-            name="clicks"
           />
         )}
         <MetaCampaignSummaryMetric
@@ -210,8 +202,8 @@ export const component = function Overview() {
           unitSymbol=""
           data={metaCampaigns}
           isFetching={isFetchingMetaCampaigns}
+          rowSpan={2}
         />
-
         <AverageMetric
           data={dashbaordData}
           isFetching={isFetching}
@@ -220,8 +212,8 @@ export const component = function Overview() {
           source="meta-ads"
           name="Average CPC"
           unitSymbol="USD"
+          rowSpan={2}
         />
-
         <NamedMetric
           data={dashbaordData}
           compareData={compareData}
@@ -234,6 +226,7 @@ export const component = function Overview() {
           ]}
           name="Ads clicks"
           unitSymbol=""
+          rowSpan={2}
         />
         <AverageMetric
           data={dashbaordData}
@@ -243,6 +236,7 @@ export const component = function Overview() {
           source="google-ads"
           name="Average CPC"
           unitSymbol="USD"
+          rowSpan={2}
         />
         <NamedMetric
           data={dashbaordData}
@@ -256,7 +250,19 @@ export const component = function Overview() {
           ]}
           name="Website sessions"
           unitSymbol=""
+          rowSpan={2}
         />
+        {isGhostMode ? (
+          <SpacerCard colSpan={3} rowSpan={2} />
+        ) : (
+          <MetricReport
+            colSpan={3}
+            rowSpan={2}
+            timeframe={timeframe}
+            metricDisplayName="Clicks"
+            name="clicks"
+          />
+        )}
       </Grid>
     </Box>
   );

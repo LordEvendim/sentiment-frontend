@@ -65,7 +65,7 @@ export const MetaCampaignSummaryMetric: React.FC<{
       alignSelf={"stretch"}
       flexDir={"column"}
     >
-      <HStack justifyContent={"center"} mb={"15px"}>
+      <HStack justifyContent={"center"} h={"50px"} alignItems={"start"}>
         <Image src={MetaLogo} height={"20px"} />
         <Heading fontSize={"16px"} fontWeight={400}>
           {name}
@@ -77,7 +77,6 @@ export const MetaCampaignSummaryMetric: React.FC<{
           </span>
         </Tooltip>
       </HStack>
-      <Spacer />
       <HStack fontSize={"xl"} fontWeight={"normal"} alignItems={"baseline"}>
         {isFetching ? (
           <Spinner size={"sm"} />

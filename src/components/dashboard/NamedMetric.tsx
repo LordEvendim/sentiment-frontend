@@ -10,6 +10,7 @@ import {
   StatArrow,
   StatHelpText,
   StatNumber,
+  Text,
   Tooltip,
 } from "@chakra-ui/react";
 import { useMemo } from "react";
@@ -113,9 +114,9 @@ export const NamedMetric: React.FC<{
       metrics?.map((metric) => (
         <Box
           key={metric.metricId + metric.source}
-        >{`${metric.source.replaceAll("-", " ")} : ${(metric.value ?? 0).toFixed(2)} ${unitSymbol}`}</Box>
+        >{`${metric.source.replaceAll("-", " ")} : ${(metric.value ?? 0).toFixed(toFixed)} ${unitSymbol}`}</Box>
       )),
-    [metrics, unitSymbol]
+    [metrics, toFixed, unitSymbol]
   );
   const percentageChange = useMemo(
     () => (100 * (value - compareValue)) / Math.abs(compareValue) ?? 0,
@@ -144,7 +145,7 @@ export const NamedMetric: React.FC<{
         })
       }
     >
-      <HStack justifyContent={"center"} mb={"10px"}>
+      <HStack justifyContent={"center"} h={"50px"} alignItems={"start"}>
         {metricsConfig.length > 1 ? (
           <Tooltip label="Metric combined from a few data sources" p={"10px"}>
             <span>
@@ -167,7 +168,6 @@ export const NamedMetric: React.FC<{
           </span>
         </Tooltip>
       </HStack>
-      <Spacer />
       <HStack fontSize={"xl"} fontWeight={"normal"} alignItems={"baseline"}>
         {isFetching ? (
           <Spinner size={"sm"} />
@@ -216,9 +216,12 @@ export const NamedMetric: React.FC<{
           {metrics?.map((metric) => (
             <HStack key={metric.metricId + metric.source} mb={"5px"}>
               <Image src={dataSourcesLogos[metric.source!]} height={"15px"} />
-              <Box
-                ml={"5px"}
-              >{`${(metric.value ?? 0).toFixed(2)} ${unitSymbol}`}</Box>
+              <Box ml={"5px"}>
+                {`${(metric.value ?? 0).toFixed(toFixed)}`}
+                <Text ml={"5px"} fontSize={"x-small"} display={"inline-block"}>
+                  {unitSymbol}
+                </Text>
+              </Box>
             </HStack>
           ))}
         </Box>
