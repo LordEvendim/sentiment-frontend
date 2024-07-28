@@ -144,7 +144,7 @@ export const NamedMetric: React.FC<{
         })
       }
     >
-      <HStack justifyContent={"center"}>
+      <HStack justifyContent={"center"} mb={"10px"}>
         {metricsConfig.length > 1 ? (
           <Tooltip label="Metric combined from a few data sources" p={"10px"}>
             <span>
@@ -206,6 +206,23 @@ export const NamedMetric: React.FC<{
           </Stat>
         )}
       </HStack>
+      {metrics.length > 1 && (
+        <Box
+          fontSize={"small"}
+          color={"gray.600"}
+          fontWeight={"semibold"}
+          mt={"8px"}
+        >
+          {metrics?.map((metric) => (
+            <HStack key={metric.metricId + metric.source} mb={"5px"}>
+              <Image src={dataSourcesLogos[metric.source!]} height={"15px"} />
+              <Box
+                ml={"5px"}
+              >{`${(metric.value ?? 0).toFixed(2)} ${unitSymbol}`}</Box>
+            </HStack>
+          ))}
+        </Box>
+      )}
     </GridItem>
   );
 };
