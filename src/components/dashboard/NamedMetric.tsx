@@ -206,18 +206,42 @@ export const NamedMetric: React.FC<{
           </Stat>
         )}
       </HStack>
-      {metrics.length > 1 && (
+      {metrics.length > 0 ? (
+        <Box
+          fontSize={"small"}
+          color={"gray.600"}
+          fontWeight={"semibold"}
+          mt={"5px"}
+        >
+          {metrics?.map((metric) => (
+            <HStack key={metric.metricId + metric.source} mb={"5px"}>
+              <Image src={dataSourcesLogos[metric.source!]} height={"15px"} />
+              <Box ml={"5px"}>
+                {(Number.isInteger(metric.value)
+                  ? metric.value
+                  : metric.value.toFixed(toFixed)
+                )
+                  .toLocaleString("en")
+                  .replaceAll(",", " ")}
+                <Text ml={"5px"} fontSize={"x-small"} display={"inline-block"}>
+                  {unitSymbol}
+                </Text>
+              </Box>
+            </HStack>
+          ))}
+        </Box>
+      ) : (
         <Box
           fontSize={"small"}
           color={"gray.600"}
           fontWeight={"semibold"}
           mt={"8px"}
         >
-          {metrics?.map((metric) => (
+          {metricsConfig?.map((metric) => (
             <HStack key={metric.metricId + metric.source} mb={"5px"}>
               <Image src={dataSourcesLogos[metric.source!]} height={"15px"} />
               <Box ml={"5px"}>
-                {`${(metric.value ?? 0).toFixed(toFixed)}`}
+                {`${(0).toFixed(toFixed)}`}
                 <Text ml={"5px"} fontSize={"x-small"} display={"inline-block"}>
                   {unitSymbol}
                 </Text>

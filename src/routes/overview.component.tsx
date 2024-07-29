@@ -142,6 +142,7 @@ export const component = function Overview() {
           name="Page impressions"
           unitSymbol=""
           rowSpan={2}
+          toFixed={0}
         />
         <NamedMetric
           data={dashbaordData}
@@ -156,6 +157,7 @@ export const component = function Overview() {
           name="New users"
           unitSymbol=""
           rowSpan={2}
+          toFixed={0}
         />
         <NamedMetric
           data={dashbaordData}
@@ -170,6 +172,7 @@ export const component = function Overview() {
           name="Active users"
           unitSymbol=""
           rowSpan={2}
+          toFixed={0}
         />
         <SelectedChart colSpan={5} rowSpan={4} timeframe={timeframe} />
         {isGhostMode ? (
@@ -227,6 +230,7 @@ export const component = function Overview() {
           name="Ads clicks"
           unitSymbol=""
           rowSpan={2}
+          toFixed={0}
         />
         <AverageMetric
           data={dashbaordData}
@@ -251,6 +255,7 @@ export const component = function Overview() {
           name="Website sessions"
           unitSymbol=""
           rowSpan={2}
+          toFixed={0}
         />
         {isGhostMode ? (
           <SpacerCard colSpan={3} rowSpan={2} />

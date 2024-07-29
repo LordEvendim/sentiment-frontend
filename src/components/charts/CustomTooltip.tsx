@@ -18,13 +18,15 @@ export const CustomTooltip = ({ active, payload, label, showTotal }: any) => {
       >
         <p className="label">{`${format(label ?? Date.now(), "MMM dd yyyy")}`}</p>
         <div>
-          {payload.map((pld: any) => (
-            <Box key={`${pld.name}: ${pld.value}`} mt={"10px"} mb={"5px"}>
-              <div
-                style={{ color: pld.fill }}
-              >{`${capitalize(pld.name.replaceAll("-", " "))}: ${pld.value.toFixed(2).replace(/[.,]00$/, "")}`}</div>
-            </Box>
-          ))}
+          {payload
+            .sort((a: any, b: any) => b.value - a.value)
+            .map((pld: any) => (
+              <Box key={`${pld.name}: ${pld.value}`} mt={"10px"} mb={"5px"}>
+                <div
+                  style={{ color: pld.fill }}
+                >{`${capitalize(pld.name.replaceAll("-", " "))}: ${pld.value.toFixed(2).replace(/[.,]00$/, "")}`}</div>
+              </Box>
+            ))}
           {showTotal && (
             <>
               <Divider
