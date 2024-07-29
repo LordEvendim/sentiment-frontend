@@ -150,7 +150,7 @@ export const GoogleAnalyticsSources: React.FC<{
           </span>
         </Tooltip>
       </HStack>
-      <Box w={"full"} h={"170px"}>
+      <Box w={"full"} h={"260px"}>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={transformedChartData ?? []}

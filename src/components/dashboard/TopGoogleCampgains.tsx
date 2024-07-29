@@ -55,8 +55,12 @@ export const TopGoogleCampgains: React.FC<{
       {
         accessorKey: "clicks",
         header: "Clicks",
-        cell: ({ cell }) =>
-          (cell.getValue() as number).toLocaleString("en").replaceAll(",", " "),
+        cell({ cell }) {
+          return `$ ${parseInt(cell.getValue() as string)}`;
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        sortingFn: (rowA: any, rowB: any) =>
+          rowB.original["clicks"] - rowA.original["clicks"],
       },
       {
         accessorKey: "spend",
@@ -68,6 +72,9 @@ export const TopGoogleCampgains: React.FC<{
       {
         accessorKey: "impressions",
         header: "Impressions",
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        sortingFn: (rowA: any, rowB: any) =>
+          rowB.original["impressions"] - rowA.original["impressions"],
       },
       {
         accessorKey: "cost_per_click",
@@ -80,11 +87,8 @@ export const TopGoogleCampgains: React.FC<{
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         sortingFn: (rowA: any, rowB: any) =>
-          rowA.original["spend"] / rowA.original["clicks"] -
-            rowB.original["spend"] / rowB.original["clicks"] >
-          0
-            ? 1
-            : -1,
+          rowB.original["spend"] / rowB.original["clicks"] -
+          rowA.original["spend"] / rowA.original["clicks"],
       },
     ],
     []
@@ -99,7 +103,7 @@ export const TopGoogleCampgains: React.FC<{
     sortingFns: {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       numberSorting: (rowA: any, rowB: any, columnId: any) =>
-        rowA.original[columnId] - rowB.original[columnId] > 0 ? 1 : -1,
+        rowB.original[columnId] - rowA.original[columnId],
     },
   });
 

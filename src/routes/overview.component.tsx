@@ -90,7 +90,18 @@ export const component = function Overview() {
         </Menu>
       </Flex>
       <Grid templateColumns="repeat(8, 1fr)" gap={"10px"} gridAutoRows={"80px"}>
-        <GoogleAnalyticsSources colSpan={3} rowSpan={3} timeframe={timeframe} />
+        <GoogleAnalyticsSources colSpan={8} rowSpan={4} timeframe={timeframe} />
+        {isGhostMode ? (
+          <SpacerCard colSpan={3} rowSpan={2} />
+        ) : (
+          <MetricReport
+            colSpan={3}
+            rowSpan={2}
+            timeframe={timeframe}
+            metricDisplayName="Cost per click"
+            name="cpc"
+          />
+        )}
         <NamedMetric
           data={dashbaordData}
           compareData={compareData}
@@ -174,19 +185,6 @@ export const component = function Overview() {
           rowSpan={2}
           toFixed={0}
         />
-        <SelectedChart colSpan={5} rowSpan={4} timeframe={timeframe} />
-        {isGhostMode ? (
-          <SpacerCard colSpan={3} rowSpan={2} />
-        ) : (
-          <MetricReport
-            colSpan={3}
-            rowSpan={2}
-            timeframe={timeframe}
-            metricDisplayName="Cost per click"
-            name="cpc"
-          />
-        )}
-
         {isGhostMode ? (
           <SpacerCard colSpan={3} rowSpan={2} />
         ) : (
@@ -198,6 +196,19 @@ export const component = function Overview() {
             name="spend"
           />
         )}
+        <SelectedChart colSpan={5} rowSpan={4} timeframe={timeframe} />
+        {isGhostMode ? (
+          <SpacerCard colSpan={3} rowSpan={2} />
+        ) : (
+          <MetricReport
+            colSpan={3}
+            rowSpan={2}
+            timeframe={timeframe}
+            metricDisplayName="Clicks"
+            name="clicks"
+          />
+        )}
+        <SpacerCard colSpan={3} rowSpan={2} />
         <MetaCampaignSummaryMetric
           description="Total amount of link clicks"
           metricId="inline_link_clicks"
@@ -257,17 +268,6 @@ export const component = function Overview() {
           rowSpan={2}
           toFixed={0}
         />
-        {isGhostMode ? (
-          <SpacerCard colSpan={3} rowSpan={2} />
-        ) : (
-          <MetricReport
-            colSpan={3}
-            rowSpan={2}
-            timeframe={timeframe}
-            metricDisplayName="Clicks"
-            name="clicks"
-          />
-        )}
       </Grid>
     </Box>
   );

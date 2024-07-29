@@ -55,8 +55,12 @@ export const TopMetaCampgains: React.FC<{
       {
         accessorKey: "clicks",
         header: "Clicks",
-        cell: ({ cell }) =>
-          (cell.getValue() as number).toLocaleString("en").replaceAll(",", " "),
+        cell({ cell }) {
+          return `${parseInt(cell.getValue() as string)}`;
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        sortingFn: (rowA: any, rowB: any) =>
+          rowB.original["clicks"] - rowA.original["clicks"],
       },
       {
         accessorKey: "spend",
@@ -64,10 +68,19 @@ export const TopMetaCampgains: React.FC<{
         cell({ cell }) {
           return `$ ${(cell.getValue() as number).toFixed(2)}`;
         },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        sortingFn: (rowA: any, rowB: any) =>
+          rowB.original["spend"] - rowA.original["spend"],
       },
       {
         accessorKey: "impressions",
         header: "Impressions",
+        cell({ cell }) {
+          return `${cell.getValue() as number}`;
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        sortingFn: (rowA: any, rowB: any) =>
+          rowB.original["impressions"] - rowA.original["impressions"],
       },
       {
         accessorKey: "inline_link_clicks",
@@ -80,15 +93,18 @@ export const TopMetaCampgains: React.FC<{
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         sortingFn: (rowA: any, rowB: any) =>
-          rowA.original["spend"] / rowA.original["inline_link_clicks"] -
-            rowB.original["spend"] / rowB.original["inline_link_clicks"] >
-          0
-            ? 1
-            : -1,
+          rowB.original["spend"] / rowB.original["inline_link_clicks"] -
+          rowA.original["spend"] / rowA.original["inline_link_clicks"],
       },
       {
         accessorKey: "reach",
         header: "Reach",
+        cell({ cell }) {
+          return `${cell.getValue() as number}`;
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        sortingFn: (rowA: any, rowB: any) =>
+          rowB.original["reach"] - rowA.original["reach"],
       },
     ],
     []
