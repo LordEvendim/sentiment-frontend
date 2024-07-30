@@ -55,9 +55,6 @@ export const TopGoogleCampgains: React.FC<{
       {
         accessorKey: "clicks",
         header: "Clicks",
-        cell({ cell }) {
-          return `$ ${parseInt(cell.getValue() as string)}`;
-        },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         sortingFn: (rowA: any, rowB: any) =>
           rowB.original["clicks"] - rowA.original["clicks"],
