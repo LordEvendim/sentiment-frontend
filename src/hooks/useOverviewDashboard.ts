@@ -13,7 +13,9 @@ export interface SelectedMetricDetails {
 
 interface OverviewDashboardState {
   selectedMetric: SelectedMetricDetails;
+  selectedReferenceMetric: SelectedMetricDetails;
   select: (metricDetails: SelectedMetricDetails) => void;
+  selectReference: (metricDetails: SelectedMetricDetails) => void;
 }
 
 export const useOverviewDashbaord = create<OverviewDashboardState>()(
@@ -32,8 +34,19 @@ export const useOverviewDashbaord = create<OverviewDashboardState>()(
         ],
         name: "Spend",
       },
+      selectedReferenceMetric: {
+        metrics: [
+          {
+            metricId: "conversions",
+            source: "google-ads",
+          },
+        ],
+        name: "Conversions",
+      },
       select: (selectedMetricDetails) =>
         set({ selectedMetric: selectedMetricDetails }),
+      selectReference: (selectedMetricDetails) =>
+        set({ selectedReferenceMetric: selectedMetricDetails }),
     }),
     {
       name: "overview-dashboard-state",

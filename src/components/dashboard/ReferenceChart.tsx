@@ -34,12 +34,14 @@ const CHART_COLORS: Record<ReportMetricSource, string> = {
   "meta-insights": "#3f82d9",
 };
 
-export const SelectedChart: React.FC<{
+export const ReferenceChart: React.FC<{
   colSpan: number | "auto";
   rowSpan: number | "auto";
   timeframe: DashboardTimeframe;
 }> = ({ colSpan, rowSpan, timeframe }) => {
-  const selectedMetric = useOverviewDashbaord((state) => state.selectedMetric);
+  const selectedMetric = useOverviewDashbaord(
+    (state) => state.selectedReferenceMetric
+  );
 
   const { data, isFetching } = useGetChartData(
     selectedMetric.metrics,

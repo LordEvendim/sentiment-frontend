@@ -20,6 +20,7 @@ import { GoogleAnalyticsSources } from "#components/dashboard/GoogleAnalyticsSou
 import { MetaCampaignSummaryMetric } from "#components/dashboard/MetaCampaignSummaryMetric";
 import { MetricReport } from "#components/dashboard/MetricReport";
 import { NamedMetric } from "#components/dashboard/NamedMetric";
+import { ReferenceChart } from "#components/dashboard/ReferenceChart";
 import { SelectedChart } from "#components/dashboard/SelectedChart";
 import { SpacerCard } from "#components/dashboard/SpacerCard";
 import { useGetGeneralDashboardCompareData } from "#hooks/api/useGetGeneralDashboardCompareData";
@@ -208,7 +209,6 @@ export const component = function Overview() {
             name="clicks"
           />
         )}
-        <SpacerCard colSpan={3} rowSpan={2} />
         <MetaCampaignSummaryMetric
           description="Total amount of link clicks"
           metricId="inline_link_clicks"
@@ -243,6 +243,8 @@ export const component = function Overview() {
           rowSpan={2}
           toFixed={0}
         />
+        <ReferenceChart colSpan={5} rowSpan={4} timeframe={timeframe} />
+
         <AverageMetric
           data={dashbaordData}
           isFetching={isFetching}
