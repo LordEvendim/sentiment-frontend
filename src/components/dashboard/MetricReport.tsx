@@ -65,7 +65,7 @@ export const MetricReport: React.FC<{
         }
         width={"full"}
         height={"20px"}
-      ></Box>
+      />
     </GridItem>
   );
 };

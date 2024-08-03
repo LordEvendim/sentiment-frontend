@@ -11,7 +11,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { NavigationBar } from "#components/NavigationBar";
 import { SideBar } from "#components/SideBar";
 import { Hotkeys } from "#config/hotkeys";
-import { useSession } from "#hooks/api/useSession";
+import { useSession } from "#hooks/api/auth/useSession";
 import { useSidebar } from "#hooks/useSidebar";
 
 export const Route = new RootRoute({

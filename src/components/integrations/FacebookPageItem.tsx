@@ -1,7 +1,7 @@
 import { Box, Button, HStack, Spacer, useToast } from "@chakra-ui/react";
 
-import { useSelectMetaPage } from "#hooks/api/useSelectMetaPage";
-import { useSession } from "#hooks/api/useSession";
+import { useSession } from "#hooks/api/auth/useSession";
+import { useSelectMetaPage } from "#hooks/api/meta/useSelectMetaPage";
 
 interface Props {
   pageId: number;

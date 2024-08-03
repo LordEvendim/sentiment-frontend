@@ -7,7 +7,7 @@ import { Dashboards } from "#types/dashboard";
 import { ReportData } from "#types/report";
 import { calculateTimeframeStart, DashboardTimeframe } from "#utils/timeframes";
 
-import { useSession } from "./useSession";
+import { useSession } from "./auth/useSession";
 
 const fetchGeneralDashboardData = async (timeframe: DashboardTimeframe) => {
   const result = await axiosMainServer.get<ReportData>(

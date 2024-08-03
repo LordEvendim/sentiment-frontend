@@ -33,12 +33,12 @@ import { GoogleAnalyticsAccountItem } from "#components/integrations/GoogleAnaly
 import { GoogleConsentModal } from "#components/integrations/GoogleConsentModal";
 import { GoogleLoginButton } from "#components/integrations/GoogleLoginButton";
 import { GoogleModal } from "#components/integrations/GoogleModal";
-import { useCreateMetaAccessToken } from "#hooks/api/useCreateMetaAccessToken";
-import { useGetGoogleAuthUrl } from "#hooks/api/useGetGoogleAuthUrl";
-import { useGetGoogleIntegration } from "#hooks/api/useGetGoogleIntegration";
-import { useGetMetaIntegration } from "#hooks/api/useGetMetaIntegration";
-import { useGoogleLogout } from "#hooks/api/useGoogleLogout";
-import { useMetaLogout } from "#hooks/api/useMetaLogout";
+import { useGetGoogleAuthUrl } from "#hooks/api/google/useGetGoogleAuthUrl";
+import { useGetGoogleIntegration } from "#hooks/api/google/useGetGoogleIntegration";
+import { useGoogleLogout } from "#hooks/api/google/useGoogleLogout";
+import { useCreateMetaAccessToken } from "#hooks/api/meta/useCreateMetaAccessToken";
+import { useGetMetaIntegration } from "#hooks/api/meta/useGetMetaIntegration";
+import { useMetaLogout } from "#hooks/api/meta/useMetaLogout";
 
 export const component = function Integrations() {
   const {

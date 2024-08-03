@@ -14,8 +14,8 @@ import {
 } from "@chakra-ui/react";
 import { useMemo } from "react";
 
+import { useGetUserGoogleAccounts } from "#hooks/api/google/useGetUserGoogleAccounts";
 import { GoogleAnalyticsAccount } from "#hooks/api/types/accounts";
-import { useGetUserGoogleAccounts } from "#hooks/api/useGetUserGoogleAccounts";
 
 import { GoogleAdAccountItem } from "./GoogleAdAccountItem";
 import { GoogleAnalyticsAccountItem } from "./GoogleAnalyticsAccountItem";

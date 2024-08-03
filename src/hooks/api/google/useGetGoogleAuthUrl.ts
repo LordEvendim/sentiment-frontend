@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 
-import { useSession } from "./useSession";
+import { useSession } from "../auth/useSession";
 
 const fetchUrl = async () => {
   const result = await axiosMainServer.get<string>("/auth/google/url");

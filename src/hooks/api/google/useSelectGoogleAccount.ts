@@ -3,36 +3,36 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 
-import { GetGoogleAccounts } from "./types/accounts";
+import { GetGoogleAccounts } from "../types/accounts";
 
 interface RequestData {
-  accountId: number;
+  pageId: number;
 }
 
-const selectAdAccount = async ({ accountId }: RequestData) => {
-  const result = await axiosMainServer.post<{ selectedAccount: number }>(
-    "/google/selected-ad-account",
+const selectPage = async ({ pageId }: RequestData) => {
+  const result = await axiosMainServer.post<{ selectedPage: number }>(
+    "/google/selected-page",
     {
-      accountId: accountId,
+      pageId: pageId,
     }
   );
 
-  return result.data.selectedAccount;
+  return result.data.selectedPage;
 };
 
-export const useSelectGoogleAdAccount = () => {
+export const useSelectGoogleAccount = () => {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: selectAdAccount,
-    onSuccess: (selectedAccountId) => {
+    mutationFn: selectPage,
+    onSuccess: (selectedPageId) => {
       queryClient.setQueryData<GetGoogleAccounts>(
         [QueryKey.GoogleAccounts],
         (oldData) =>
           oldData
             ? {
                 ...oldData,
-                selectedAdAccount: selectedAccountId,
+                selectedAnalyticsAccount: selectedPageId,
               }
             : oldData
       );
@@ -42,7 +42,7 @@ export const useSelectGoogleAdAccount = () => {
   });
 
   return {
-    selectAdAccount: mutate,
+    selectPage: mutate,
     isPending,
   };
 };

@@ -12,16 +12,9 @@ import { useMemo } from "react";
 import { IoInformationCircleOutline } from "react-icons/io5";
 import { MdMergeType } from "react-icons/md";
 
-import GoogleLogo from "#assets/integrations/google.png";
-import MetaLogo from "#assets/integrations/meta.png";
+import { dataSourcesLogos } from "#modules/logos";
 import { ReportData, ReportMetricSource } from "#types/report";
-
-const dataSourcesLogos: Record<ReportMetricSource, string> = {
-  "google-ads": GoogleLogo,
-  "google-analytics": GoogleLogo,
-  "meta-ads": MetaLogo,
-  "meta-insights": MetaLogo,
-};
+import { separateThousands } from "#utils/text";
 
 export const AverageMetric: React.FC<{
   name: string;
@@ -54,14 +47,7 @@ export const AverageMetric: React.FC<{
             value.metricId === divisorMetricId) &&
           value.display === "metric" &&
           (source ? value.source === source : true)
-      ) as
-        | {
-            display: "metric";
-            metricId: string;
-            source: ReportMetricSource;
-            value: number;
-          }[]
-        | undefined,
+      ) as ReportData | undefined,
 
     [data, dividentMetricId, divisorMetricId, source]
   );
@@ -125,9 +111,9 @@ export const AverageMetric: React.FC<{
         ) : (
           <>
             <Box>
-              {(divisor === 0 ? 0 : (divident / divisor).toFixed(toFixed))
-                .toLocaleString("en")
-                .replaceAll(",", " ")}
+              {separateThousands(
+                divisor === 0 ? "0" : (divident / divisor).toFixed(toFixed)
+              )}
             </Box>
             <Box fontSize={"small"} color={"gray.700"}>
               {unitSymbol ?? ""}

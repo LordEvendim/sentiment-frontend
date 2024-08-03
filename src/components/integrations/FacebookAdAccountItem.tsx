@@ -7,8 +7,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { useSelectMetaAdAccount } from "#hooks/api/useSelectMetaAdAccount";
-import { useSession } from "#hooks/api/useSession";
+import { useSession } from "#hooks/api/auth/useSession";
+import { useSelectMetaAdAccount } from "#hooks/api/meta/useSelectMetaAdAccount";
 
 interface Props {
   adAccountId: number;

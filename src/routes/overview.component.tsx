@@ -23,9 +23,9 @@ import { NamedMetric } from "#components/dashboard/NamedMetric";
 import { ReferenceChart } from "#components/dashboard/ReferenceChart";
 import { SelectedChart } from "#components/dashboard/SelectedChart";
 import { SpacerCard } from "#components/dashboard/SpacerCard";
+import { useGetTopMetaCampaigns } from "#hooks/api/meta/useGetTopMetaCampaigns";
 import { useGetGeneralDashboardCompareData } from "#hooks/api/useGetGeneralDashboardCompareData";
 import { useGetGeneralDashboardData } from "#hooks/api/useGetGeneralDashboardData";
-import { useGetTopMetaCampaigns } from "#hooks/api/useGetTopMetaCampaigns";
 import { useGhost } from "#hooks/useGhost";
 import { calculateTimeframeStart, DashboardTimeframe } from "#utils/timeframes";
 

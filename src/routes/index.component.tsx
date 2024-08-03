@@ -10,8 +10,8 @@ import {
 import { useNavigate } from "@tanstack/react-router";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 
-import { useLogin } from "#hooks/api/useLogin";
-import { useSession } from "#hooks/api/useSession";
+import { useLogin } from "#hooks/api/auth/useLogin";
+import { useSession } from "#hooks/api/auth/useSession";
 
 interface FormInput {
   username: string;

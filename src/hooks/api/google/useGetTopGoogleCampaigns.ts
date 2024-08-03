@@ -5,7 +5,7 @@ import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 import { calculateTimeframeStart, DashboardTimeframe } from "#utils/timeframes";
 
-import { TopGoogleCampaign } from "./types/campaigns";
+import { TopGoogleCampaign } from "../types/campaigns";
 
 const fetchTopGoogleCampaigns = async (timeframe: DashboardTimeframe) => {
   const result = await axiosMainServer.get<TopGoogleCampaign[]>(

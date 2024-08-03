@@ -7,8 +7,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { useSelectGoogleAdAccount } from "#hooks/api/useSelectGoogleAdAccount";
-import { useSession } from "#hooks/api/useSession";
+import { useSession } from "#hooks/api/auth/useSession";
+import { useSelectGoogleAdAccount } from "#hooks/api/google/useSelectGoogleAdAccount";
 
 interface Props {
   accountId: number;

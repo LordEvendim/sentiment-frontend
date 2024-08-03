@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 
-import { GetGoogleAccounts } from "./types/accounts";
+import { GetGoogleAccounts } from "../types/accounts";
 import { useGetGoogleIntegration } from "./useGetGoogleIntegration";
 
 const fetchUserAccounts = async () => {

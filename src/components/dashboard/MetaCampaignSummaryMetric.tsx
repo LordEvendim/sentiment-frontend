@@ -14,6 +14,7 @@ import { IoInformationCircleOutline } from "react-icons/io5";
 import MetaLogo from "#assets/integrations/meta.png";
 import { TopMetaCampaign } from "#hooks/api/types/campaigns";
 import { ReportMetricSource } from "#types/report";
+import { separateThousands } from "#utils/text";
 
 export const MetaCampaignSummaryMetric: React.FC<{
   name: string;
@@ -82,11 +83,7 @@ export const MetaCampaignSummaryMetric: React.FC<{
           <Spinner size={"sm"} />
         ) : (
           <>
-            <Box>
-              {(Number.isInteger(value) ? value : value.toFixed(toFixed))
-                .toLocaleString("en")
-                .replaceAll(",", " ")}
-            </Box>
+            <Box>{separateThousands(value.toFixed(toFixed))}</Box>
             <Box fontSize={"small"} color={"gray.700"}>
               {unitSymbol ?? ""}
             </Box>

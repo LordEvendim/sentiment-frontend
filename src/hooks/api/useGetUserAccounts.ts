@@ -3,8 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 
+import { useSession } from "./auth/useSession";
 import { GetMetaAccounts } from "./types/accounts";
-import { useSession } from "./useSession";
 
 const fetchUserAccounts = async () => {
   const result = await axiosMainServer.get<GetMetaAccounts>("/meta/accounts");

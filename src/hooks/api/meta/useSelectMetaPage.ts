@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 
-import { GetGoogleAccounts } from "./types/accounts";
+import { GetMetaAccounts } from "../types/accounts";
 
 interface RequestData {
   pageId: number;
@@ -11,33 +11,33 @@ interface RequestData {
 
 const selectPage = async ({ pageId }: RequestData) => {
   const result = await axiosMainServer.post<{ selectedPage: number }>(
-    "/google/selected-page",
+    "/meta/selected-page",
     {
       pageId: pageId,
     }
   );
 
-  return result.data.selectedPage;
+  return result.data;
 };
 
-export const useSelectGoogleAccount = () => {
+export const useSelectMetaPage = () => {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: selectPage,
-    onSuccess: (selectedPageId) => {
-      queryClient.setQueryData<GetGoogleAccounts>(
-        [QueryKey.GoogleAccounts],
+    onSuccess: (data) => {
+      queryClient.setQueryData<GetMetaAccounts>(
+        [QueryKey.Accounts],
         (oldData) =>
           oldData
             ? {
                 ...oldData,
-                selectedAnalyticsAccount: selectedPageId,
+                selectedPage: data.selectedPage,
               }
             : oldData
       );
 
-      queryClient.invalidateQueries({ queryKey: [QueryKey.GoogleIntegration] });
+      queryClient.invalidateQueries({ queryKey: [QueryKey.MetaIntegration] });
     },
   });
 

@@ -88,7 +88,7 @@ export const Report: React.FC<{
         </Center>
       )}
 
-      {report && !isFetching ? (
+      {isFetching && report ? (
         <>
           <HStack>
             <Box fontWeight={"bold"} color={"gray.300"} fontSize={"16px"}>

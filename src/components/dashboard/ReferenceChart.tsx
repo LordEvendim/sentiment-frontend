@@ -64,8 +64,9 @@ export const ReferenceChart: React.FC<{
         if (timestampMap[timestamp]) {
           timestampMap[timestamp][source as ReportMetricSource] = datapoint[0];
         } else {
-          timestampMap[timestamp] = {};
-          timestampMap[timestamp].time = new Date(timestamp);
+          timestampMap[timestamp] = {
+            time: new Date(timestamp),
+          };
           timestampMap[timestamp][source as ReportMetricSource] = datapoint[0];
         }
       }

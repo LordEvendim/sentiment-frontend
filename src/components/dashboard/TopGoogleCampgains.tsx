@@ -153,10 +153,10 @@ export const TopGoogleCampgains: React.FC<{
                             onClick={header.column.getToggleSortingHandler()}
                           >
                             <Box>
-                              {`${flexRender(
+                              {flexRender(
                                 header.column.columnDef.header,
                                 header.getContext()
-                              )} `}
+                              )}
                             </Box>
                             {{
                               asc: <FaSortUp />,

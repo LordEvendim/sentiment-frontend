@@ -21,8 +21,8 @@ import { LuPlug2 } from "react-icons/lu";
 import { MdOutlineLogout, MdOutlineSupportAgent } from "react-icons/md";
 
 import Logo from "#assets/logo2.png";
-import { useLogout } from "#hooks/api/useLogout";
-import { useSession } from "#hooks/api/useSession";
+import { useLogout } from "#hooks/api/auth/useLogout";
+import { useSession } from "#hooks/api/auth/useSession";
 import { useSidebar } from "#hooks/useSidebar";
 
 export const NavigationBar = () => {
@@ -67,104 +67,100 @@ export const NavigationBar = () => {
             <Image src={Logo} height={"38px"} mb={"5px"}></Image>
           </Link>
         </HStack>
-        {userData ? (
-          <>
-            <Box flexShrink={0}>
-              <Popover isLazy>
-                <PopoverTrigger>
-                  <Button
-                    variant={"outline"}
-                    alignItems={"center"}
-                    minWidth={"10px"}
-                  >
-                    <HStack spacing={"20px"}>
-                      <Box fontWeight={"normal"}>{userData.fullName}</Box>
-                      <Box
-                        w={"25px"}
-                        h={"25px"}
-                        borderRadius={"full"}
-                        background={"gray.100"}
-                      ></Box>
-                    </HStack>
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent mr={"10px"} boxShadow={"lg"} w={"250px"}>
-                  <PopoverArrow />
-                  <PopoverBody>
-                    <VStack alignItems={"start"}>
+        {userData && (
+          <Box flexShrink={0}>
+            <Popover isLazy>
+              <PopoverTrigger>
+                <Button
+                  variant={"outline"}
+                  alignItems={"center"}
+                  minWidth={"10px"}
+                >
+                  <HStack spacing={"20px"}>
+                    <Box fontWeight={"normal"}>{userData.fullName}</Box>
+                    <Box
+                      w={"25px"}
+                      h={"25px"}
+                      borderRadius={"full"}
+                      background={"gray.100"}
+                    ></Box>
+                  </HStack>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent mr={"10px"} boxShadow={"lg"} w={"250px"}>
+                <PopoverArrow />
+                <PopoverBody>
+                  <VStack alignItems={"start"}>
+                    <Button
+                      variant={"ghost"}
+                      w={"full"}
+                      justifyContent={"start"}
+                      fontWeight={"normal"}
+                      onClick={() => router.navigate({ to: "/integrations" })}
+                    >
+                      <LuPlug2 size={"20px"} />
+                      <Box ml={"20px"} marginBottom={"2px"}>
+                        Integrations
+                      </Box>
+                    </Button>
+                    <Button
+                      variant={"ghost"}
+                      w={"full"}
+                      justifyContent={"start"}
+                      fontWeight={"normal"}
+                      onClick={() => router.navigate({ to: "/settings" })}
+                    >
+                      <CiSettings size={"20px"} />
+                      <Box ml={"20px"} marginBottom={"2px"}>
+                        Settings
+                      </Box>
+                    </Button>
+                    <ChakraLink
+                      href="https://discord.gg/2D4wYgeq"
+                      w={"full"}
+                      isExternal
+                    >
                       <Button
                         variant={"ghost"}
                         w={"full"}
                         justifyContent={"start"}
                         fontWeight={"normal"}
-                        onClick={() => router.navigate({ to: "/integrations" })}
                       >
-                        <LuPlug2 size={"20px"} />
+                        <MdOutlineSupportAgent size={"20px"} />
                         <Box ml={"20px"} marginBottom={"2px"}>
-                          Integrations
+                          Support
                         </Box>
                       </Button>
-                      <Button
-                        variant={"ghost"}
-                        w={"full"}
-                        justifyContent={"start"}
-                        fontWeight={"normal"}
-                        onClick={() => router.navigate({ to: "/settings" })}
-                      >
-                        <CiSettings size={"20px"} />
-                        <Box ml={"20px"} marginBottom={"2px"}>
-                          Settings
-                        </Box>
-                      </Button>
-                      <ChakraLink
-                        href="https://discord.gg/2D4wYgeq"
-                        w={"full"}
-                        isExternal
-                      >
-                        <Button
-                          variant={"ghost"}
-                          w={"full"}
-                          justifyContent={"start"}
-                          fontWeight={"normal"}
-                        >
-                          <MdOutlineSupportAgent size={"20px"} />
-                          <Box ml={"20px"} marginBottom={"2px"}>
-                            Support
-                          </Box>
-                        </Button>
-                      </ChakraLink>
-                      <Button
-                        variant={"ghost"}
-                        w={"full"}
-                        justifyContent={"start"}
-                        fontWeight={"normal"}
-                        color={"red.500"}
-                        onClick={() =>
-                          logout(undefined, {
-                            onSuccess: () => {
-                              toast({
-                                status: "success",
-                                title: "Logged out",
-                                description: "Successfully logged out",
-                              });
-                            },
-                          })
-                        }
-                        isLoading={isPending}
-                      >
-                        <MdOutlineLogout size={"20px"} />
-                        <Box ml={"20px"} marginBottom={"2px"}>
-                          Logout
-                        </Box>
-                      </Button>
-                    </VStack>
-                  </PopoverBody>
-                </PopoverContent>
-              </Popover>
-            </Box>
-          </>
-        ) : (
-          <Box />
+                    </ChakraLink>
+                    <Button
+                      variant={"ghost"}
+                      w={"full"}
+                      justifyContent={"start"}
+                      fontWeight={"normal"}
+                      color={"red.500"}
+                      onClick={() =>
+                        logout(undefined, {
+                          onSuccess: () => {
+                            toast({
+                              status: "success",
+                              title: "Logged out",
+                              description: "Successfully logged out",
+                            });
+                          },
+                        })
+                      }
+                      isLoading={isPending}
+                    >
+                      <MdOutlineLogout size={"20px"} />
+                      <Box ml={"20px"} marginBottom={"2px"}>
+                        Logout
+                      </Box>
+                    </Button>
+                  </VStack>
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
+          </Box>
         )}
       </Flex>
     </Box>

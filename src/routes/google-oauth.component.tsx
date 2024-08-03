@@ -2,7 +2,7 @@ import { Box, Center, Spinner } from "@chakra-ui/react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
 
-import { useCreateGoogleAccessToken } from "#hooks/api/useCreateGoogleAccessToken";
+import { useCreateGoogleAccessToken } from "#hooks/api/google/useCreateGoogleAccessToken";
 
 export const component = function GoogleOAuth() {
   const initialized = useRef(false);

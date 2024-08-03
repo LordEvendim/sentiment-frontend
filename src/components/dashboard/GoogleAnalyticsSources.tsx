@@ -49,9 +49,9 @@ export const GoogleAnalyticsSources: React.FC<{
     if (!sources || sources.length === 0) return [];
 
     let lastDate = sources[0].created_at;
-    const result: ({
+    const result: ({ time: Date } & {
       [key: string]: number;
-    } & { time: Date })[] = [
+    })[] = [
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-expect-error
       {

@@ -3,8 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 
-import { GoogleAdAccount, GoogleAnalyticsAccount } from "./types/accounts";
-import { useSession } from "./useSession";
+import { useSession } from "../auth/useSession";
+import { GoogleAdAccount, GoogleAnalyticsAccount } from "../types/accounts";
 
 export interface GoogleIntegration {
   id: number;

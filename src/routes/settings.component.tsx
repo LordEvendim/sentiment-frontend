@@ -10,8 +10,8 @@ import {
 } from "@chakra-ui/react";
 import { FaUser } from "react-icons/fa";
 
-import { useResetPassword } from "#hooks/api/useResetPassword";
-import { useSession } from "#hooks/api/useSession";
+import { useResetPassword } from "#hooks/api/auth/useResetPassword";
+import { useSession } from "#hooks/api/auth/useSession";
 
 export const component = function Profile() {
   const { isFetching, userData } = useSession();

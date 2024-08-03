@@ -17,8 +17,8 @@ import { IoCalendarOutline } from "react-icons/io5";
 
 import { TopGoogleCampgains } from "#components/dashboard/TopGoogleCampgains";
 import { TopMetaCampgains } from "#components/dashboard/TopMetaCampgains";
-import { useGetTopGoogleCampaigns } from "#hooks/api/useGetTopGoogleCampaigns";
-import { useGetTopMetaCampaigns } from "#hooks/api/useGetTopMetaCampaigns";
+import { useGetTopGoogleCampaigns } from "#hooks/api/google/useGetTopGoogleCampaigns";
+import { useGetTopMetaCampaigns } from "#hooks/api/meta/useGetTopMetaCampaigns";
 import { calculateTimeframeStart, DashboardTimeframe } from "#utils/timeframes";
 
 export const component = function Advertising() {

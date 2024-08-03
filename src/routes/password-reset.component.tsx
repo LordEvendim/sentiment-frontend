@@ -9,7 +9,7 @@ import {
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { useSetPassword } from "#hooks/api/useSetPassword";
+import { useSetPassword } from "#hooks/api/auth/useSetPassword";
 
 export const component = function PasswordReset() {
   const search = useSearch({

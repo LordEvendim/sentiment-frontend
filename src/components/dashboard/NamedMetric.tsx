@@ -17,17 +17,9 @@ import { useMemo } from "react";
 import { IoInformationCircleOutline } from "react-icons/io5";
 import { MdMergeType } from "react-icons/md";
 
-import GoogleLogo from "#assets/integrations/google.png";
-import MetaLogo from "#assets/integrations/meta.png";
 import { useOverviewDashbaord } from "#hooks/useOverviewDashboard";
+import { dataSourcesLogos } from "#modules/logos";
 import { ReportData, ReportMetricSource } from "#types/report";
-
-const dataSourcesLogos: Record<ReportMetricSource, string> = {
-  "google-ads": GoogleLogo,
-  "google-analytics": GoogleLogo,
-  "meta-ads": MetaLogo,
-  "meta-insights": MetaLogo,
-};
 
 export const NamedMetric: React.FC<{
   name: string;
@@ -104,9 +96,9 @@ export const NamedMetric: React.FC<{
   const compareValue = useMemo(
     () =>
       (compareMetrics?.reduce(
-        (accumulator, metric) => accumulator + metric.value ?? 0,
+        (accumulator, metric) => accumulator + metric.value,
         0
-      ) ?? 0) - value ?? 0,
+      ) ?? 0) - value,
     [compareMetrics, value]
   );
   const description = useMemo(
@@ -114,12 +106,12 @@ export const NamedMetric: React.FC<{
       metrics?.map((metric) => (
         <Box
           key={metric.metricId + metric.source}
-        >{`${metric.source.replaceAll("-", " ")} : ${(metric.value ?? 0).toFixed(toFixed)} ${unitSymbol}`}</Box>
+        >{`${metric.source.replaceAll("-", " ")} : ${metric.value.toFixed(toFixed)} ${unitSymbol}`}</Box>
       )),
     [metrics, toFixed, unitSymbol]
   );
   const percentageChange = useMemo(
-    () => (100 * (value - compareValue)) / Math.abs(compareValue) ?? 0,
+    () => (100 * (value - compareValue)) / Math.abs(compareValue),
     [compareValue, value]
   );
 

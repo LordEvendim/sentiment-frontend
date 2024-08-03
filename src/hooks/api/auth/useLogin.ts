@@ -4,7 +4,7 @@ import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 import { handleAxiosError } from "#utils/error";
 
-import { UserSession } from "./types/session";
+import { UserSession } from "../types/session";
 
 interface FetchParams {
   username: string;

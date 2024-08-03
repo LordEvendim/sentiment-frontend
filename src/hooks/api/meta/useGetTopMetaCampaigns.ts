@@ -5,7 +5,7 @@ import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
 import { calculateTimeframeStart, DashboardTimeframe } from "#utils/timeframes";
 
-import { TopMetaCampaign } from "./types/campaigns";
+import { TopMetaCampaign } from "../types/campaigns";
 
 const fetchTopMetaCampaigns = async (timeframe: DashboardTimeframe) => {
   const result = await axiosMainServer.get<TopMetaCampaign[]>(
