@@ -7,7 +7,7 @@ export const Facebook: React.FC<unknown> = () => {
         appId: "1563147651120140",
         cookie: true,
         xfbml: true,
-        version: "v18.0",
+        version: "v20.0",
       });
     };
 

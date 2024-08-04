@@ -50,7 +50,7 @@ export const SelectedChart: React.FC<{
 
     const timestampMap: Record<
       number,
-      { time?: Date } & {
+      { time: Date } & {
         [key in ReportMetricSource]?: number;
       }
     > = {};
@@ -69,7 +69,9 @@ export const SelectedChart: React.FC<{
       }
     }
 
-    return Object.values(timestampMap);
+    return Object.values(timestampMap).sort(
+      (a, b) => a.time.getTime() - b.time.getTime()
+    );
   }, [data]);
   const maxSum = useMemo(() => {
     if (!transformedChartData) return 0;
