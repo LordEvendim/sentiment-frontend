@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { format, subDays } from "date-fns";
+import { format } from "date-fns";
 
 import { axiosMainServer } from "#config/axios";
 import { QueryKey } from "#config/query";
@@ -8,7 +8,7 @@ import { DashboardTimeframe } from "#utils/timeframes";
 import { Report } from "./types/report";
 
 const fetchReport = async (name: string, timeframe: DashboardTimeframe) => {
-  const until = format(subDays(new Date(Date.now()), 1), "yyyyMMdd");
+  const until = format(new Date(Date.now()), "yyyyMMdd");
 
   const result = await axiosMainServer.get<Report | undefined>(
     "/reporter/metric",

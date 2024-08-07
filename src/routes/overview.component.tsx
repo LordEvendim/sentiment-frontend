@@ -205,8 +205,8 @@ export const component = function Overview() {
             colSpan={3}
             rowSpan={2}
             timeframe={timeframe}
-            metricDisplayName="Clicks"
-            name="clicks"
+            metricDisplayName="Impressions"
+            name="impressions"
           />
         )}
         <MetaCampaignSummaryMetric
