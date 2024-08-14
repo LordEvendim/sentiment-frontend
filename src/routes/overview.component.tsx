@@ -26,7 +26,6 @@ import { SpacerCard } from "#components/dashboard/SpacerCard";
 import { useGetTopMetaCampaigns } from "#hooks/api/meta/useGetTopMetaCampaigns";
 import { useGetGeneralDashboardCompareData } from "#hooks/api/useGetGeneralDashboardCompareData";
 import { useGetGeneralDashboardData } from "#hooks/api/useGetGeneralDashboardData";
-import { useGhost } from "#hooks/useGhost";
 import { calculateTimeframeStart, DashboardTimeframe } from "#utils/timeframes";
 
 export const component = function Overview() {
@@ -37,7 +36,6 @@ export const component = function Overview() {
   const { data: compareData } = useGetGeneralDashboardCompareData(timeframe);
   const { isFetching: isFetchingMetaCampaigns, campaigns: metaCampaigns } =
     useGetTopMetaCampaigns(timeframe);
-  const isGhostMode = useGhost((state) => state.isGhostMode);
 
   return (
     <Box w={"full"} h={"full"} p={"15px"} className="polka_background">
@@ -92,17 +90,13 @@ export const component = function Overview() {
       </Flex>
       <Grid templateColumns="repeat(8, 1fr)" gap={"10px"} gridAutoRows={"80px"}>
         <GoogleAnalyticsSources colSpan={8} rowSpan={4} timeframe={timeframe} />
-        {isGhostMode ? (
-          <SpacerCard colSpan={3} rowSpan={2} />
-        ) : (
-          <MetricReport
-            colSpan={3}
-            rowSpan={2}
-            timeframe={timeframe}
-            metricDisplayName="Cost per click"
-            name="cpc"
-          />
-        )}
+        <MetricReport
+          colSpan={3}
+          rowSpan={2}
+          timeframe={timeframe}
+          metricDisplayName="Cost per click"
+          name="cpc"
+        />
         <NamedMetric
           data={dashbaordData}
           compareData={compareData}
@@ -186,29 +180,69 @@ export const component = function Overview() {
           rowSpan={2}
           toFixed={0}
         />
-        {isGhostMode ? (
-          <SpacerCard colSpan={3} rowSpan={2} />
-        ) : (
-          <MetricReport
-            colSpan={3}
-            rowSpan={2}
-            timeframe={timeframe}
-            metricDisplayName="Spend"
-            name="spend"
-          />
-        )}
+
+        <MetricReport
+          colSpan={3}
+          rowSpan={2}
+          timeframe={timeframe}
+          metricDisplayName="Spend"
+          name="spend"
+        />
         <SelectedChart colSpan={5} rowSpan={4} timeframe={timeframe} />
-        {isGhostMode ? (
-          <SpacerCard colSpan={3} rowSpan={2} />
-        ) : (
-          <MetricReport
-            colSpan={3}
-            rowSpan={2}
-            timeframe={timeframe}
-            metricDisplayName="Impressions"
-            name="impressions"
-          />
-        )}
+        <MetricReport
+          colSpan={3}
+          rowSpan={2}
+          timeframe={timeframe}
+          metricDisplayName="Impressions"
+          name="impressions"
+        />
+        <MetricReport
+          colSpan={3}
+          rowSpan={2}
+          timeframe={timeframe}
+          metricDisplayName="Conversion Rate"
+          name="conversionRate"
+        />
+        <ReferenceChart colSpan={5} rowSpan={4} timeframe={timeframe} />
+        <MetricReport
+          colSpan={3}
+          rowSpan={2}
+          timeframe={timeframe}
+          metricDisplayName="Website sessions"
+          name="sessions"
+        />
+        <MetricReport
+          colSpan={3}
+          rowSpan={2}
+          timeframe={timeframe}
+          metricDisplayName="Clicks"
+          name="clicks"
+        />
+        <AverageMetric
+          data={dashbaordData}
+          isFetching={isFetching}
+          dividentMetricId="cost_micros"
+          divisorMetricId="clicks"
+          source="google-ads"
+          name="Average CPC"
+          unitSymbol="USD"
+          rowSpan={2}
+        />
+        <NamedMetric
+          data={dashbaordData}
+          compareData={compareData}
+          isFetching={isFetching}
+          metricsConfig={[
+            {
+              metricId: "sessions",
+              source: "google-analytics",
+            },
+          ]}
+          name="Website sessions"
+          unitSymbol=""
+          rowSpan={2}
+          toFixed={0}
+        />
         <MetaCampaignSummaryMetric
           description="Total amount of link clicks"
           metricId="inline_link_clicks"
@@ -243,32 +277,20 @@ export const component = function Overview() {
           rowSpan={2}
           toFixed={0}
         />
-        <ReferenceChart colSpan={5} rowSpan={4} timeframe={timeframe} />
-
-        <AverageMetric
-          data={dashbaordData}
-          isFetching={isFetching}
-          dividentMetricId="cost_micros"
-          divisorMetricId="clicks"
-          source="google-ads"
-          name="Average CPC"
-          unitSymbol="USD"
+        <MetricReport
+          colSpan={3}
           rowSpan={2}
+          timeframe={timeframe}
+          metricDisplayName="Click through rate"
+          name="ctr"
         />
-        <NamedMetric
-          data={dashbaordData}
-          compareData={compareData}
-          isFetching={isFetching}
-          metricsConfig={[
-            {
-              metricId: "sessions",
-              source: "google-analytics",
-            },
-          ]}
-          name="Website sessions"
-          unitSymbol=""
+        <SpacerCard colSpan={5} rowSpan={2} />
+        <MetricReport
+          colSpan={3}
           rowSpan={2}
-          toFixed={0}
+          timeframe={timeframe}
+          metricDisplayName="Conversions"
+          name="conversions"
         />
       </Grid>
     </Box>
