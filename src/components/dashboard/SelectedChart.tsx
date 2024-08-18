@@ -8,7 +8,7 @@ import {
   Spinner,
   Tooltip,
 } from "@chakra-ui/react";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { useMemo } from "react";
 import { IoInformationCircleOutline } from "react-icons/io5";
 import {
@@ -49,7 +49,7 @@ export const SelectedChart: React.FC<{
     if (!data) return [];
 
     const timestampMap: Record<
-      number,
+      string,
       { time: Date } & {
         [key in ReportMetricSource]?: number;
       }
@@ -57,15 +57,15 @@ export const SelectedChart: React.FC<{
 
     for (const [source, sourceData] of Object.entries(data.data)) {
       for (const datapoint of sourceData) {
-        const timestamp = datapoint[1];
+        const date = datapoint[1];
 
-        if (!timestampMap[timestamp]) {
-          timestampMap[timestamp] = {
-            time: new Date(timestamp),
+        if (!timestampMap[date]) {
+          timestampMap[date] = {
+            time: parse(date, "yyyyMMdd", new Date(Date.now())),
           };
         }
 
-        timestampMap[timestamp][source as ReportMetricSource] = datapoint[0];
+        timestampMap[date][source as ReportMetricSource] = datapoint[0];
       }
     }
 

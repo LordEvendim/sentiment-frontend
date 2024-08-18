@@ -9,7 +9,7 @@ import { calculateTimeframeStart, DashboardTimeframe } from "#utils/timeframes";
 
 type ChartData = {
   since: string;
-  data: Partial<Record<ReportMetricSource, [number, number][]>>;
+  data: Partial<Record<ReportMetricSource, [number, string][]>>;
 };
 
 const fetchData = async (
