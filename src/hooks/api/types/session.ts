@@ -3,4 +3,5 @@ export interface UserSession {
   username: string;
   fullName: string;
   email: string;
+  role: string;
 }

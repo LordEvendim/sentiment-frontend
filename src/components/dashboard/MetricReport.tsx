@@ -1,7 +1,11 @@
 import { Box, Center, GridItem, Spinner } from "@chakra-ui/react";
 
+import { USER_ROLES } from "#config/roles";
+import { useSession } from "#hooks/api/auth/useSession";
 import { useGetMetricReport } from "#hooks/api/useGetMetricReport";
 import { DashboardTimeframe } from "#utils/timeframes";
+
+import { SpacerCard } from "./SpacerCard";
 
 export const MetricReport: React.FC<{
   colSpan: number | "auto";
@@ -11,6 +15,11 @@ export const MetricReport: React.FC<{
   metricDisplayName: string;
 }> = ({ colSpan, rowSpan, metricDisplayName, name, timeframe }) => {
   const { isFetching, report } = useGetMetricReport(timeframe, name);
+  const session = useSession();
+
+  if (session.userData && session.userData.role === USER_ROLES.REVIEWER) {
+    return <SpacerCard colSpan={3} rowSpan={2} />;
+  }
 
   return (
     <GridItem
