@@ -8,9 +8,7 @@ export const CustomContentTreemap = ({
   width,
   height,
   index,
-  payload,
   colors,
-  rank,
   name,
   size,
 }: any) => {
