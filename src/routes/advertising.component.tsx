@@ -15,8 +15,10 @@ import { format, subDays } from "date-fns";
 import { useState } from "react";
 import { IoCalendarOutline } from "react-icons/io5";
 
+import { GoogleAdGroups } from "#components/dashboard/AdGroupsGraph";
 import { TopGoogleCampgains } from "#components/dashboard/TopGoogleCampgains";
 import { TopMetaCampgains } from "#components/dashboard/TopMetaCampgains";
+import { useGetGoogleAdGroups } from "#hooks/api/google/useGetGoogleAdGroups";
 import { useGetTopGoogleCampaigns } from "#hooks/api/google/useGetTopGoogleCampaigns";
 import { useGetTopMetaCampaigns } from "#hooks/api/meta/useGetTopMetaCampaigns";
 import { calculateTimeframeStart, DashboardTimeframe } from "#utils/timeframes";
@@ -28,8 +30,8 @@ export const component = function Advertising() {
     useGetTopMetaCampaigns(timeframe);
   const { isFetching: isFetchingGoogleCampaigns, campaigns: googleCampaigns } =
     useGetTopGoogleCampaigns(timeframe);
-
-  console.log(googleCampaigns);
+  const { isFetching: isFetchingGoogleAdGroups, adGroups: googleAdGroups } =
+    useGetGoogleAdGroups(timeframe);
 
   return (
     <Box w={"full"} h={"full"} p={"15px"} className="polka_background">
@@ -98,6 +100,12 @@ export const component = function Advertising() {
           colSpan={8}
           rowSpan={3}
           data={googleCampaigns}
+        />
+        <GoogleAdGroups
+          isFetching={isFetchingGoogleAdGroups}
+          colSpan={8}
+          rowSpan={3}
+          data={googleAdGroups}
         />
       </Grid>
     </Box>

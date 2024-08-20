@@ -18,4 +18,5 @@ export enum QueryKey {
   Credits = "credits",
   ChartData = "chart-data",
   Sources = "sources",
+  AdGroups = "ad-groups",
 }
