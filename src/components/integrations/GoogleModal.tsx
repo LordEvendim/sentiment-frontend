@@ -121,6 +121,9 @@ export const GoogleModal: React.FC<Props> = ({ isOpen, onClose }) => {
                             isSelected={account.id === selectedPage?.id}
                             name={account.name}
                             pageId={account.id}
+                            isSelectDisabled={
+                              !accounts?.selectedAnalyticsAccount
+                            }
                             inGroup
                           />
                         </>
@@ -138,6 +141,7 @@ export const GoogleModal: React.FC<Props> = ({ isOpen, onClose }) => {
                     key={account.id}
                     isSelected={account.id === selectedAdAccount?.id}
                     accountId={account.id}
+                    isSelectDisabled={!accounts?.selectedAdAccount}
                   />
                 ))}
               </VStack>

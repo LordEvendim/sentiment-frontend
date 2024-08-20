@@ -99,6 +99,7 @@ export const FacebookModal: React.FC<Props> = ({ isOpen, onClose }) => {
                     isSelected={page.id === selectedPage?.id}
                     name={page.name}
                     pageId={page.id}
+                    isSelectDisabled={!accounts?.selectedPage}
                   />
                 ))}
               </VStack>
@@ -130,6 +131,7 @@ export const FacebookModal: React.FC<Props> = ({ isOpen, onClose }) => {
                             key={account.id}
                             isSelected={account.id === selectedAdAccount?.id}
                             adAccountId={account.id}
+                            isSelectDisabled={!accounts?.selectedAdAccount}
                             inGroup
                           />
                         </>

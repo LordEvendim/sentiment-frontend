@@ -7,6 +7,7 @@ interface Props {
   pageId: number;
   isSelected: boolean;
   name: string;
+  isSelectDisabled: boolean;
   picture?: string;
   hideButton?: boolean;
 }
@@ -16,6 +17,7 @@ export const FacebookPageItem: React.FC<Props> = ({
   isSelected,
   name,
   hideButton,
+  isSelectDisabled,
 }) => {
   const { userData } = useSession();
   const { selectPage } = useSelectMetaPage();
@@ -42,40 +44,77 @@ export const FacebookPageItem: React.FC<Props> = ({
       <Spacer />
       {!hideButton &&
         (isSelected ? (
-          <Button variant={"outline"} borderColor={"gray.300"}>
-            Using
-          </Button>
-        ) : (
-          <Button
-            background={"blue.200"}
-            isDisabled={!userData?.id}
-            onClick={() =>
-              selectPage(
-                {
-                  pageId,
-                },
-                {
-                  onSuccess: () => {
-                    toast({
-                      status: "success",
-                      title: "Page",
-                      description: "Page has been changed",
-                    });
-                  },
-                  onError: (error) => {
-                    console.error(error);
-                    toast({
-                      status: "error",
-                      title: "Page",
-                      description: "Failed to change the page",
-                    });
-                  },
-                }
-              )
-            }
+          <HStack
+            p={"10px"}
+            position={"relative"}
+            background={"rgba(72, 187, 120, 0.15)"}
+            borderRadius={"8px"}
+            borderColor={"rgba(72, 187, 120, 0.2)"}
+            borderWidth={"1px"}
           >
-            Select
-          </Button>
+            <Box
+              fontSize={"13px"}
+              fontWeight={"bold"}
+              color={"gray.600"}
+              mr={"6px"}
+            >
+              USING
+            </Box>
+            <Box
+              h={"12px"}
+              w={"12px"}
+              background={"green.400"}
+              borderRadius={"full"}
+              overflow={"visible"}
+              position={"relative"}
+              mr={"5px"}
+            >
+              <Box
+                top={"50%"}
+                left={"50%"}
+                transform={"translate(-50%, -50%);"}
+                position={"absolute"}
+                h={"25px"}
+                w={"25px"}
+                background={"green.400"}
+                borderRadius={"full"}
+                opacity={0.2}
+              ></Box>
+            </Box>
+          </HStack>
+        ) : (
+          isSelectDisabled && (
+            <Button
+              background={"blue.200"}
+              isDisabled={!userData?.id}
+              onClick={() =>
+                selectPage(
+                  {
+                    pageId,
+                  },
+                  {
+                    onSuccess: () => {
+                      toast({
+                        status: "success",
+                        title: "Page",
+                        description: "Page has been changed",
+                      });
+                    },
+                    onError: (error) => {
+                      console.error(error);
+                      toast({
+                        status: "error",
+                        title: "Page",
+                        description: "Failed to change the page",
+                      });
+                    },
+                  }
+                )
+              }
+            >
+              Select
+            </Button>
+          )
         ))}
     </HStack>
   );

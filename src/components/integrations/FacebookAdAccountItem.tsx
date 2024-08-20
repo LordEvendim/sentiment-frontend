@@ -13,6 +13,7 @@ import { useSelectMetaAdAccount } from "#hooks/api/meta/useSelectMetaAdAccount";
 interface Props {
   adAccountId: number;
   isSelected: boolean;
+  isSelectDisabled: boolean;
   hideButton?: boolean;
   inGroup?: boolean;
   parentAccountName?: string;
@@ -24,6 +25,7 @@ export const FacebookAdAccountItem: React.FC<Props> = ({
   hideButton,
   inGroup,
   parentAccountName,
+  isSelectDisabled,
 }) => {
   const { userData } = useSession();
   const { selectAdAccount } = useSelectMetaAdAccount();
@@ -64,44 +66,77 @@ export const FacebookAdAccountItem: React.FC<Props> = ({
       <Spacer />
       {!hideButton &&
         (isSelected ? (
-          <Button
-            variant={"outline"}
-            borderColor={"gray.300"}
-            cursor={"default"}
+          <HStack
+            p={"10px"}
+            position={"relative"}
+            background={"rgba(72, 187, 120, 0.15)"}
+            borderRadius={"8px"}
+            borderColor={"rgba(72, 187, 120, 0.2)"}
+            borderWidth={"1px"}
           >
-            Using
-          </Button>
+            <Box
+              fontSize={"13px"}
+              fontWeight={"bold"}
+              color={"gray.600"}
+              mr={"6px"}
+            >
+              USING
+            </Box>
+            <Box
+              h={"12px"}
+              w={"12px"}
+              background={"green.400"}
+              borderRadius={"full"}
+              overflow={"visible"}
+              position={"relative"}
+              mr={"5px"}
+            >
+              <Box
+                top={"50%"}
+                left={"50%"}
+                transform={"translate(-50%, -50%);"}
+                position={"absolute"}
+                h={"25px"}
+                w={"25px"}
+                background={"green.400"}
+                borderRadius={"full"}
+                opacity={0.2}
+              ></Box>
+            </Box>
+          </HStack>
         ) : (
-          <Button
-            background={"blue.200"}
-            isDisabled={!userData?.id}
-            onClick={() =>
-              selectAdAccount(
-                {
-                  adAccountId,
-                },
-                {
-                  onSuccess: () => {
-                    toast({
-                      status: "success",
-                      title: "Page",
-                      description: "Ad Account has been changed",
-                    });
+          isSelectDisabled && (
+            <Button
+              background={"blue.200"}
+              isDisabled={!userData?.id}
+              onClick={() =>
+                selectAdAccount(
+                  {
+                    adAccountId,
                   },
-                  onError: (error) => {
-                    console.error(error);
-                    toast({
-                      status: "error",
-                      title: "Page",
-                      description: "Failed to change Ad Account",
-                    });
-                  },
-                }
-              )
-            }
-          >
-            Select
-          </Button>
+                  {
+                    onSuccess: () => {
+                      toast({
+                        status: "success",
+                        title: "Page",
+                        description: "Ad Account has been changed",
+                      });
+                    },
+                    onError: (error) => {
+                      console.error(error);
+                      toast({
+                        status: "error",
+                        title: "Page",
+                        description: "Failed to change Ad Account",
+                      });
+                    },
+                  }
+                )
+              }
+            >
+              Select
+            </Button>
+          )
         ))}
     </HStack>
   );
