@@ -241,6 +241,7 @@ export const component = function Integrations() {
                     pageId={metaIntegration.selectedPage.pageId}
                     name={metaIntegration.selectedPage.name}
                     isSelected={true}
+                    isSelectDisabled={true}
                     hideButton
                   />
                 )
@@ -268,6 +269,7 @@ export const component = function Integrations() {
                       metaIntegration.selectedAdAccount.parentAccountName
                     }
                     isSelected={true}
+                    isSelectDisabled={true}
                     hideButton
                   />
                 )
@@ -367,6 +369,7 @@ export const component = function Integrations() {
                       googleIntegration.selectedPage.parentAccountName
                     }
                     isSelected={true}
+                    isSelectDisabled={true}
                     hideButton
                   />
                 )
@@ -391,6 +394,7 @@ export const component = function Integrations() {
                   <GoogleAdAccountItem
                     accountId={googleIntegration.selectedAdAccount?.id}
                     isSelected={true}
+                    isSelectDisabled={true}
                     hideButton
                   />
                 )
