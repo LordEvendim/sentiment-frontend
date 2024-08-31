@@ -4,7 +4,7 @@ export interface GoogleAdGroupSummary {
   campaignName: string;
   name: string;
   status: string;
-  clicks: number;
-  impressions: number;
+  clicks: string;
+  impressions: string;
   spend: number;
 }
