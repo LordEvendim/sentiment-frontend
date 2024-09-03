@@ -1,9 +1,19 @@
-import { GridItem, Spinner } from "@chakra-ui/react";
+import {
+  GridItem,
+  Heading,
+  HStack,
+  Image,
+  Spacer,
+  Spinner,
+  Tooltip,
+} from "@chakra-ui/react";
 import { EChartsOption } from "echarts";
 import ReactECharts from "echarts-for-react";
 import React, { useEffect } from "react";
+import { IoInformationCircleOutline } from "react-icons/io5";
 import { ResponsiveContainer } from "recharts";
 
+import GoogleLogo from "#assets/integrations/google.png";
 import { GoogleAdGroupSummary } from "#hooks/api/types/adGroups";
 
 // const COLORS = [
@@ -41,8 +51,8 @@ const options: EChartsOption = {
         },
         {
           itemStyle: {
-            borderColor: "#ddd",
-            borderWidth: 10,
+            borderColor: "rgba(0,0,0,0)",
+            borderWidth: 2,
             gapWidth: 2,
           },
         },
@@ -136,6 +146,22 @@ export const GoogleAdGroups: React.FC<{
       flexDir={"column"}
       overflowY={"scroll"}
     >
+      <HStack justifyContent={"center"} mb={"15px"}>
+        <Tooltip label="Metric combined from a few data sources" p={"10px"}>
+          <span>
+            <Image src={GoogleLogo} height={"20px"} />
+          </span>
+        </Tooltip>
+        <Heading fontSize={"lg"} fontWeight={400}>
+          Ad Groups
+        </Heading>
+        <Spacer />
+        <Tooltip label={"Top campaigns"} p={"10px"}>
+          <span>
+            <IoInformationCircleOutline size={"20px"} />
+          </span>
+        </Tooltip>
+      </HStack>
       {isFetching ? (
         <Spinner mt={"200px"} />
       ) : (
