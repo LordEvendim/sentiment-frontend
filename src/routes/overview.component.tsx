@@ -1,19 +1,5 @@
-import {
-  Box,
-  Flex,
-  Grid,
-  HStack,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Portal,
-  Spacer,
-  Text,
-} from "@chakra-ui/react";
-import { format, subDays } from "date-fns";
+import { Box, Flex, Grid, Spacer, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import { IoCalendarOutline } from "react-icons/io5";
 
 import { AverageMetric } from "#components/dashboard/AverageMetric";
 import { GoogleAnalyticsSources } from "#components/dashboard/GoogleAnalyticsSources";
@@ -23,10 +9,11 @@ import { NamedMetric } from "#components/dashboard/NamedMetric";
 import { ReferenceChart } from "#components/dashboard/ReferenceChart";
 import { SelectedChart } from "#components/dashboard/SelectedChart";
 import { SpacerCard } from "#components/dashboard/SpacerCard";
+import { TimeframePicker } from "#components/timeframePicker";
 import { useGetTopMetaCampaigns } from "#hooks/api/meta/useGetTopMetaCampaigns";
 import { useGetGeneralDashboardCompareData } from "#hooks/api/useGetGeneralDashboardCompareData";
 import { useGetGeneralDashboardData } from "#hooks/api/useGetGeneralDashboardData";
-import { calculateTimeframeStart, DashboardTimeframe } from "#utils/timeframes";
+import { DashboardTimeframe } from "#utils/timeframes";
 
 export const component = function Overview() {
   const [timeframe, setTimeframe] =
@@ -49,44 +36,7 @@ export const component = function Overview() {
           Overview
         </Text>
         <Spacer />
-        <Menu>
-          <MenuButton>
-            <HStack
-              background={"white"}
-              borderRadius={"6px"}
-              borderColor={"gray.200"}
-              borderWidth={"1px"}
-              boxShadow={"md"}
-              px={"12px"}
-              py={"8px"}
-              fontSize={"14px"}
-              fontWeight={"semibold"}
-              color={"gray.500"}
-            >
-              <IoCalendarOutline size={"15px"} />
-              <Box>{`${format(calculateTimeframeStart(new Date(Date.now()), timeframe), "MMM/dd/yyyy")} - ${format(subDays(Date.now(), 1), "MMM/dd/yyyy")}`}</Box>
-            </HStack>
-          </MenuButton>
-          <Portal>
-            <MenuList>
-              <MenuItem onClick={() => setTimeframe("last-7-days")}>
-                Last 7 days
-              </MenuItem>
-              <MenuItem onClick={() => setTimeframe("last-14-days")}>
-                Last 14 days
-              </MenuItem>
-              <MenuItem onClick={() => setTimeframe("last-90-days")}>
-                Last 90 days
-              </MenuItem>
-              <MenuItem onClick={() => setTimeframe("last-6-months")}>
-                Last 6 months
-              </MenuItem>
-              <MenuItem onClick={() => setTimeframe("last-year")}>
-                Last year
-              </MenuItem>
-            </MenuList>
-          </Portal>
-        </Menu>
+        <TimeframePicker setTimeframe={setTimeframe} timeframe={timeframe} />
       </Flex>
       <Grid templateColumns="repeat(8, 1fr)" gap={"10px"} gridAutoRows={"80px"}>
         <GoogleAnalyticsSources colSpan={8} rowSpan={4} timeframe={timeframe} />
