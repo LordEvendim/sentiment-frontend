@@ -1,3 +1,5 @@
+IP Disclaimer: As the original founder, I retained full intellectual property rights to this project. It is shared here purely as a portfolio demonstration.
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
